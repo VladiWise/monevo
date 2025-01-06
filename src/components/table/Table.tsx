@@ -1,10 +1,10 @@
-type Column = {
+interface Column {
   title: string;
   name: string;
   getCellContent?: (item: any) => React.ReactNode; // Custom getCellContent function for specific cells
 };
 
-type TableProps = {
+interface TableProps {
   data: any[];
   columns: Column[];
   actions?: (item: any) => React.ReactNode; // Optional actions per row
