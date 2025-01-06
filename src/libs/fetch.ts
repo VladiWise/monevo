@@ -18,12 +18,16 @@ const handleRequest = async (url: string, options: RequestInit) => {
 };
 
 const api = {
-  get: async (endpoint: string, url = "") => {
+  get: async (endpoint: string, customOptions: RequestInit = {}, url = "") => {
     url = `${API_URL}${endpoint}`;
 
-    return handleRequest(url, {
-      method: "GET",
-    });
+    // Merge custom options with default options
+    const options: RequestInit = {
+      method: "GET", // Default method
+      ...customOptions, // Custom options override defaults
+    };
+
+    return handleRequest(url, options);
   },
 
   post: async (endpoint: string, body = {}) => {
