@@ -21,7 +21,7 @@ export const MOEX_INFO_NAME: Record<string, MoexField> = {
   matDate: { title: "Mat date", id: "securities", name: "MATDATE" },
 };
 
-interface MoexJson {
+export interface MoexJson {
   [key: string]: {
     columns: string[];
     data: any[];
