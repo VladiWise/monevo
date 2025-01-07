@@ -6,7 +6,7 @@ import Account from "@/models/account";
 
 // Обновление аккаунтов для фонда
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params; // Получаем ID фонда из URL
+  const { id } = await params; // Получаем ID фонда из URL
   const { accountId, amount, price } = await request.json(); // Получаем accountId и amount из тела запроса
 
   await connectMongoDB();
