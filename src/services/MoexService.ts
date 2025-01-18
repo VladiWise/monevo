@@ -49,8 +49,8 @@ export async function fetchBondInfo(ticker: string) {
     const data = await response.json();
 
 
-    if (data) {
-      throw new Error("No data returned for stock ETF info");
+    if (!data) {
+      throw new Error("No data returned for bond info");
     }
 
     return data;

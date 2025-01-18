@@ -13,7 +13,7 @@ export async function getList() {
   }
 }
 
-export async function functiongetById(id: string) {
+export async function getById(id: string) {
   try {
     const data = await api.get(`/funds/${id}`);
     return data;
