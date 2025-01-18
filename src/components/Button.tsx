@@ -10,11 +10,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   variant?: keyof typeof variants;
   className?: string;
-  
+
 }
 
 const variants = {
-  primary: "bg-red-600 hover:bg-red-600/80 hover:shadow-md text-white",
+  primary: "bg-red-100 hover:bg-red-100/80 hover:shadow-md text-red-600",
   simple: "bg-gray-100 hover:bg-gray-100/80 hover:shadow-md text-slate-700",
   link: "text-black hover:text-slate-700/90 hover:underline underline-offset-2",
 };

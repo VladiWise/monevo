@@ -1,5 +1,8 @@
 import { UseFormRegister } from "react-hook-form";
 
+const className =
+  "p-3 w-full rounded-xl bg-gray-100 font-bold text-gray-500 hover:border-gray-400 border-gray-100 border-2";
+
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   register?: UseFormRegister<any>;
   name: string;
@@ -15,9 +18,8 @@ export function Select({
   return (
     <select
       {...(register && { ...register(name) })}
-      className="bg-white p-3 w-full rounded-xl text-gray-800 hover:border-gray-400 border-gray-100 border-2"
+      className={className}
       {...props}
-      required
     >
       {children}
     </select>
@@ -32,11 +34,10 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export function Input({ register, name, value, ...props }: InputProps) {
   return (
     <input
-      className="p-3 w-full rounded-xl text-gray-800 hover:border-gray-400 border-gray-100 border-2"
+      className={className}
       defaultValue={value}
       {...(register && { ...register(name) })}
       {...props}
-      required
     />
   );
 }

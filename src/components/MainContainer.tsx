@@ -3,15 +3,21 @@ import clsx from "clsx";
 interface MainContainerProps {
   children: React.ReactNode;
   className?: string;
-  shadow?: boolean
+  border?: boolean;
 }
 
-
-export function MainContainer({ children, className, shadow }: MainContainerProps) {
+export function MainContainer({
+  children,
+  className,
+  border,
+}: MainContainerProps) {
   return (
     <section
-
-      className={clsx("flex flex-col gap-3 p-4 min-w-max max-w-full w-full rounded-xl", className, shadow ? "shadow-own" : "")}
+      className={clsx(
+        "flex flex-col gap-3 p-4 min-w-max max-w-full w-full rounded-2xl bg-white",
+        className,
+        border ? "border-2" : ""
+      )}
     >
       {children}
     </section>

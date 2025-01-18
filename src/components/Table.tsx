@@ -15,7 +15,7 @@ export function Table({ data, columns, actions }: TableProps) {
     <table className="w-full overflow-hidden rounded-xl">
       <thead>
       <tr className="bg-white even:bg-gray-100">
-          {columns.map((column, index) => (
+          {columns?.map((column, index) => (
             <th
               key={index}
              className="bg-gray-200 py-2 pl-3 pr-2 top-0 sticky text-left text-gray-500 text-sm"
@@ -27,9 +27,9 @@ export function Table({ data, columns, actions }: TableProps) {
         </tr>
       </thead>
       <tbody>
-        {data.map((item, rowIndex) => (
-          <tr key={rowIndex} className="bg-white even:bg-gray-100">
-            {columns.map((column, colIndex) => (
+        {data?.map((item, rowIndex) => (
+          <tr key={rowIndex} className="bg-white even:bg-gray-100 text-gray-800">
+            {columns?.map((column, colIndex) => (
               <td key={colIndex} className="py-1 pl-3 pr-0">
                 {column.getCellContent ? column.getCellContent(item, column.name) : item[column.name]}
               </td>

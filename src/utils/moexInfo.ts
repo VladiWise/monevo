@@ -28,7 +28,8 @@ export interface MoexJson {
   };
 }
 
-export function getDataByField(moexJson: MoexJson, fieldKey: keyof typeof MOEX_INFO_NAME) {
+export async function getDataByField(moexJson: MoexJson, fieldKey: keyof typeof MOEX_INFO_NAME) {
+  "use server";
   const field = MOEX_INFO_NAME[fieldKey];
   if (!field.id || !field.name) {
     throw new Error(`Field ${fieldKey} is missing id or name`);
