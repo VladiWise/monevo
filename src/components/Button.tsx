@@ -3,19 +3,19 @@
 import clsx from "clsx";
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
-
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
   children: ReactNode;
   variant?: keyof typeof variants;
   className?: string;
-
 }
 
 const variants = {
-  primary: "bg-red-100 hover:bg-red-100/80 hover:shadow-md text-red-600",
-  simple: "bg-gray-100 hover:bg-gray-100/80 hover:shadow-md text-slate-700",
+  primary:
+    "bg-red-100 hover:bg-red-100/80 hover:shadow-md text-red-600 active:bg-red-100 active:shadow-none",
+  simple:
+    "bg-gray-100 hover:bg-gray-100/80 hover:shadow-md text-slate-700 active:bg-gray-100 active:shadow-none",
   link: "text-black hover:text-slate-700/90 hover:underline underline-offset-2",
 };
 
@@ -26,8 +26,7 @@ export function Button({
   variant = "primary",
   className,
   ...props
-
-} : ButtonProps) {
+}: ButtonProps) {
   return (
     <button
       onClick={onClick}
