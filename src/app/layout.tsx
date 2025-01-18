@@ -27,11 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-zinc-100`}
       >
         <Notifications />
         <Header />
-        <main className="flex flex-col items-center p-4 pt-14 min-w-fit h-full">
+        <main className="flex flex-col items-center p-4 pt-14 min-w-fit">
           {children}
         </main>
       </body>
