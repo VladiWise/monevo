@@ -3,9 +3,11 @@ import { auth, signOut } from "@/auth";
 export default async function SettingsPage() {
   const session = await auth();
 
+  const user = session?.user?.email;
+
   return (
     <div>
-      <h1>{JSON.stringify(session)} HELLO!!!!</h1>
+      <h1>{user} HELLO!!!!</h1>
 
       <form
         action={async () => {
