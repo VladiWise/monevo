@@ -21,12 +21,16 @@ export default auth(async (req) => {
 
   if (isApiRoute) {
 
+    if (nextUrl.pathname.startsWith("/api/auth")) {
+      return;
+    }
+    
     if (providedKey !== API_KEY) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
     return;
   }
+
 
   if (isAuthRoute) {
     if (isLoggedIn) {
@@ -36,9 +40,11 @@ export default auth(async (req) => {
     return;
   }
 
+
   if (!isLoggedIn && !isPublicRoute) {
     return NextResponse.redirect(new URL("/auth/login", nextUrl));
   }
+
 
   return;
 
