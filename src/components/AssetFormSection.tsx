@@ -1,5 +1,6 @@
 "use client";
 import { Input, Select } from "@/components/form-elements";
+import { FormProvider } from "@/components/FormContext";
 import { Button } from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -40,18 +41,11 @@ export default function AssetFormSection({
 }) {
   const router = useRouter();
 
-  const {
-    register,
-    setValue,
-    getValues,
-    reset,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({});
+  const form = useForm({});
 
   async function onSubmit(data: any) {
     try {
-      reset();
+      form.reset();
 
       const formattedData = {
         accountId: data.accountId,
@@ -86,8 +80,8 @@ export default function AssetFormSection({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex gap-3">
-      <Select name="accountId" register={register} required>
+    <FormProvider form={form} onSubmit={onSubmit} className="flex gap-3">
+      <Select name="accountId" required>
         <option value="" className="hidden">
           Select account
         </option>
@@ -98,22 +92,10 @@ export default function AssetFormSection({
         ))}
       </Select>
 
-      <Input
-        name="ticker"
-        type="text"
-        placeholder={"Enter ticker"}
-        register={register}
-        required
-      />
+      <Input name="ticker" type="text" placeholder={"Enter ticker"} required />
 
-      <Input
-        name="amount"
-        type="number"
-        placeholder="Enter amount"
-        register={register}
-        required
-      />
+      <Input name="amount" type="number" placeholder="Enter amount" required />
       <Button type="submit">{buttonName}</Button>
-    </form>
+    </FormProvider>
   );
 }

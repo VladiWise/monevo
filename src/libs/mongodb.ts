@@ -1,17 +1,19 @@
 import mongoose from "mongoose";
 
 
-export default async function connectMongoDB () {
-    const url = process.env.LOCAL_MONGODB_URL;
-    if (!url) {
+export default async function connectMongoDB() {
+    const MONGO_URI = process.env.LOCAL_MONGODB_URL;
+    if (!MONGO_URI) {
         console.error("LOCAL_MONGODB_URL environment variable is not set.");
-        throw new Error("LOCAL_MONGODB_URL environment variable is not set.");    
+        throw new Error("LOCAL_MONGODB_URL environment variable is not set.");
     }
-    
+
     try {
-        await mongoose.connect(url);
+        const client = await mongoose.connect(MONGO_URI);
         console.log("Connected to MongoDB");
+        return client;
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
+        throw error;
     }
 };

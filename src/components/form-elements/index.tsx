@@ -1,7 +1,9 @@
 import { UseFormRegister } from "react-hook-form";
+import { useFormContext } from "@/components/FormContext";
+import clsx from "clsx";
 
 const className =
-  "p-3 w-full rounded-xl bg-gray-100 font-bold text-gray-500 hover:border-gray-400 border-gray-100 border-2";
+  "p-3 w-full rounded-xl bg-gray-100 font-bold text-gray-700 hover:border-gray-400 border-gray-100 border-2";
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   register?: UseFormRegister<any>;
@@ -9,16 +11,20 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 export function Select({
-  register,
   name,
   value,
+  required,
   children,
   ...props
 }: SelectProps) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   return (
     <select
-      {...(register && { ...register(name) })}
-      className={className}
+      {...register(name, { required: required })}
+      className={clsx(className, errors && errors[name] && "border-red-600/60")}
       {...props}
     >
       {children}
@@ -27,16 +33,19 @@ export function Select({
 }
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  register?: UseFormRegister<any>; // Updated to match react-hook-form's register return type
-  name: string; // Overriding name to make it required
+  name: string;
 }
 
-export function Input({ register, name, value, ...props }: InputProps) {
+export function Input({ name, value, required, ...props }: InputProps) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   return (
     <input
-      className={className}
+      className={clsx(className, errors && errors[name] && "border-red-600/60")}
       defaultValue={value}
-      {...(register && { ...register(name) })}
+      {...register(name, { required: required })}
       {...props}
     />
   );

@@ -1,11 +1,18 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY
 
 if (!API_URL) {
-    console.error("NEXT_PUBLIC_API_URL environment variable is not set.");
-    throw new Error("NEXT_PUBLIC_API_URL environment variable is not set.");    
+  console.error("NEXT_PUBLIC_API_URL environment variable is not set.");
+  throw new Error("NEXT_PUBLIC_API_URL environment variable is not set.");
+}
+
+if (!API_KEY) {
+  console.error("NEXT_PUBLIC_API_KEY environment variable is not set.");
+  throw new Error("NEXT_PUBLIC_API_KEY environment variable is not set.");
 }
 
 const handleRequest = async (url: string, options: RequestInit) => {
+  "use server";
   const response = await fetch(url, options);
 
   if (!response.ok) {
@@ -20,10 +27,12 @@ const handleRequest = async (url: string, options: RequestInit) => {
 const api = {
   get: async (endpoint: string, customOptions: RequestInit = {}, url = "") => {
     url = `${API_URL}${endpoint}`;
-
     // Merge custom options with default options
     const options: RequestInit = {
       method: "GET", // Default method
+      headers: {
+        "x-api-key": API_KEY,
+      },
       ...customOptions, // Custom options override defaults
     };
 
@@ -36,6 +45,7 @@ const api = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "x-api-key": API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -47,6 +57,7 @@ const api = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "x-api-key": API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -58,6 +69,7 @@ const api = {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "x-api-key": API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -67,6 +79,9 @@ const api = {
     const url = `${API_URL}${endpoint}`;
     return handleRequest(url, {
       method: "DELETE",
+      headers: {
+        "x-api-key": API_KEY,
+      },
     });
   },
 };
