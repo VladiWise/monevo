@@ -5,6 +5,10 @@ import "./globals.css";
 import { Notifications } from "@/components/Notifications";
 import { auth } from "@/auth";
 
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,9 +32,7 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-zinc-100 h-full`}
-      >
+      <body className={`${inter.className} antialiased bg-zinc-100 h-full `}>
         <Notifications />
         {session && <Header />}
         <main className="flex flex-col items-center p-4 pt-14 min-w-fit h-full">
