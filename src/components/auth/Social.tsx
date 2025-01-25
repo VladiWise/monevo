@@ -2,6 +2,7 @@
 
 import { signIn } from "next-auth/react";
 import { YandexIcon } from "@/components/SvgIcons";
+
 import { SiVk } from "react-icons/si";
 import { Button } from "@/components/Button";
 import { DEFAULT_LOGIN_REDIRECT } from "@/paths";
@@ -24,7 +25,7 @@ export function Social() {
       </Button>
 
       <Button variant="custom" onClick={() => onClick("github")}>
-        <SiVk size={24} color="007BFF" /> Sign in with VK ID
+        <SiVk size={24} color="white" /> Sign in with VK ID
       </Button>
     </>
   );
