@@ -20,7 +20,8 @@ export default {
     }),
     VK({
       clientId: process.env.VK_CLIENT_ID,
-      clientSecret: process.env.VK_CLIENT_SECRET
+      clientSecret: process.env.VK_CLIENT_SECRET,
+      checks: ["state"],
     }),
     Credentials({
       async authorize(credentials) {
