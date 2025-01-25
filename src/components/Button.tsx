@@ -7,19 +7,18 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
   children: ReactNode;
+  // bgColor?: string;
   variant?: keyof typeof variants;
   className?: string;
 }
 
-const fontSize = "font-medium"
+const fontSize = "font-medium";
 
 const variants = {
-  primary:
-    "bg-red-100 hover:bg-red-100/80 hover:shadow-md text-red-600 active:bg-red-100 active:shadow-none",
-  secondary:
-    "bg-gray-800 hover:bg-gray-900/80 hover:shadow-md text-white active:bg-gray-900 active:shadow-none",
-  simple:
-    "bg-gray-100 hover:bg-gray-100/80 hover:shadow-md text-gray-800 active:bg-gray-100 active:shadow-none",
+  custom: "bg-[#007BFF] hover:bg-[#007BFF]/80 active:bg-[#007BFF] text-white",
+  primary: "bg-[#FC3F1D] hover:bg-[#FC3F1D]/80 text-white active:bg-[#FC3F1D]",
+  secondary: "bg-gray-800 hover:bg-gray-900/80 text-white active:bg-gray-900",
+  simple: "bg-gray-100 hover:bg-gray-100/80 text-gray-800 active:bg-gray-100",
   link: "text-black hover:text-gray-700/90 hover:underline underline-offset-2",
 };
 
@@ -34,7 +33,8 @@ export function Button({
     <button
       type={type}
       className={clsx(
-        "flex justify-center p-3 min-w-fit font-bold rounded-xl",
+        "flex justify-center items-center gap-x-2 p-3 min-w-fit rounded-xl",
+        variant === "link" || "hover:shadow-md active:shadow-none",
         variants[variant],
         fontSize,
         className
