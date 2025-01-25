@@ -8,7 +8,7 @@ import { Button } from "@/components/Button";
 import { DEFAULT_LOGIN_REDIRECT } from "@/paths";
 
 export function Social() {
-  function onClick(provider: "github" | "yandex") {
+  function onClick(provider: "vk" | "yandex") {
     signIn(provider, {
       callbackUrl: DEFAULT_LOGIN_REDIRECT,
     });
@@ -24,7 +24,7 @@ export function Social() {
         <YandexIcon size={24} /> Sign in with Yandex ID
       </Button>
 
-      <Button variant="custom" onClick={() => onClick("github")}>
+      <Button variant="custom" onClick={() => onClick("vk")}>
         <SiVk size={24} color="white" /> Sign in with VK ID
       </Button>
     </>

@@ -21,7 +21,12 @@ export default {
     VK({
       clientId: process.env.VK_CLIENT_ID,
       clientSecret: process.env.VK_CLIENT_SECRET,
-      checks: ["state"],
+      authorization: {
+        url: "https://oauth.vk.com/authorize",
+        params: {
+          scope: "login:email login:info",
+        },
+      },
     }),
     Credentials({
       async authorize(credentials) {
