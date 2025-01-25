@@ -3,8 +3,6 @@ import { DeleteButton } from "@/components/DeleteButton";
 
 import { MainContainer } from "@/components/MainContainer";
 
-import * as fundService from "@/services/FundService";
-
 import AssetFormSection from "@/components/AssetFormSection";
 
 type Column = {

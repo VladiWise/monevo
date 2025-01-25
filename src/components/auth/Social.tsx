@@ -2,7 +2,6 @@
 
 import { signIn } from "next-auth/react";
 import { YandexIcon } from "@/components/SvgIcons";
-import { FaGithub, FaYandex } from "react-icons/fa";
 import { SiVk } from "react-icons/si";
 import { Button } from "@/components/Button";
 import { DEFAULT_LOGIN_REDIRECT } from "@/paths";

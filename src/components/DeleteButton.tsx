@@ -12,7 +12,7 @@ export function DeleteButton({ id, removeItem }: DelButtonProps) {
   const notification = useNotification();
 
   async function handleRemove(id: string) {
-    let removeAnswer = confirm(`Remove ${id}?`);
+    const removeAnswer = confirm(`Remove ${id}?`);
 
     if (!removeAnswer) return;
 

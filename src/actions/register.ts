@@ -18,15 +18,13 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
     console.log("response", response);
     return { success: response.message };
-  } catch (error: any) {
-    console.log("error!!!!", error);
+  } catch (error: unknown) {
 
+    if (error instanceof Error) {
+      return { error: error.message };
+    }
 
-    return { error: error.message };
+    throw error;
   }
-
-
-
-
 
 };

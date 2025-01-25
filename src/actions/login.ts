@@ -1,7 +1,5 @@
 "use server";
 
-
-import api from "@/libs/fetch";
 import { AuthError } from "next-auth";
 
 
@@ -10,7 +8,6 @@ import { signIn } from "@/auth";
 
 import { LoginSchema } from "@/schemas";
 import { DEFAULT_LOGIN_REDIRECT } from "@/paths";
-import { callback } from "chart.js/helpers";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -32,7 +29,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       redirectTo: DEFAULT_LOGIN_REDIRECT
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
 
     if (error instanceof AuthError) {
       switch (error.type) {

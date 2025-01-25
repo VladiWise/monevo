@@ -27,8 +27,12 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message: "User created successfully", user }, { status: 201 });
 
-  } catch (error: any) {
-    return NextResponse.json({ message: "Error creating user", error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({ message: "Error creating user", error: error.message }, { status: 500 });
+    }
+    throw error;
+
 
   }
 }
@@ -46,14 +50,15 @@ export async function GET(request: NextRequest) {
     // return user;
     return NextResponse.json(user, { status: 200 });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    if (error instanceof Error) {
 
-
-    return NextResponse.json(
-      { message: "User not found", error: error.message },
-      { status: 500 }
-    );
-
+      return NextResponse.json(
+        { message: "User not found", error: error.message },
+        { status: 500 }
+      );
+    }
+    throw error;
   }
 
 

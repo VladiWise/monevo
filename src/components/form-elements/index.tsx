@@ -12,7 +12,6 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 
 export function Select({
   name,
-  value,
   required,
   children,
   ...props
