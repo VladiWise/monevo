@@ -1,7 +1,7 @@
 // lib/mongodb-client.ts (For NextAuth MongoDB Adapter)
 import { MongoClient } from "mongodb";
 
-const MONGO_URI = process.env.LOCAL_MONGODB_URL as string;
+const MONGO_URI = process.env.MONGODB_URL as string;
 
 if (!MONGO_URI) {
   throw new Error("Please define the MONGO_URI environment variable inside .env.local");

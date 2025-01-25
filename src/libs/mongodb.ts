@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 
 export default async function connectMongoDB() {
-    const MONGO_URI = process.env.LOCAL_MONGODB_URL;
+    const MONGO_URI = process.env.MONGODB_URL;
     if (!MONGO_URI) {
-        console.error("LOCAL_MONGODB_URL environment variable is not set.");
-        throw new Error("LOCAL_MONGODB_URL environment variable is not set.");
+        console.error("MONGODB_URL environment variable is not set.");
+        throw new Error("MONGODB_URL environment variable is not set.");
     }
 
     try {
