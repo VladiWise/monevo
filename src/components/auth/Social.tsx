@@ -1,9 +1,10 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-
+import { YandexIcon } from "@/components/SvgIcons";
 import { FaGithub, FaYandex } from "react-icons/fa";
-import { Button } from "../Button";
+import { SiVk } from "react-icons/si";
+import { Button } from "@/components/Button";
 import { DEFAULT_LOGIN_REDIRECT } from "@/paths";
 
 export function Social() {
@@ -19,24 +20,13 @@ export function Social() {
         <span className="mx-4 text-gray-500 text-sm">or</span>
         <div className="flex-grow border-t border-gray-300"></div>
       </div>
-      <section className="flex items-center w-full gap-x-2">
-        <Button
-          variant="simple"
-          className="w-full flex items-center gap-x-2"
-          onClick={() => onClick("yandex")}
-        >
-          <FaYandex size={24} color="red" /> Sign in with Yandex ID
-        </Button>
-      </section>
-      <section className="flex items-center w-full gap-x-2">
-        <Button
-          variant="simple"
-          className="w-full flex items-center gap-x-2"
-          onClick={() => onClick("github")}
-        >
-          <FaGithub size={24} color="black" /> Sign in with Github
-        </Button>
-      </section>
+      <Button variant="secondary" onClick={() => onClick("yandex")}>
+        <YandexIcon size={24} /> Sign in with Yandex ID
+      </Button>
+
+      <Button variant="custom" onClick={() => onClick("github")}>
+        <SiVk size={24} color="007BFF" /> Sign in with VK ID
+      </Button>
     </>
   );
 }

@@ -83,7 +83,7 @@ export function RegisterForm() {
         </section>
         <FormError message={error} />
         <FormSuccess message={success} />
-        <Button type="submit" variant="secondary" disabled={isPending}>
+        <Button type="submit" variant="primary" disabled={isPending}>
           {isPending ? "Loading..." : "Register"}
         </Button>
       </FormProvider>
