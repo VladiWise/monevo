@@ -3,7 +3,7 @@ import type { NextAuthConfig } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { LoginSchema } from "@/schemas"
 import api from "@/libs/fetch"
-import GitHub from "next-auth/providers/github"
+import VK from "next-auth/providers/vk"
 import Yandex from "next-auth/providers/yandex"
 
 export default {
@@ -18,7 +18,7 @@ export default {
         },
       },
     }),
-    GitHub({
+    VK({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET
     }),
