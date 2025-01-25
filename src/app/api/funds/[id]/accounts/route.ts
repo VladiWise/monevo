@@ -4,7 +4,10 @@ import { NextResponse, NextRequest } from "next/server";
 import { roundToTwoDecimals } from "@/utils/mathUtils";
 
 // Обновление аккаунтов для фонда
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   const { id } = await params; // Получаем ID фонда из URL
   const { accountId, amount, price } = await request.json(); // Получаем accountId и amount из тела запроса
 

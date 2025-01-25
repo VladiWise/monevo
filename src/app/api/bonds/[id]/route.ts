@@ -2,7 +2,7 @@ import connectMongoDB from "@/libs/mongodb";
 import Bond from "@/models/bond";
 import { NextResponse, NextRequest } from "next/server";
 
-export async function PUT(request: NextRequest, { params }: {params: { id: string }}) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   const { accountId, name, ticker, currency, amount, price, total } = await request.json();
@@ -25,7 +25,7 @@ export async function PUT(request: NextRequest, { params }: {params: { id: strin
   );
 }
 
-export async function GET(request: NextRequest, { params } : { params : { id : string}}) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   await connectMongoDB();

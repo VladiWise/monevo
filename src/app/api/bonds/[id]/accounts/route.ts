@@ -6,7 +6,7 @@ import { calculateYearsAndMonths } from "@/utils/dataFormat";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params; // Получаем ID фонда из URL
   const { accountId, amount, price, bondYield, matDate } = await request.json(); // Получаем accountId и amount из тела запроса
