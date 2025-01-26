@@ -24,10 +24,10 @@ export default {
       authorization: {
         url: "https://oauth.vk.com/authorize",
         params: {
-          scope: "email", // Request the "email" scope if needed
+          scope: "vkid.personal_info",
         },
       },
-      checks: ["state"], // Disable PKCE and use state for CSRF protection
+      checks: ["state"],
     }),
     Credentials({
       async authorize(credentials) {
