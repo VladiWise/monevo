@@ -26,9 +26,11 @@ export function CardWrapper({
 
       {children}
 
+      <BackButton label={backButtonLable} href={backButtonHref} />
+
       {showSocial && <Social />}
 
-      <BackButton label={backButtonLable} href={backButtonHref} />
+      
     </MainContainer>
   );
 }
