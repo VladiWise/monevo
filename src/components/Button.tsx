@@ -14,13 +14,22 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const fontSize = "font-medium";
 
+// hover-hover:
+// hover-none:
+
 const variants = {
   custom: "",
-  primary: "bg-[#FC3F1D] hover:bg-[#FC3F1D]/80 text-white active:bg-[#FC3F1D] gap-x-2 p-3",
-  secondary: "bg-gray-800 hover:bg-gray-900/80 text-white active:bg-gray-900 gap-x-2 p-3",
-  simple: "bg-gray-100 hover:bg-gray-100/80 text-gray-800 active:bg-gray-100 gap-x-2 p-3",
-  link: "text-black hover:text-gray-700/90 hover:underline underline-offset-2",
+  primary:
+    "bg-[#FC3F1D] text-white gap-x-2 p-3 hover-hover:hover:bg-[#FC3F1D]/80 hover-hover:active:bg-[#FC3F1D] active:bg-[#FC3F1D]/70",
+
+  secondary:
+    "bg-gray-900 hover:bg-gray-900/80 text-white active:bg-gray-900 gap-x-2 p-3",
+  simple:
+    "bg-gray-100 hover:bg-gray-100/80 text-gray-800 active:bg-gray-100 gap-x-2 p-3",
+  link: "text-black hover:text-gray-700/90 hover:underline active:text-black underline-offset-2",
 };
+
+// bg-gray-900 text-white hover:bg-gray-900/80 hover:shadow-md active:bg-gray-700 active:scale-95 touch:active:bg-gray-700 focus:outline-none transition-all duration-200
 
 export function Button({
   type,
@@ -33,8 +42,8 @@ export function Button({
     <button
       type={type}
       className={clsx(
-        "flex justify-center items-center min-w-fit rounded-xl",
-        variant === "link" || "hover:shadow-md active:shadow-none",
+        "flex justify-center items-center min-w-fit rounded-xl transition-all",
+        variant === "link" || "hover-hover:hover:shadow-md active:shadow-none",
         variants[variant],
         fontSize,
         className
@@ -42,6 +51,7 @@ export function Button({
       {...props}
     >
       {children}
+      {/* <span className="hidden hover-none:bg-gray-900">kjhkj</span> */}
     </button>
   );
 }

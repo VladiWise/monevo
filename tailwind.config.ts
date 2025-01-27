@@ -17,6 +17,12 @@ export default {
         error:
           "0 5px 25px 0px rgb(185 28 28 / 0.5), 0 8px 10px -2px rgb(185 28 28 / 0.1)",
       },
+      screens: {
+        'hover-hover': { 'raw': '(hover: hover)' },
+        "hover-none": { "raw": '(hover: none)' },
+
+      },
+
     },
   },
   plugins: [],
