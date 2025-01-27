@@ -42,8 +42,9 @@ export function Button({
     <button
       type={type}
       className={clsx(
-        "flex justify-center items-center min-w-fit rounded-xl transition-all",
-        variant === "link" || "hover-hover:hover:shadow-md active:shadow-none",
+        "flex justify-center items-center min-w-fit rounded-xl",
+        variant === "link" ||
+          "hover-hover:hover:shadow-md hover-hover:active:shadow-none",
         variants[variant],
         fontSize,
         className
