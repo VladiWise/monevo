@@ -75,7 +75,12 @@ export function LoginForm() {
         </section>
         <FormError message={error} />
         <FormSuccess message={success} />
-        <Button type="submit" variant="primary" disabled={isPending}>
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={isPending}
+          isPending={isPending}
+        >
           {isPending ? "Signing in..." : "Sign in"}
         </Button>
       </FormProvider>

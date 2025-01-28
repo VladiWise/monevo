@@ -7,9 +7,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
   children: ReactNode;
-  // bgColor?: string;
   variant?: keyof typeof variants;
   className?: string;
+  isPending?: boolean;
 }
 
 const fontSize = "font-medium";
@@ -20,22 +20,20 @@ const fontSize = "font-medium";
 const variants = {
   custom: "",
   primary:
-    "bg-[#FC3F1D] text-white gap-x-2 p-3 hover:bg-[#FC3F1D]/80 active:bg-[#FC3F1D] hover-none:bg-black hover-none:active:bg-green-500 focus:outline-none",
-
+    "bg-[#FC3F1D] hover:bg-[#FC3F1D]/80 active:bg-[#FC3F1D] hover-none:active:bg-[#FC3F1D]/70 text-white",
   secondary:
-    "bg-gray-900 hover:bg-gray-900/80 text-white active:bg-gray-900 gap-x-2 p-3",
+    "bg-gray-900 hover:bg-gray-900/80 active:bg-gray-900 hover-none:active:bg-gray-900/70 text-white",
   simple:
-    "bg-gray-100 hover:bg-gray-100/80 text-gray-800 active:bg-gray-100 gap-x-2 p-3",
-  link: "text-black hover:text-gray-700/90 hover:underline active:text-black underline-offset-2",
+    "bg-gray-100 hover:bg-gray-100/80 active:bg-gray-100 hover-none:active:bg-gray-100/70 text-gray-800",
+  link: "hover:underline underline-offset-2 text-black hover:text-gray-700/90 active:text-black",
 };
-
-// bg-gray-900 text-white hover:bg-gray-900/80 hover:shadow-md active:bg-gray-700 active:scale-95 touch:active:bg-gray-700 focus:outline-none transition-all duration-200
 
 export function Button({
   type,
   children,
   variant = "primary",
   className,
+  isPending,
   ...props
 }: ButtonProps) {
   return (
@@ -43,15 +41,18 @@ export function Button({
       type={type}
       className={clsx(
         "flex justify-center items-center min-w-fit rounded-xl",
-        variant === "link" || "hover:shadow-md active:shadow-none",
+        variant === "link" ||
+          "gap-x-2 p-3 hover:shadow-md active:shadow-none hover-none:active:scale-95 transition-all duration-200",
         variants[variant],
         fontSize,
         className
       )}
       {...props}
     >
+      {isPending && (
+        <span className="w-4 h-4 border-2 border-t-transparent border-white rounded-full animate-spin"></span>
+      )}
       {children}
-      {/* <span className="hidden hover-none:bg-gray-900">kjhkj</span> */}
     </button>
   );
 }
