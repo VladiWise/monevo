@@ -20,7 +20,7 @@ const fontSize = "font-medium";
 const variants = {
   custom: "",
   primary:
-    "bg-[#FC3F1D] text-white gap-x-2 p-3 hover-hover:hover:bg-[#FC3F1D]/80 hover-hover:active:bg-[#FC3F1D]",
+    "bg-[#FC3F1D] text-white gap-x-2 p-3 hover:bg-[#FC3F1D]/80 active:bg-[#FC3F1D] hover-none:bg-black",
 
   secondary:
     "bg-gray-900 hover:bg-gray-900/80 text-white active:bg-gray-900 gap-x-2 p-3",
@@ -43,8 +43,7 @@ export function Button({
       type={type}
       className={clsx(
         "flex justify-center items-center min-w-fit rounded-xl",
-        variant === "link" ||
-          "hover-hover:hover:shadow-md hover-hover:active:shadow-none",
+        variant === "link" || "hover:shadow-md active:shadow-none",
         variants[variant],
         fontSize,
         className
