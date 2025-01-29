@@ -6,6 +6,8 @@ import { CardWrapper } from "@/components/auth/CardWrapper";
 import { useForm } from "react-hook-form";
 import { LoginSchema } from "@/schemas";
 
+import { useSearchParams } from "next/navigation";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -17,6 +19,12 @@ import { FormSuccess } from "@/components/FormSuccess";
 import { login } from "@/actions/login";
 
 export function LoginForm() {
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Another account already exists with the same e-mail address"
+      : "";
+
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>();
   const [success, setsuccess] = useState<string | undefined>();
@@ -73,7 +81,7 @@ export function LoginForm() {
             <p className="text-red-600 text-sm">{errors.password.message}</p>
           )}
         </section>
-        <FormError message={error} />
+        <FormError message={error || urlError} />
         <FormSuccess message={success} />
         <Button
           type="submit"
