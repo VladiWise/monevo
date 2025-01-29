@@ -14,6 +14,12 @@ const userSchema = new Schema(
       lowercase: true,
       trim: true,
     },
+    emailVerified: {
+      required: false,
+      type: Date,
+      default: null,
+    },
+
     password: {
       type: String,
       required: true,
