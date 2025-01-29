@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
-import { boolean } from "zod";
 
 const userSchema = new Schema(
   {

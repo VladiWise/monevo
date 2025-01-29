@@ -29,7 +29,7 @@ export const {
   },
   callbacks: {
 
-    async session({ session, token }) {
+    async session({ session }) {
       await connectMongoDB();
       const user = await User.findOne({ email: session.user.email });
       session.user.id = user._id;
