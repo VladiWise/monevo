@@ -7,13 +7,14 @@ import { Loader } from "@/components/Loader";
 import { MainContainer } from "@/components/MainContainer";
 
 export default async function AssetsTables() {
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   const accounts = await accountService.getList();
 
   return (
     <>
       <Suspense
         fallback={
-          <MainContainer >
+          <MainContainer>
             <Loader size="8" />
           </MainContainer>
         }
