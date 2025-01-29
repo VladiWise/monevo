@@ -22,7 +22,7 @@ export function LoginForm() {
   const searchParams = useSearchParams();
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"
-      ? "Another account already exists with the same e-mail address"
+      ? "Email already in use with another provider"
       : "";
 
   const [isPending, startTransition] = useTransition();
