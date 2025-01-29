@@ -9,6 +9,16 @@ export const {
   signIn,
   signOut
 } = NextAuth({
+
+  events: {
+    async linkAccount({ user }) {
+      //add api to update user by email
+      //set new Data to emailVerified
+    }
+  },
+
+
+
   adapter: MongoDBAdapter(clientPromise),
   session: { strategy: "jwt" },
   ...authConfig

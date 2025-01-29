@@ -32,6 +32,10 @@ export default {
         },
       },
 
+      //если делать так, то походу создаётся новый профиль, а не входит в существующий
+      //но тут можно сразу задавать нужные поля!
+      //решить с этим вопрос позже!!!!
+
       // profile(profile) {
       //   // Если аватар есть, формируем его URL
       //   const avatarUrl = profile.default_avatar_id
@@ -56,7 +60,6 @@ export default {
           const { email, password } = validatedFields.data;
 
           const user = await api.get(`/users/?email=${email}`);
-
 
           if (!user || !user.password) return null;
 
