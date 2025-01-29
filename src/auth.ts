@@ -10,6 +10,11 @@ export const {
   signOut
 } = NextAuth({
 
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+  },
+
   events: {
     async linkAccount({ user }) {
       //add api to update user by email

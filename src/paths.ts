@@ -12,7 +12,7 @@ export const publicRoutes = ["/"];
  * These routes require authentication
  * @type {string[]}
  */
-export const authRoutes = ["/auth/login", "/auth/register", "/api/users"];
+export const authRoutes = ["/auth/login", "/auth/register", "/api/users", "/auth/error"];
 
 
 /**
