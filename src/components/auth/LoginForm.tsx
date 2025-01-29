@@ -16,7 +16,7 @@ import { Input } from "@/components/form-elements";
 import { FormProvider } from "@/components/FormContext";
 import { FormError } from "@/components/FormError";
 import { FormSuccess } from "@/components/FormSuccess";
-import { login } from "@/actions/login";
+import { login } from "@/auth-actions/login";
 
 export function LoginForm() {
   const searchParams = useSearchParams();

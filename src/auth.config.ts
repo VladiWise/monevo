@@ -3,6 +3,7 @@ import type { NextAuthConfig } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { LoginSchema } from "@/schemas"
 import api from "@/libs/fetch"
+import { getByEmail } from "@/services/UserService"
 import Google from "next-auth/providers/google"
 import Yandex from "next-auth/providers/yandex"
 
@@ -14,11 +15,11 @@ export default {
 
       // profile(profile) {
       //   return {
-      //     id: profile.sb,
       //     name: profile.name,
       //     email: profile.email,
       //     image: profile.picture,
-      //     login: profile.email ? profile.email.split("@")[0] : null,
+      //     emailVerified: true,
+      //     isEmailVerified: true,
       //   };
       // }
     }),
@@ -59,7 +60,7 @@ export default {
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
 
-          const user = await api.get(`/users/?email=${email}`);
+          const user = await getByEmail(email);
 
           if (!user || !user.password) return null;
 

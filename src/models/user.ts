@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
+import { boolean } from "zod";
 
 const userSchema = new Schema(
   {
@@ -14,15 +15,18 @@ const userSchema = new Schema(
       lowercase: true,
       trim: true,
     },
+    image: {
+      type: String,
+      required: false,
+    },
     emailVerified: {
       required: false,
       type: Date,
       default: null,
     },
-
     password: {
       type: String,
-      required: true,
+      required: false,
     },
     // assets: [
     //   {
@@ -37,6 +41,7 @@ const userSchema = new Schema(
 // Хэширование пароля перед сохранением
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
+  if (!this.password) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });

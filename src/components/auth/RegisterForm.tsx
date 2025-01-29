@@ -14,7 +14,7 @@ import { Input } from "@/components/form-elements";
 import { FormProvider } from "@/components/FormContext";
 import { FormError } from "@/components/FormError";
 import { FormSuccess } from "@/components/FormSuccess";
-import { register } from "@/actions/register";
+import { register } from "@/auth-actions/register";
 
 export function RegisterForm() {
   const [isPending, startTransition] = useTransition();

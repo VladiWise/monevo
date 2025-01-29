@@ -2,6 +2,8 @@ import NextAuth from "next-auth"
 import authConfig from "@/auth.config"
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/libs/mongodb-client";
+import connectMongoDB from "@/libs/mongodb";
+import User from "@/models/user";
 
 export const {
   handlers: { GET, POST },
@@ -17,10 +19,24 @@ export const {
 
   events: {
     async linkAccount({ user }) {
-      //add api to update user by email
-      //set new Data to emailVerified
+      await connectMongoDB();
+
+      const ProviderUser = await User.findById(user.id);
+      ProviderUser.emailVerified = new Date();
+      await ProviderUser.save();
+
     }
   },
+  callbacks: {
+
+    async session({ session, token }) {
+      await connectMongoDB();
+      const user = await User.findOne({ email: session.user.email });
+      session.user.id = user._id;
+      return session;
+    },
+  },
+
 
 
 

@@ -40,8 +40,6 @@ export async function POST(req: Request) {
 export async function GET(request: NextRequest) {
   const email = request.nextUrl.searchParams.get("email");
 
-  console.log("EMAIL:::::::", email);
-
   await connectMongoDB();
 
   try {
@@ -60,6 +58,4 @@ export async function GET(request: NextRequest) {
     }
     throw error;
   }
-
-
 }

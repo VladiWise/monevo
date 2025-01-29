@@ -7,7 +7,9 @@ export default async function SettingsPage() {
 
   return (
     <div>
-      <h1>{user} HELLO!!!!</h1>
+      <h1>
+        {user} ID :::: {session?.user?.id} HELLO!!!!
+      </h1>
 
       <form
         action={async () => {
