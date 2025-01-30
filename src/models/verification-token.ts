@@ -3,10 +3,6 @@ import mongoose, { Schema } from "mongoose";
 
 const tokenSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
     email: {
       type: String,
       required: true,
@@ -33,6 +29,6 @@ tokenSchema.index({ email: 1, token: 1 }, { unique: true });
 
 
 
-const Token = mongoose.models.Token || mongoose.model("Token", tokenSchema);
+const VerificationToken = mongoose.models.VerificationToken || mongoose.model("VerificationToken", tokenSchema);
 
-export default Token;
+export default VerificationToken;

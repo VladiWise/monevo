@@ -1,6 +1,7 @@
 import connectMongoDB from "@/libs/mongodb";
 import User from "@/models/user";
 import { NextResponse, NextRequest } from "next/server";
+import { generateVerificationToken } from "@/libs/tokens";
 
 export async function POST(req: Request) {
   await connectMongoDB(); // Убедимся, что подключение к базе данных установлено
@@ -25,7 +26,9 @@ export async function POST(req: Request) {
     // Создание нового пользователя
     const user = await User.create({ email, password, name });
 
-    return NextResponse.json({ message: "User created successfully", user }, { status: 201 });
+    const verificationToken = await generateVerificationToken(email);
+
+    return NextResponse.json({ message: "Confirmation email sent", user }, { status: 201 });
 
   } catch (error: unknown) {
     if (error instanceof Error) {
