@@ -69,7 +69,7 @@ export function LoginForm() {
           <label>Email</label>
           <Input name="email" disabled={isPending} />
           {errors.email && (
-            <p className="text-red-600 text-sm">{errors.email.message}</p>
+            <p className="text-primary text-sm">{errors.email.message}</p>
           )}
         </section>
 
@@ -78,7 +78,7 @@ export function LoginForm() {
           <Input name="password" type="password" disabled={isPending} />
 
           {errors.password && (
-            <p className="text-red-600 text-sm">{errors.password.message}</p>
+            <p className="text-primary text-sm">{errors.password.message}</p>
           )}
         </section>
         <FormError message={error || urlError} />

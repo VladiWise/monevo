@@ -23,7 +23,7 @@ export function Select({
   return (
     <select
       {...register(name, { required: required })}
-      className={clsx(className, errors && errors[name] && "border-red-600/60")}
+      className={clsx(className, errors && errors[name] && "border-primary")}
       {...props}
     >
       {children}
@@ -42,7 +42,7 @@ export function Input({ name, value, required, ...props }: InputProps) {
   } = useFormContext();
   return (
     <input
-      className={clsx(className, errors && errors[name] && "border-red-600/60")}
+      className={clsx(className, errors && errors[name] && "border-primary")}
       defaultValue={value}
       {...register(name, { required: required })}
       {...props}
