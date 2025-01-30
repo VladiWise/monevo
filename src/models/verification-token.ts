@@ -21,7 +21,7 @@ const tokenSchema = new Schema(
     }
 
   },
-  { timestamps: true }
+  { timestamps: false }
 );
 
 // Уникальный составной индекс для email и token
