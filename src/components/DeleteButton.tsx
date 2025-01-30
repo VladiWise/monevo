@@ -29,7 +29,7 @@ export function DeleteButton({ id, removeItem }: DelButtonProps) {
     <>
       <button
         onClick={() => handleRemove(id)}
-        className="text-red-600 hover:text-red-700/80"
+        className="text-primary hover:text-primary/80"
       >
         <HiOutlineTrash size={24} />
       </button>

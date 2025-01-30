@@ -14,6 +14,7 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: "#EF3226",
       },
       boxShadow: {
         own: "0 5px 25px 0px rgb(0 0 0 / 0.2), 0 8px 10px -2px rgb(0 0 0 / 0.1)",

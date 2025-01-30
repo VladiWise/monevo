@@ -15,14 +15,14 @@ export function Loader({ size = "4" }: LoaderProps) {
   return (
     <div className="flex flex-row gap-2">
       <div
-        className={clsx("rounded-full bg-red-600 animate-bounce", sizes[size])}
+        className={clsx("rounded-full bg-primary animate-bounce", sizes[size])}
       ></div>
       <div
-        className={clsx("rounded-full bg-red-600 animate-bounce", sizes[size])}
+        className={clsx("rounded-full bg-primary animate-bounce", sizes[size])}
         style={{ animationDelay: "-0.3s" }}
       ></div>
       <div
-        className={clsx("rounded-full bg-red-600 animate-bounce", sizes[size])}
+        className={clsx("rounded-full bg-primary animate-bounce", sizes[size])}
         style={{ animationDelay: "-0.5s" }}
       ></div>
     </div>

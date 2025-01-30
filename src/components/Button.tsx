@@ -20,7 +20,7 @@ const fontSize = "font-medium";
 const variants = {
   custom: "",
   primary:
-    "bg-[#FC3F1D] hover:bg-[#FC3F1D]/80 active:bg-[#FC3F1D] hover-none:active:bg-[#FC3F1D]/70 text-white",
+    "bg-primary hover:bg-primary/80 active:bg-primary hover-none:active:bg-primary/70 text-white",
   secondary:
     "bg-gray-900 hover:bg-gray-900/80 active:bg-gray-900 hover-none:active:bg-gray-900/70 text-white",
   simple:
