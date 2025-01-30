@@ -5,12 +5,12 @@ import { AuthError } from "next-auth";
 
 import { z } from "zod";
 import { signIn } from "@/auth";
-
+import { generateVerificationToken } from "@/libs/tokens";
+import { getUserByEmail } from "@/services/UserService";
 import { LoginSchema } from "@/schemas";
 import { DEFAULT_LOGIN_REDIRECT } from "@/paths";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
 
   const validatedFields = await LoginSchema.safeParseAsync(values);
 
@@ -20,6 +20,21 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
 
   const { email, password } = validatedFields.data;
+
+  const existingUser = await getUserByEmail(email);
+
+  if (!existingUser || !existingUser.email || !existingUser.password) {
+    return { error: "Invalid credentials" };
+  }
+
+
+  if (!existingUser.emailVerified) {
+    await generateVerificationToken(existingUser.email);
+
+
+    return { success: "Confirmation email sent" };
+  }
+
 
 
   try {

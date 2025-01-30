@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs"
 import type { NextAuthConfig } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { LoginSchema } from "@/schemas"
-import { getByEmail } from "@/services/UserService"
+import { getUserByEmail } from "@/services/UserService"
 import Google from "next-auth/providers/google"
 import Yandex from "next-auth/providers/yandex"
 
@@ -59,7 +59,7 @@ export default {
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
 
-          const user = await getByEmail(email);
+          const user = await getUserByEmail(email);
 
           if (!user || !user.password) return null;
 

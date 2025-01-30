@@ -4,6 +4,7 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/libs/mongodb-client";
 import connectMongoDB from "@/libs/mongodb";
 import User from "@/models/user";
+import { getUserById, getUserByEmail } from "./services/UserService";
 
 export const {
   handlers: { GET, POST },
@@ -21,13 +22,34 @@ export const {
     async linkAccount({ user }) {
       await connectMongoDB();
 
-      const ProviderUser = await User.findById(user.id);
+      const ProviderUser = await getUserById(user.id);
+
       ProviderUser.emailVerified = new Date();
       await ProviderUser.save();
 
     }
   },
   callbacks: {
+
+    async signIn({ user, account }) {
+      await connectMongoDB();
+
+      //Allow OAuth without email verification
+      if (account?.provider !== "credentials") return true;
+
+      const existingUser = await getUserByEmail(user.email);
+
+      console.log("signIn existingUser::::::::::", existingUser);
+
+      //Prevent sign in if email is not verified
+      if(!existingUser?.emailVerified) return false
+
+      //TODO: check if email is verified
+
+
+      return true;
+    },
+
 
     async session({ session }) {
       await connectMongoDB();
