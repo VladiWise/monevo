@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     // Создание нового пользователя
     const user = await User.create({ email, password, name });
 
-    return NextResponse.json({ message: "Confirmation email sent", user }, { status: 201 });
+    return NextResponse.json({ message: "User created successfully", user }, { status: 201 });
 
   } catch (error: unknown) {
     if (error instanceof Error) {
