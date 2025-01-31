@@ -1,15 +1,21 @@
-import { auth, signOut } from "@/auth";
+import { signOut } from "@/auth";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import Image from "next/image";
 
 export default async function SettingsPage() {
-  const session = await auth();
-
-  const user = session?.user?.email;
+  const user = await useCurrentUser();
 
   return (
     <div>
-      <h1>
-        {user} ID :::: {session?.user?.id} HELLO!!!!
-      </h1>
+      <h1>{JSON.stringify(user, null, 2)}</h1>
+
+      <Image
+        src={user?.image || "avatar.png"}
+        alt={"user"}
+        width={96}
+        height={96}
+        className="rounded-full"
+      />
 
       <form
         action={async () => {
