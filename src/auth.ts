@@ -2,7 +2,7 @@ import NextAuth from "next-auth"
 import authConfig from "@/auth.config"
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/libs/mongodb-client";
-import connectMongoDB from "@/libs/mongodb";
+// import connectMongoDB from "@/libs/mongodb";
 // import User from "@/models/user";
 import { getUserById, getUserByEmail } from "./services/UserService";
 
