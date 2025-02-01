@@ -2,10 +2,10 @@ import NextAuth from "next-auth"
 import authConfig from "@/auth.config"
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/libs/mongodb-client";
-// import connectMongoDB from "@/libs/mongodb";
+import connectMongoDB from "@/libs/mongodb";
 // import User from "@/models/user";
 import { getUserByEmail } from "./services/UserService";
-// import { getUserById } from "./services/UserService";
+import { getUserById } from "./services/UserService";
 
 export const {
   handlers: { GET, POST },
@@ -19,15 +19,15 @@ export const {
     error: "/auth/error",
   },
 
-  // events: {
-  //   async linkAccount({ user }) {
-  //     connectMongoDB();
-  //     const ProviderUser = await getUserById(user.id);
-  //     ProviderUser.emailVerified = new Date();
-  //     await ProviderUser.save();
+  events: {
+    async linkAccount({ user }) {
+      connectMongoDB();
+      const ProviderUser = await getUserById(user.id);
+      ProviderUser.emailVerified = new Date();
+      await ProviderUser.save();
 
-  //   }
-  // },
+    }
+  },
   callbacks: {
 
     // async signIn({ user, account }) {
