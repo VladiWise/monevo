@@ -6,7 +6,7 @@ export default async function SettingsPage() {
   const user = await getCurrentUser();
 
   return (
-    <div className="w-full min-w-fit">
+    <div className="w-full min-w-[40rem] overflow-x-auto">
       <h1>{JSON.stringify(user, null, 2)}</h1>
       {user?.image && (
         <Image

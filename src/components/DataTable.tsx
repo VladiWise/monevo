@@ -41,14 +41,16 @@ export async function DataTable({
         buttonName={buttonName}
       />
 
-      <section className="overflow-x-auto flex flex-col gap-3 w-full">
-        <Table
-          data={serverItems}
-          actions={(item) => (
-            <DeleteButton id={item._id} removeItem={service.remove} />
-          )}
-          columns={columns}
-        />
+      <section className="overflow-x-auto">
+        <section className="w-max">
+          <Table
+            data={serverItems}
+            actions={(item) => (
+              <DeleteButton id={item._id} removeItem={service.remove} />
+            )}
+            columns={columns}
+          />
+        </section>
       </section>
     </MainContainer>
   );
