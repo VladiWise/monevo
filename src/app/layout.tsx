@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/Header";
+// import { Header } from "@/components/Header";
 import "./globals.css";
 import { Notifications } from "@/components/Notifications";
 import { auth } from "@/auth";

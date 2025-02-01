@@ -8,14 +8,15 @@ export default async function SettingsPage() {
   return (
     <div className="w-full min-w-fit">
       <h1>{JSON.stringify(user, null, 2)}</h1>
-
-      <Image
-        src={user?.image || "avatar.png"}
-        alt={"user"}
-        width={96}
-        height={96}
-        className="rounded-full"
-      />
+      {user?.image && (
+        <Image
+          src={user?.image}
+          alt={"user"}
+          width={96}
+          height={96}
+          className="rounded-full"
+        />
+      )}
 
       <form
         action={async () => {
