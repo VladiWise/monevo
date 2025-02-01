@@ -58,9 +58,9 @@ export const config = {
     // Always run for API routes
     '/(api|trpc)(.*)',],
   unstable_allowDynamic: [
-    "/src/libs/mongodb.ts",
-    "/src/services/UserService.ts",
-    "/src/auth.config.ts",
-    "/src/middleware.ts",
+    "./src/libs/mongodb.ts",
+    "./src/services/UserService.ts",
+    "./src/auth.config.ts",
+    "./src/middleware.ts",
   ],
 }
