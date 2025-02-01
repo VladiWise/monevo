@@ -4,6 +4,8 @@ import "./globals.css";
 import { Notifications } from "@/components/Notifications";
 import { auth } from "@/auth";
 
+import { BottomNavbar } from "@/components/HeaderTest";
+
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,12 +23,24 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased bg-zinc-100 h-full `}>
+      <body className={`${inter.className} antialiased bg-zinc-100`}>
         <Notifications />
-        {session && <Header />}
-        <main className="flex flex-col items-center p-4 pt-14 min-w-fit h-full">
-          {children}
-        </main>
+        {/* {session && <Header />} */}
+
+        {!session && (
+          <main className="flex flex-col items-center justify-center p-4 min-w-fit h-full w-dvh">
+            {children}
+          </main>
+        )}
+
+        {session && (
+          <>
+            <BottomNavbar />
+            <main className="flex flex-col items-center p-4 h-fit w-full pt-14 overflow-x-scroll">
+              {children}
+            </main>
+          </>
+        )}
       </body>
     </html>
   );

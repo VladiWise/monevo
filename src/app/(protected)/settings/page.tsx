@@ -6,7 +6,7 @@ export default async function SettingsPage() {
   const user = await useCurrentUser();
 
   return (
-    <div>
+    <div className="w-full min-w-fit">
       <h1>{JSON.stringify(user, null, 2)}</h1>
 
       <Image
