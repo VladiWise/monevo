@@ -18,15 +18,15 @@ export const {
     error: "/auth/error",
   },
 
-  events: {
-    async linkAccount({ user }) {
-      connectMongoDB();
-      const ProviderUser = await getUserById(user.id);
-      ProviderUser.emailVerified = new Date();
-      await ProviderUser.save();
+  // events: {
+  //   async linkAccount({ user }) {
+  //     connectMongoDB();
+  //     const ProviderUser = await getUserById(user.id);
+  //     ProviderUser.emailVerified = new Date();
+  //     await ProviderUser.save();
 
-    }
-  },
+  //   }
+  // },
   callbacks: {
 
     // async signIn({ user, account }) {
