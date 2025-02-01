@@ -4,7 +4,8 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/libs/mongodb-client";
 // import connectMongoDB from "@/libs/mongodb";
 // import User from "@/models/user";
-import { getUserById, getUserByEmail } from "./services/UserService";
+import { getUserByEmail } from "./services/UserService";
+// import { getUserById } from "./services/UserService";
 
 export const {
   handlers: { GET, POST },

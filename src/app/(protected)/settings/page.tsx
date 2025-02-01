@@ -1,9 +1,9 @@
 import { signOut } from "@/auth";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 import Image from "next/image";
 
 export default async function SettingsPage() {
-  const user = await useCurrentUser();
+  const user = await getCurrentUser();
 
   return (
     <div className="w-full min-w-fit">
