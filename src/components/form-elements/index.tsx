@@ -3,7 +3,7 @@ import { useFormContext } from "@/components/FormContext";
 import clsx from "clsx";
 
 const className =
-  "p-1 sm:p-3 w-full rounded-lg sm:rounded-xl bg-gray-100 font-medium text-sm sm:text-base sm:font-bold  text-gray-700 hover:border-gray-400 border-gray-100 border-2";
+  "p-3 w-full rounded-lg sm:rounded-xl bg-gray-100 font-medium text-base sm:font-bold  text-gray-700 hover:border-gray-400 border-gray-100 border-2";
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   register?: UseFormRegister<any>;
