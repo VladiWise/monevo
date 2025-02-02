@@ -31,7 +31,7 @@ export async function DataTable({
   title,
 }: DataTableProps) {
   return (
-    <MainContainer className="min-w-[40rem]">
+    <MainContainer>
       <h1 className="text-2xl font-bold text-gray-800 w-full">{title}</h1>
       <AssetFormSection
         serverItems={serverItems}

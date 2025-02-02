@@ -16,8 +16,8 @@ const navLinks: NavLink[] = [
 
 export function BottomNavbar() {
   return (
-    <section className="fixed top-0 left-0 w-dvw flex justify-center">
-      <div className="w-[20rem] bg-[#C1A8D6] p-2 flex justify-between z-50">
+    <section className="fixed top-0 left-0 w-dvw flex justify-center z-50">
+      <div className="w-[20rem] bg-[#C1A8D6] p-2 flex justify-between ">
         {navLinks.map((link) => (
           <Link
             key={link.href}

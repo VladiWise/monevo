@@ -80,7 +80,11 @@ export default function AssetFormSection({
   }
 
   return (
-    <FormProvider form={form} onSubmit={onSubmit} className="flex gap-3">
+    <FormProvider
+      form={form}
+      onSubmit={onSubmit}
+      className="flex flex-col sm:flex-row gap-3"
+    >
       <Select name="accountId" required>
         <option value="" className="hidden">
           account
