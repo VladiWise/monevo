@@ -1,46 +1,98 @@
+"use client";
+import React from "react";
+import { usePathname } from "next/navigation";
+import { HTMLAttributes } from "react";
+
 import Link from "next/link";
 
-import { AiFillBank } from "react-icons/ai";
-import { AiFillHome } from "react-icons/ai";
-import { AiFillSignal } from "react-icons/ai";
-import { AiFillShopping } from "react-icons/ai";
-import { MdMiscellaneousServices } from "react-icons/md";
+import clsx from "clsx";
+import { GoHomeFill } from "react-icons/go";
+import { BsFillBarChartFill } from "react-icons/bs";
+import { IoIosBrowsers } from "react-icons/io";
+import { FaBox } from "react-icons/fa6";
+import { FaImagePortrait } from "react-icons/fa6";
 
 type NavLink = {
   href: string;
   label: string;
-  icon: React.ReactNode;
+  icon: React.ReactElement;
 };
 
+const INACTIVE_ICON_COLOR = "#6b7280";
+const ACTIVE_ICON_COLOR = "#EF3226";
+
+const ICON_SIZE = 24;
+
 const navLinks: NavLink[] = [
-  { href: "/", label: "Home", icon: <AiFillHome size={24} /> },
-  { href: "/about", label: "About", icon: <AiFillSignal size={24} /> },
-  { href: "/contact", label: "Contact", icon: <AiFillShopping size={24} /> },
+  {
+    href: "/",
+    label: "Home",
+    icon: <GoHomeFill size={ICON_SIZE} />,
+  },
+  {
+    href: "/charts",
+    label: "Charts",
+    icon: <BsFillBarChartFill size={ICON_SIZE} />,
+  },
+  {
+    href: "/services",
+    label: "Services",
+    icon: <IoIosBrowsers size={ICON_SIZE} />,
+  },
   {
     href: "/accounts",
     label: "Accounts",
-    icon: <MdMiscellaneousServices size={24} />,
+    icon: <FaImagePortrait size={ICON_SIZE} />,
   },
-  { href: "/test", label: "TEST", icon: <AiFillBank size={24} /> },
-  { href: "/dashboard", label: "Dashboard", icon: <AiFillBank size={24} /> },
+  {
+    href: "/dashboard",
+    label: "Assets",
+    icon: <FaBox size={ICON_SIZE} />,
+  },
 ];
 
 export function BottomNavbar() {
+  const pathname = usePathname();
+
+  console.log("ROUTER", pathname);
+
   return (
-    <nav className="fixed bottom-0 left-0 w-full  flex justify-center z-50 p-2">
-      <div className="w-full sm:w-[30rem] bg-[#C1A8D6] flex justify-around rounded-xl">
-        {navLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="w-16 h-16 flex flex-col items-center justify-center p-2 hover:bg-primary/70"
-          >
-            <div className="flex-1 flex items-center justify-center">
-              {link.icon}
-            </div>
-            <span className="text-xs text-white">{link.label}</span>
-          </Link>
-        ))}
+    <nav className="fixed bottom-0 left-0 w-full  flex justify-center z-50 sm:p-2">
+      <div className="w-full sm:w-[30rem] flex justify-around sm:rounded-xl bg-white border-t-2 border-gray-200">
+        {navLinks.map((link) => {
+          // Check if the current route matches the link's href.
+          const isActive = pathname === link.href;
+
+          const color = isActive ? ACTIVE_ICON_COLOR : INACTIVE_ICON_COLOR;
+
+          // Clone the icon element to override its `fill` color dynamically.
+          const icon = React.cloneElement(link.icon, {
+            fill: isActive ? ACTIVE_ICON_COLOR : INACTIVE_ICON_COLOR,
+            size: ICON_SIZE,
+          } as HTMLAttributes<SVGElement>);
+
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={clsx(
+                "w-16 h-16 flex flex-col items-center justify-center p-2 hover:bg-primary/70"
+              )}
+            >
+              <div className="flex-1 flex items-center justify-center">
+                {icon}
+              </div>
+              <span
+                className={clsx(
+                  "text-xs font-semibold text-gray-500",
+                  `text-[${color}]`
+                )}
+              >
+                {link.label}
+              </span>
+            </Link>
+          );
+        })}
       </div>
     </nav>
   );
