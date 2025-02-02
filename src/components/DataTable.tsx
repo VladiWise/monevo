@@ -42,7 +42,7 @@ export async function DataTable({
       />
 
       <section className="overflow-x-auto">
-        <section className="w-max">
+        <section className="min-w-max w-full">
           <Table
             data={serverItems}
             actions={(item) => (
