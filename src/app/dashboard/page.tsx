@@ -1,4 +1,3 @@
-import { MainContainer } from "@/components/MainContainer";
 import AssetsTables from "./_AssetsTables";
 
 export default function App() {
