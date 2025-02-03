@@ -3,7 +3,8 @@ import authConfig from "@/auth.config"
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/libs/mongodb-client";
 import connectMongoDB from "@/libs/mongodb";
-import User from "@/models/user";
+// import User from "@/models/user";
+import { getUserByEmail } from "./services/UserService";
 import { getUserById } from "./services/UserService";
 
 export const {
@@ -20,10 +21,8 @@ export const {
 
   events: {
     async linkAccount({ user }) {
-      await connectMongoDB();
-
+      connectMongoDB();
       const ProviderUser = await getUserById(user.id);
-
       ProviderUser.emailVerified = new Date();
       await ProviderUser.save();
 
@@ -32,18 +31,18 @@ export const {
   callbacks: {
 
     // async signIn({ user, account }) {
-      // await connectMongoDB();
+    // await connectMongoDB();
 
-      //Allow OAuth without email verification
-      // if (account?.provider !== "credentials") return true;
+    //Allow OAuth without email verification
+    // if (account?.provider !== "credentials") return true;
 
-      // const existingUser = await getUserByEmail(user.email);
+    // const existingUser = await getUserByEmail(user.email);
 
 
-      //Prevent sign in if email is not verified
-      // if(!existingUser?.emailVerified) return false
+    //Prevent sign in if email is not verified
+    // if(!existingUser?.emailVerified) return false
 
-      //TODO: check if email is verified
+    //TODO: check if email is verified
 
 
     //   return true;
@@ -51,8 +50,7 @@ export const {
 
 
     async session({ session }) {
-      await connectMongoDB();
-      const user = await User.findOne({ email: session.user.email });
+      const user = await getUserByEmail(session.user.email);
       session.user.id = user._id;
       return session;
     },

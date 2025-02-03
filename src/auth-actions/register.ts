@@ -3,7 +3,7 @@
 import { z } from "zod";
 import api from "@/libs/fetch";
 import { RegisterSchema } from "@/schemas";
-import { generateVerificationToken } from "@/libs/tokens";
+// import { generateVerificationToken } from "@/libs/tokens";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
@@ -16,7 +16,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   try {
     const response = await api.post("/users", values);
 
-    await generateVerificationToken(values.email);
+    // await generateVerificationToken(values.email);
 
     console.log("response", response);
     return { success: response.message };

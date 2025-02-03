@@ -1,3 +1,5 @@
+"use server";
+
 import connectMongoDB from "@/libs/mongodb";
 import VerificationToken from "@/models/verification-token";
 

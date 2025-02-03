@@ -80,10 +80,14 @@ export default function AssetFormSection({
   }
 
   return (
-    <FormProvider form={form} onSubmit={onSubmit} className="flex gap-3">
+    <FormProvider
+      form={form}
+      onSubmit={onSubmit}
+      className="flex flex-col sm:flex-row gap-3"
+    >
       <Select name="accountId" required>
         <option value="" className="hidden">
-          Select account
+          account
         </option>
         {accounts.map((account) => (
           <option value={account._id} key={account._id}>
@@ -92,9 +96,9 @@ export default function AssetFormSection({
         ))}
       </Select>
 
-      <Input name="ticker" type="text" placeholder={"Enter ticker"} required />
+      <Input name="ticker" type="text" placeholder={"ticker"} required />
 
-      <Input name="amount" type="number" placeholder="Enter amount" required />
+      <Input name="amount" type="number" placeholder="amount" required />
       <Button type="submit">{buttonName}</Button>
     </FormProvider>
   );

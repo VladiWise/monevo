@@ -31,24 +31,27 @@ export async function DataTable({
   title,
 }: DataTableProps) {
   return (
-    <MainContainer className="bg-white">
-      <h1 className="text-2xl font-bold text-gray-800">{title}</h1>
+    <MainContainer>
+      <h1 className="text-2xl font-bold text-gray-800 w-full">{title}</h1>
       <AssetFormSection
         serverItems={serverItems}
         getServerBody={getEtfServerBody}
         service={service}
-
         accounts={accounts}
         buttonName={buttonName}
       />
 
-      <Table
-        data={serverItems}
-        actions={(item) => (
-          <DeleteButton id={item._id} removeItem={service.remove} />
-        )}
-        columns={columns}
-      />
+      <section className="overflow-x-auto">
+        <section className="min-w-max w-full">
+          <Table
+            data={serverItems}
+            actions={(item) => (
+              <DeleteButton id={item._id} removeItem={service.remove} />
+            )}
+            columns={columns}
+          />
+        </section>
+      </section>
     </MainContainer>
   );
 }

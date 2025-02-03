@@ -1,3 +1,5 @@
+
+
 import NextAuth from "next-auth";
 import authConfig from "@/auth.config";
 import { DEFAULT_LOGIN_REDIRECT, apiAuthPrefix, authRoutes, publicRoutes } from "@/paths"
@@ -24,7 +26,7 @@ export default auth(async (req) => {
     if (nextUrl.pathname.startsWith("/api/auth")) {
       return;
     }
-    
+
     if (providedKey !== API_KEY) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

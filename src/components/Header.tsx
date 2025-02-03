@@ -40,7 +40,7 @@ export function Header() {
       {/* Background overlay for blur */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-10 transition-opacity duration-300"
+          className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-30 transition-opacity duration-300"
           onClick={closeMenu} // Close menu when the overlay is clicked
         ></div>
       )}

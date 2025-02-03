@@ -1,5 +1,5 @@
 import { Button } from "@/components/Button";
-import {LoginButton} from "@/components/auth/LoginButton";
+import { LoginButton } from "@/components/auth/LoginButton";
 
 function MainPage() {
   return (

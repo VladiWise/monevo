@@ -1,21 +1,22 @@
 import { signOut } from "@/auth";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 import Image from "next/image";
 
 export default async function SettingsPage() {
-  const user = await useCurrentUser();
+  const user = await getCurrentUser();
 
   return (
-    <div>
+    <div className="w-full overflow-x-auto">
       <h1>{JSON.stringify(user, null, 2)}</h1>
-
-      <Image
-        src={user?.image || "avatar.png"}
-        alt={"user"}
-        width={96}
-        height={96}
-        className="rounded-full"
-      />
+      {user?.image && (
+        <Image
+          src={user?.image}
+          alt={"user"}
+          width={96}
+          height={96}
+          className="rounded-full"
+        />
+      )}
 
       <form
         action={async () => {

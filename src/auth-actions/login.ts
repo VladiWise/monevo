@@ -5,7 +5,7 @@ import { AuthError } from "next-auth";
 
 import { z } from "zod";
 import { signIn } from "@/auth";
-import { generateVerificationToken } from "@/libs/tokens";
+// import { generateVerificationToken } from "@/libs/tokens";
 import { getUserByEmail } from "@/services/UserService";
 import { LoginSchema } from "@/schemas";
 import { DEFAULT_LOGIN_REDIRECT } from "@/paths";
@@ -28,12 +28,12 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
 
 
-  if (!existingUser.emailVerified) {
-    await generateVerificationToken(existingUser.email);
+  // if (!existingUser.emailVerified) {
+  //   await generateVerificationToken(existingUser.email);
 
 
-    return { success: "Confirmation email sent" };
-  }
+  //   return { success: "Confirmation email sent" };
+  // }
 
 
 
