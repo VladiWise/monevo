@@ -14,11 +14,11 @@ const fundSchema = new Schema(
     price: { type: String, required: true },
     totalAmount: { type: Number, required: true },
     total: { type: Number, required: true },
-    // userId: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "User",
-    //   required: true,
-    // },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,

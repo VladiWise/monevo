@@ -3,9 +3,9 @@
 import api from "@/libs/fetch";
 import { revalidatePath } from "next/cache";
 
-export async function getList() {
+export async function getList(userId: string | undefined) {
   try {
-    const data = await api.get("/funds");
+    const data = await api.get(`/funds?userId=${userId}`);
     return data;
   } catch (error) {
     console.error("Error fetching funds:", error);
@@ -23,9 +23,9 @@ export async function getById(id: string) {
   }
 }
 
-export async function create(body: any) {
+export async function create(body: any, userId: string) {
   try {
-    const data = await api.post("/funds", body);
+    const data = await api.post(`/funds?userId=${userId}`, body);
     return data;
   } catch (error) {
     console.error("Error creating fund:", error);

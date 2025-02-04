@@ -4,6 +4,9 @@ import { NextResponse, NextRequest } from "next/server";
 
 import { roundToTwoDecimals } from "@/utils/mathUtils";
 export async function POST(request: NextRequest) {
+  const userId = request.nextUrl.searchParams.get("userId");
+
+
   const { accountId, name, ticker, currency, amount, price } =
     await request.json();
 
@@ -17,6 +20,7 @@ export async function POST(request: NextRequest) {
   }
 
   await Fund.create({
+    userId,
     name,
     ticker,
     currency,
@@ -32,10 +36,15 @@ export async function POST(request: NextRequest) {
   );
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const userId = request.nextUrl.searchParams.get("userId");
   await connectMongoDB();
 
-  const funds = await Fund.find({});
+
+
+  const funds = await Fund.find({ userId });
+
+
 
   return NextResponse.json(funds, { status: 200 });
 }

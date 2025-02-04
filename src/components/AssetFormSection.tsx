@@ -4,6 +4,7 @@ import { FormProvider } from "@/components/FormContext";
 import { Button } from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 
 type ServerItem = {
   _id: string;
@@ -61,6 +62,10 @@ export default function AssetFormSection({
       const moexJson = await service.getMoex(formattedData.ticker);
       console.log("moexJson", moexJson);
 
+      const currentUser = await getCurrentUser();
+
+      console.log("CURRENT_USER::::::::::::::::::", currentUser);
+
       const serverBody = await getServerBody(
         serverItem,
         formattedData,
@@ -69,7 +74,7 @@ export default function AssetFormSection({
 
       const action = isExist
         ? service.updateAccounts(serverItem._id, serverBody)
-        : service.create(serverBody);
+        : service.create(serverBody, currentUser?.id);
 
       await action;
       router.refresh();

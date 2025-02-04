@@ -4,6 +4,7 @@ import { getLocalDateByISO } from "@/utils/dataFormat";
 import * as fundService from "@/services/FundService";
 
 import { DataTable } from "@/components/DataTable";
+import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 
 interface StockEtfTableProps {
   accounts: any;
@@ -16,7 +17,8 @@ export async function StockEtfTable({
   findAmountById,
   getDataByField,
 }: StockEtfTableProps) {
-  const serverItems = await fundService.getList();
+  const currentUser = await getCurrentUser();
+  const serverItems = await fundService.getList(currentUser?.id);
 
   const etfColumns = [
     {
