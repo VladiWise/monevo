@@ -58,7 +58,7 @@ export function BottomNavbar() {
 
   return (
     <nav className="fixed bottom-0 left-0 w-full  flex justify-center z-50 sm:p-2">
-      <div className="w-full sm:w-[30rem] flex justify-around sm:rounded-xl bg-white border-t-2 border-gray-200">
+      <section className="w-full sm:w-[30rem] flex justify-around sm:rounded-xl bg-white border-t-2 border-gray-200 shadow-lg ">
         {navLinks.map((link) => {
           // Check if the current route matches the link's href.
           const isActive = pathname === link.href;
@@ -67,7 +67,7 @@ export function BottomNavbar() {
 
           // Clone the icon element to override its `fill` color dynamically.
           const icon = React.cloneElement(link.icon, {
-            fill: isActive ? ACTIVE_ICON_COLOR : INACTIVE_ICON_COLOR,
+            fill: color,
             size: ICON_SIZE,
           } as HTMLAttributes<SVGElement>);
 
@@ -76,24 +76,19 @@ export function BottomNavbar() {
               key={link.href}
               href={link.href}
               className={clsx(
-                "w-16 h-16 flex flex-col items-center justify-center p-2 hover:bg-primary/70"
+                "w-16 h-16 flex flex-col items-center justify-center p-2 hover:bg-gray-500/10 rounded-xl"
               )}
             >
               <div className="flex-1 flex items-center justify-center">
                 {icon}
               </div>
-              <span
-                className={clsx(
-                  "text-xs font-semibold text-gray-500",
-                  `text-[${color}]`
-                )}
-              >
+              <span className={clsx("text-xs font-semibold", `text-[#6b7280]`)}>
                 {link.label}
               </span>
             </Link>
           );
         })}
-      </div>
+      </section>
     </nav>
   );
 }

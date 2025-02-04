@@ -4,7 +4,7 @@ import "./globals.css";
 import { Notifications } from "@/components/Notifications";
 import { auth } from "@/auth";
 
-import { BottomNavbar } from "@/components/HeaderTest";
+import { BottomNavbar } from "@/components/BottomNavbar";
 
 import { Inter } from "next/font/google";
 
