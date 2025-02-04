@@ -4,6 +4,7 @@ import { FormProvider } from "@/components/FormContext";
 import { Button } from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 
 type ServerItem = {
   _id: string;
@@ -20,20 +21,20 @@ type ServerItem = {
 //   updateAccounts: (id: string, data: any) => Promise<any>;
 // };
 
-type Account = {
+type BankAccounts = {
   _id: string;
   shortName: string;
   fullName?: string;
 };
 
 export default function AssetFormSection({
-  accounts,
+  bankAccounts,
   serverItems,
   getServerBody,
   service,
   buttonName = "ADD ITEM",
 }: {
-  accounts: Account[];
+  bankAccounts: BankAccounts[];
   serverItems: ServerItem[];
   getServerBody: (item: any, data: any, moexJson: any) => Promise<any>;
   service: any;
@@ -61,6 +62,10 @@ export default function AssetFormSection({
       const moexJson = await service.getMoex(formattedData.ticker);
       console.log("moexJson", moexJson);
 
+      const currentUser = await getCurrentUser();
+
+      console.log("CURRENT_USER::::::::::::::::::", currentUser);
+
       const serverBody = await getServerBody(
         serverItem,
         formattedData,
@@ -69,7 +74,7 @@ export default function AssetFormSection({
 
       const action = isExist
         ? service.updateAccounts(serverItem._id, serverBody)
-        : service.create(serverBody);
+        : service.create(serverBody, currentUser?.id);
 
       await action;
       router.refresh();
@@ -86,12 +91,12 @@ export default function AssetFormSection({
       className="flex flex-col sm:flex-row gap-3"
     >
       <Select name="accountId" required>
-        <option value="" className="hidden">
+        {/* <option value="" className="hidden">
           account
-        </option>
-        {accounts.map((account) => (
-          <option value={account._id} key={account._id}>
-            {account.shortName}
+        </option> */}
+        {bankAccounts.map((bankAccount) => (
+          <option value={bankAccount._id} key={bankAccount._id}>
+            {bankAccount.shortName}
           </option>
         ))}
       </Select>

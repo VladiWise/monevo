@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     name,
     ticker,
     currency,
-    accounts: [{ id: accountId, amount }],
+    bankAccounts: [{ id: accountId, amount }],
     price: roundToTwoDecimals(price),
     bondYield: roundToTwoDecimals(bondYield) + "%",
     matDate: calculateYearsAndMonths(matDate),

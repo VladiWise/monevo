@@ -5,7 +5,7 @@ const fundSchema = new Schema(
     name: { type: String, required: true },
     ticker: { type: String, required: true },
     currency: { type: String, required: true },
-    accounts: [
+    bankAccounts: [
       {
         id: { type: String, required: true },
         amount: { type: Number, required: true },
@@ -14,11 +14,11 @@ const fundSchema = new Schema(
     price: { type: String, required: true },
     totalAmount: { type: Number, required: true },
     total: { type: Number, required: true },
-    // userId: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "User",
-    //   required: true,
-    // },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,

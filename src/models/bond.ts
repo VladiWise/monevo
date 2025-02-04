@@ -5,7 +5,7 @@ const bondSchema = new Schema(
     name: { type: String, required: true },
     ticker: { type: String, required: true },
     currency: { type: String, required: true },
-    accounts: [
+    bankAccounts: [
       {
         id: { type: String, required: true },
         amount: { type: Number, required: true },

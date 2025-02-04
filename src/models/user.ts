@@ -30,7 +30,7 @@ const userSchema = new Schema(
     // assets: [
     //   {
     //     type: Schema.Types.ObjectId,
-    //     ref: ["Fund", "Bond", "Account"],
+    //     ref: ["Fund", "Bond", "BankAccounts"],
     //   },
     // ],
   },
