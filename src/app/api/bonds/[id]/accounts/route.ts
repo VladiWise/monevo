@@ -14,7 +14,7 @@ export async function PATCH(
   await connectMongoDB();
 
   try {
-    // Обновляем только нужный аккаунт в массиве accounts
+    // Обновляем только нужный аккаунт в массиве bankAccounts
     const bond = await Bond.findById(id);
 
     if (!bond) {
@@ -22,21 +22,21 @@ export async function PATCH(
     }
 
     // Проверяем, существует ли уже такой аккаунт
-    const accountIndex = bond.accounts.findIndex(
-      (account: { id: string }) => account.id === accountId
+    const accountIndex = bond.bankAccounts.findIndex(
+      (bankAccount: { id: string }) => bankAccount.id === accountId
     );
 
     if (accountIndex !== -1) {
       // Если аккаунт уже есть, обновляем его amount
-      if (bond.accounts[accountIndex].amount + amount < 0) {
+      if (bond.bankAccounts[accountIndex].amount + amount < 0) {
         return NextResponse.json(
           { message: "Total amount must not be negative" },
           { status: 400 }
         );
       }
 
-      bond.accounts[accountIndex].amount =
-        bond.accounts[accountIndex].amount + amount;
+      bond.bankAccounts[accountIndex].amount =
+        bond.bankAccounts[accountIndex].amount + amount;
     } else {
       // Если аккаунта нет, добавляем новый
       if (amount < 0) {
@@ -45,7 +45,7 @@ export async function PATCH(
           { status: 400 }
         );
       }
-      bond.accounts.push({ id: accountId, amount });
+      bond.bankAccounts.push({ id: accountId, amount });
     }
 
     bond.bondYield = roundToTwoDecimals(bondYield) + "%";
@@ -57,11 +57,11 @@ export async function PATCH(
     // Сохраняем изменения в базе данных
     await bond.save();
 
-    return NextResponse.json({ message: "Account updated successfully" });
+    return NextResponse.json({ message: "BankAccounts updated successfully" });
   } catch (error) {
-    console.error("Error updating account:", error);
+    console.error("Error updating bankAccount:", error);
     return NextResponse.json(
-      { message: "Error updating account", error },
+      { message: "Error updating bankAccount", error },
       { status: 500 }
     );
   }

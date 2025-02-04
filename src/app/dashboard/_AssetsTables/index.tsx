@@ -8,7 +8,7 @@ import { MainContainer } from "@/components/MainContainer";
 
 export default async function AssetsTables() {
   await new Promise((resolve) => setTimeout(resolve, 3000));
-  const accounts = await accountService.getList();
+  const bankAccounts = await accountService.getList();
 
   return (
     <>
@@ -20,7 +20,7 @@ export default async function AssetsTables() {
         }
       >
         <StockEtfTable
-          accounts={accounts}
+          bankAccounts={bankAccounts}
           findAmountById={findAmountById}
           getDataByField={getDataByField}
         />
@@ -33,7 +33,7 @@ export default async function AssetsTables() {
         }
       >
         <BondTable
-          accounts={accounts}
+          bankAccounts={bankAccounts}
           findAmountById={findAmountById}
           getDataByField={getDataByField}
         />
@@ -44,10 +44,10 @@ export default async function AssetsTables() {
   function findAmountById(item: any, accountId: string) {
     let amount = 0;
 
-    item.accounts.forEach((account: any) => {
-      if (account.id === accountId) {
-        amount = account.amount;
-        return account.amount;
+    item.bankAccounts.forEach((bankAccount: any) => {
+      if (bankAccount.id === accountId) {
+        amount = bankAccount.amount;
+        return bankAccount.amount;
       }
     });
 

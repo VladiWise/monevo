@@ -21,20 +21,20 @@ type ServerItem = {
 //   updateAccounts: (id: string, data: any) => Promise<any>;
 // };
 
-type Account = {
+type BankAccounts = {
   _id: string;
   shortName: string;
   fullName?: string;
 };
 
 export default function AssetFormSection({
-  accounts,
+  bankAccounts,
   serverItems,
   getServerBody,
   service,
   buttonName = "ADD ITEM",
 }: {
-  accounts: Account[];
+  bankAccounts: BankAccounts[];
   serverItems: ServerItem[];
   getServerBody: (item: any, data: any, moexJson: any) => Promise<any>;
   service: any;
@@ -91,12 +91,12 @@ export default function AssetFormSection({
       className="flex flex-col sm:flex-row gap-3"
     >
       <Select name="accountId" required>
-        <option value="" className="hidden">
+        {/* <option value="" className="hidden">
           account
-        </option>
-        {accounts.map((account) => (
-          <option value={account._id} key={account._id}>
-            {account.shortName}
+        </option> */}
+        {bankAccounts.map((bankAccount) => (
+          <option value={bankAccount._id} key={bankAccount._id}>
+            {bankAccount.shortName}
           </option>
         ))}
       </Select>

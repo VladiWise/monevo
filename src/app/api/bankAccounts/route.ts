@@ -1,5 +1,5 @@
 import connectMongoDB from "@/libs/mongodb";
-import Account from "@/models/account";
+import BankAccounts from "@/models/bank-account";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -7,13 +7,13 @@ export async function POST(request: NextRequest) {
 
   await connectMongoDB();
 
-  await Account.create({
+  await BankAccounts.create({
     shortName,
     fullName,
   });
 
   return NextResponse.json(
-    { message: "Account created successfully" },
+    { message: "BankAccounts created successfully" },
     { status: 201 }
   );
 }
@@ -21,9 +21,9 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   await connectMongoDB();
 
-  const accounts = await Account.find({});
+  const bankAccounts = await BankAccounts.find({});
 
-  return NextResponse.json(accounts, { status: 200 });
+  return NextResponse.json(bankAccounts, { status: 200 });
 }
 
 export async function DELETE(request: NextRequest) {
@@ -31,10 +31,10 @@ export async function DELETE(request: NextRequest) {
 
   await connectMongoDB();
 
-  await Account.findByIdAndDelete(id);
+  await BankAccounts.findByIdAndDelete(id);
 
   return NextResponse.json(
-    { message: "Account deleted successfully" },
+    { message: "BankAccounts deleted successfully" },
     { status: 200 }
   );
 }

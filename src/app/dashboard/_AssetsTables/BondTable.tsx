@@ -7,13 +7,13 @@ import { fetchCurrencyValue } from "@/services/CurrencyService";
 import { DataTable } from "@/components/DataTable";
 
 interface BondTableProps {
-  accounts: any;
+  bankAccounts: any;
   findAmountById: (item: any, accountId: string) => number;
   getDataByField: (moexJson: MoexJson, field: string) => any;
 }
 
 export async function BondTable({
-  accounts,
+  bankAccounts,
   findAmountById,
   getDataByField,
 }: BondTableProps) {
@@ -43,9 +43,9 @@ export async function BondTable({
       name: "currency",
     },
 
-    ...accounts?.map((account: any) => ({
-      title: account.shortName,
-      name: account._id,
+    ...bankAccounts?.map((bankAccount: any) => ({
+      title: bankAccount.shortName,
+      name: bankAccount._id,
       getCellContent: (item: any, columnName: string) =>
         findAmountById(item, columnName),
     })),
@@ -105,7 +105,7 @@ export async function BondTable({
 
   return (
     <DataTable
-      accounts={accounts}
+      bankAccounts={bankAccounts}
       serverItems={serverItems}
       getEtfServerBody={getBondServerBody}
       service={serviceEtf}

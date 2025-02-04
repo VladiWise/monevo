@@ -46,10 +46,10 @@ export async function update(id: string, body: any) {
 export async function updateAccounts(id: string, body: any) {
   try {
     // Отправляем запрос на добавление или обновление конкретного аккаунта в тикере
-    const data = await api.patch(`/bonds/${id}/accounts`, body);
+    const data = await api.patch(`/bonds/${id}/bankAccounts`, body);
     return data
   } catch (error) {
-    console.error(`Error updating accounts for bond with ID ${id}:`, error);
+    console.error(`Error updating bankAccounts for bond with ID ${id}:`, error);
     throw error;
   }
 }

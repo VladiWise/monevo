@@ -15,7 +15,7 @@ interface DataTableProps {
   serverItems: any;
   getEtfServerBody: (item: any, data: any, moexJson: any) => Promise<any>;
   service: any;
-  accounts: any;
+  bankAccounts: any;
   columns: Column[];
   buttonName?: string;
   title?: string;
@@ -25,7 +25,7 @@ export async function DataTable({
   serverItems,
   getEtfServerBody,
   service,
-  accounts,
+  bankAccounts,
   columns,
   buttonName,
   title,
@@ -37,7 +37,7 @@ export async function DataTable({
         serverItems={serverItems}
         getServerBody={getEtfServerBody}
         service={service}
-        accounts={accounts}
+        bankAccounts={bankAccounts}
         buttonName={buttonName}
       />
 

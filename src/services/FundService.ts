@@ -50,7 +50,7 @@ export async function updateAccounts(id: string, body: any) {
     const data = await api.patch(`/funds?id=${id}`, body);
     return data;
   } catch (error) {
-    console.error(`Error updating accounts for fund with ID ${id}:`, error);
+    console.error(`Error updating bankAccounts for fund with ID ${id}:`, error);
     throw error;
   }
 }

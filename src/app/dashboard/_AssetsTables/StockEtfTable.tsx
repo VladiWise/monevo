@@ -7,13 +7,13 @@ import { DataTable } from "@/components/DataTable";
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 
 interface StockEtfTableProps {
-  accounts: any;
+  bankAccounts: any;
   findAmountById: (item: any, accountId: string) => number;
   getDataByField: (moexJson: MoexJson, field: string) => any;
 }
 
 export async function StockEtfTable({
-  accounts,
+  bankAccounts,
   findAmountById,
   getDataByField,
 }: StockEtfTableProps) {
@@ -44,9 +44,9 @@ export async function StockEtfTable({
       name: "currency",
     },
 
-    ...accounts?.map((account: any) => ({
-      title: account.shortName,
-      name: account._id,
+    ...bankAccounts?.map((bankAccount: any) => ({
+      title: bankAccount.shortName,
+      name: bankAccount._id,
       getCellContent: (item: any, columnName: string) =>
         findAmountById(item, columnName),
     })),
@@ -83,7 +83,7 @@ export async function StockEtfTable({
 
   return (
     <DataTable
-      accounts={accounts}
+      bankAccounts={bankAccounts}
       serverItems={serverItems}
       getEtfServerBody={getEtfServerBody}
       service={serviceEtf}

@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     name,
     ticker,
     currency,
-    accounts: [{ id: accountId, amount }],
+    bankAccounts: [{ id: accountId, amount }],
     price,
     total: roundToTwoDecimals(price * amount),
     totalAmount: amount,
@@ -113,15 +113,15 @@ export async function PATCH(
       return NextResponse.json({ message: "Fund not found" }, { status: 404 });
     }
 
-    const accountIndex = fund.accounts.findIndex(
-      (account: { id: string }) => account.id === accountId
+    const accountIndex = fund.bankAccounts.findIndex(
+      (bankAccount: { id: string }) => bankAccount.id === accountId
     );
 
     if (accountIndex !== -1) {
-      fund.accounts[accountIndex].amount =
-        fund.accounts[accountIndex].amount + amount;
+      fund.bankAccounts[accountIndex].amount =
+        fund.bankAccounts[accountIndex].amount + amount;
     } else {
-      fund.accounts.push({ id: accountId, amount });
+      fund.bankAccounts.push({ id: accountId, amount });
     }
 
     fund.price = roundToTwoDecimals(price);
@@ -131,11 +131,11 @@ export async function PATCH(
 
     await fund.save();
 
-    return NextResponse.json({ message: "Account updated successfully" });
+    return NextResponse.json({ message: "BankAccounts updated successfully" });
   } catch (error) {
-    console.error("Error updating account:", error);
+    console.error("Error updating bankAccount:", error);
     return NextResponse.json(
-      { message: "Error updating account", error },
+      { message: "Error updating bankAccount", error },
       { status: 500 }
     );
   }

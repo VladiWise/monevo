@@ -12,7 +12,7 @@ export function Header() {
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
-    { href: "/accounts", label: "Accounts" },
+    { href: "/bankAccounts", label: "Accounts" },
     { href: "/test", label: "TEST" },
     { href: "/dashboard", label: "Dashboard" },
   ];

@@ -40,7 +40,7 @@ const navLinks: NavLink[] = [
     icon: <IoIosBrowsers size={ICON_SIZE} />,
   },
   {
-    href: "/accounts",
+    href: "/bankAccounts",
     label: "Accounts",
     icon: <FaImagePortrait size={ICON_SIZE} />,
   },
