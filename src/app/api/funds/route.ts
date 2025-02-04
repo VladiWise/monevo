@@ -3,6 +3,30 @@ import Fund from "@/models/fund";
 import { NextResponse, NextRequest } from "next/server";
 
 import { roundToTwoDecimals } from "@/utils/mathUtils";
+
+export async function GET(request: NextRequest) {
+  await connectMongoDB();
+
+
+  if (request.nextUrl.searchParams.get("userId")) {
+    const userId = request.nextUrl.searchParams.get("userId");
+
+    const funds = await Fund.find({ userId });
+
+    return NextResponse.json(funds, { status: 200 });
+  } else if (request.nextUrl.searchParams.get("id")) {
+    const id = request.nextUrl.searchParams.get("id");
+
+    const fund = await Fund.findById(id);
+
+    return NextResponse.json(fund, { status: 200 });
+  } else {
+    const funds = await Fund.find();
+    return NextResponse.json(funds, { status: 200 });
+  }
+
+
+}
 export async function POST(request: NextRequest) {
   const userId = request.nextUrl.searchParams.get("userId");
 
@@ -36,18 +60,29 @@ export async function POST(request: NextRequest) {
   );
 }
 
-export async function GET(request: NextRequest) {
-  const userId = request.nextUrl.searchParams.get("userId");
+export async function PUT(request: NextRequest) {
+  const id = request.nextUrl.searchParams.get("id");
+
+  const { accountId, name, ticker, currency, amount, price, total } = await request.json();
+
   await connectMongoDB();
 
+  await Fund.findByIdAndUpdate(id, {
+    accountId,
+    name,
+    ticker,
+    currency,
+    amount,
+    price,
+    total,
+  });
 
-
-  const funds = await Fund.find({ userId });
-
-
-
-  return NextResponse.json(funds, { status: 200 });
+  return NextResponse.json(
+    { message: "Fund updated successfully" },
+    { status: 200 }
+  );
 }
+
 
 export async function DELETE(request: NextRequest) {
   const id = request.nextUrl.searchParams.get("id");
@@ -60,4 +95,48 @@ export async function DELETE(request: NextRequest) {
     { message: "Fund deleted successfully" },
     { status: 200 }
   );
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  await connectMongoDB();
+  const { accountId, amount, price } = await request.json(); // Получаем accountId и amount из тела запроса
+
+  try {
+
+    const id = request.nextUrl.searchParams.get("id");
+    const fund = await Fund.findById(id);
+
+    if (!fund) {
+      return NextResponse.json({ message: "Fund not found" }, { status: 404 });
+    }
+
+    const accountIndex = fund.accounts.findIndex(
+      (account: { id: string }) => account.id === accountId
+    );
+
+    if (accountIndex !== -1) {
+      fund.accounts[accountIndex].amount =
+        fund.accounts[accountIndex].amount + amount;
+    } else {
+      fund.accounts.push({ id: accountId, amount });
+    }
+
+    fund.price = roundToTwoDecimals(price);
+
+    fund.totalAmount += amount;
+    fund.total = roundToTwoDecimals(fund.totalAmount * price);
+
+    await fund.save();
+
+    return NextResponse.json({ message: "Account updated successfully" });
+  } catch (error) {
+    console.error("Error updating account:", error);
+    return NextResponse.json(
+      { message: "Error updating account", error },
+      { status: 500 }
+    );
+  }
 }
