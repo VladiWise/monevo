@@ -28,7 +28,7 @@ export default async function RootLayout({
         {/* {session && <Header />} */}
 
         {!session && (
-          <main className="flex flex-col items-center justify-center p-4 min-w-fit h-full w-dvh">
+          <main className="flex flex-col items-center h-full min-h-fit w-full p-4 overflow-x-hidden">
             {children}
           </main>
         )}
@@ -36,7 +36,7 @@ export default async function RootLayout({
         {session && (
           <>
             <BottomNavbar />
-            <main className="flex flex-col items-center h-full min-h-fit w-full pb-16 sm:pt-4 sm:px-4">
+            <main className="flex flex-col items-center h-full min-h-fit w-full pb-16 sm:pt-4 sm:px-4 overflow-x-hidden">
               {children}
             </main>
           </>
