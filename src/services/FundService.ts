@@ -47,7 +47,7 @@ export async function update(id: string, body: any) {
 
 export async function updateAccounts(id: string, body: any) {
   try {
-    const data = await api.patch(`/funds?&id=${id}`, body);
+    const data = await api.patch(`/funds?id=${id}`, body);
     return data;
   } catch (error) {
     console.error(`Error updating accounts for fund with ID ${id}:`, error);
@@ -55,7 +55,6 @@ export async function updateAccounts(id: string, body: any) {
   }
 }
 
-//GOOD!
 export async function remove(id: string) {
   try {
     const data = await api.delete(`/funds/?id=${id}`);
