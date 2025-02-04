@@ -98,8 +98,7 @@ export async function DELETE(request: NextRequest) {
 }
 
 export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  request: NextRequest
 ) {
   await connectMongoDB();
   const { accountId, amount, price } = await request.json(); // Получаем accountId и amount из тела запроса
