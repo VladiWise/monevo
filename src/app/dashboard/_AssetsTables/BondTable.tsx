@@ -5,6 +5,7 @@ import * as bondService from "@/services/BondService";
 import { fetchCurrencyValue } from "@/services/CurrencyService";
 
 import { DataTable } from "@/components/DataTable";
+import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 
 interface BondTableProps {
   bankAccounts: any;
@@ -17,7 +18,8 @@ export async function BondTable({
   findAmountById,
   getDataByField,
 }: BondTableProps) {
-  const serverItems = await bondService.getList();
+  const currentUser = await getCurrentUser();
+  const serverItems = await bondService.getList(currentUser?.id);
 
   const bondColumns = [
     {
