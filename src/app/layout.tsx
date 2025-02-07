@@ -23,11 +23,6 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="en">
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/icon-512x512.png" />
-        <meta name="theme-color" content="#ffffff" />
-      </head>
 
       <body className={`${inter.className} antialiased bg-zinc-100`}>
         <Notifications />
