@@ -24,7 +24,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="manifest" href="manifest.json" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icon-512x512.png" />
+        <meta name="theme-color" content="#ffffff" />
       </head>
 
       <body className={`${inter.className} antialiased bg-zinc-100`}>
