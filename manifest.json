@@ -1,0 +1,15 @@
+{
+  "name": "Menny",
+  "short_name": "pfx",
+  "description": "A demo of canvas 2d particle effects.",
+  "start_url": "/index.html",
+  "display": "fullscreen",
+
+  "icons": [
+    {
+      "src": "src/app/favicon.png",
+      "type": "image/png",
+      "sizes": "1225x1225"
+    }
+  ]
+}

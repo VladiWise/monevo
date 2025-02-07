@@ -23,6 +23,10 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="en">
+      <head>
+        <link rel="manifest" href="manifest.json" />
+      </head>
+
       <body className={`${inter.className} antialiased bg-zinc-100`}>
         <Notifications />
         {/* {session && <Header />} */}
