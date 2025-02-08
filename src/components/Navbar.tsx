@@ -25,27 +25,27 @@ const ICON_SIZE = 24;
 
 const navLinks: NavLink[] = [
   {
-    href: "/home",
+    href: "/client/home",
     label: "Home",
     icon: <GoHomeFill size={ICON_SIZE} />,
   },
   {
-    href: "/charts",
+    href: "/client/charts",
     label: "Charts",
     icon: <BsFillBarChartFill size={ICON_SIZE} />,
   },
   {
-    href: "/services",
+    href: "/client/services",
     label: "Services",
     icon: <IoIosBrowsers size={ICON_SIZE} />,
   },
   {
-    href: "/bankAccounts",
+    href: "/client/bankAccounts",
     label: "Accounts",
     icon: <FaImagePortrait size={ICON_SIZE} />,
   },
   {
-    href: "/dashboard",
+    href: "/client/dashboard",
     label: "Assets",
     icon: <FaBox size={ICON_SIZE} />,
   },
