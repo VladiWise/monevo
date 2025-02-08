@@ -4,8 +4,8 @@ import "./globals.css";
 import { Notifications } from "@/components/Notifications";
 import { auth } from "@/auth";
 
-import { BottomNavbar } from "@/components/BottomNavbar";
-
+import { Navbar } from "@/components/Navbar";
+import { Header } from "@/components/Header";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,8 +23,9 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="en">
-
-      <body className={`${inter.className} antialiased bg-zinc-100`}>
+      <body
+        className={`${inter.className} antialiased bg-zinc-100`}
+      >
         <Notifications />
         {/* {session && <Header />} */}
 
@@ -36,10 +37,13 @@ export default async function RootLayout({
 
         {session && (
           <>
-            <BottomNavbar />
-            <main className="flex flex-col items-center h-full min-h-fit w-full pb-16 sm:pt-4 sm:px-4 overflow-x-hidden">
-              {children}
-            </main>
+            <Header />
+            <div className="md:flex md:flex-row h-full min-h-fit w-full">
+              <Navbar />
+              <main className="flex flex-col items-center h-full min-h-fit w-full pb-16 sm:pt-4 sm:px-4 md:pb-4 md:pl-[12rem] overflow-x-hidden">
+                {children}
+              </main>
+            </div>
           </>
         )}
       </body>
