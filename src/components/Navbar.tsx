@@ -59,7 +59,7 @@ export function Navbar() {
   return (
     <>
       {/* DESKTOP NAVBAR */}
-      <nav className="fixed top-14 left-0 w-[12rem] h-full z-40 hidden md:flex">
+      <nav className="fixed top-16 left-0 w-[12rem] h-full z-40 hidden md:flex">
         <section className="flex flex-col gap-5 p-4 pl-5">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
