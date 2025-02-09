@@ -1,6 +1,7 @@
 import { Table } from "@/components/Table";
 import { DeleteButton } from "@/components/DeleteButton";
 
+
 import { MainContainer } from "@/components/MainContainer";
 
 import AssetFormSection from "@/components/AssetFormSection";
@@ -15,7 +16,7 @@ interface DataTableProps {
   serverItems: any;
   getEtfServerBody: (item: any, data: any, moexJson: any) => Promise<any>;
   service: any;
-  accounts: any;
+  bankAccounts: any;
   columns: Column[];
   buttonName?: string;
   title?: string;
@@ -25,7 +26,7 @@ export async function DataTable({
   serverItems,
   getEtfServerBody,
   service,
-  accounts,
+  bankAccounts,
   columns,
   buttonName,
   title,
@@ -37,21 +38,25 @@ export async function DataTable({
         serverItems={serverItems}
         getServerBody={getEtfServerBody}
         service={service}
-        accounts={accounts}
+        bankAccounts={bankAccounts}
         buttonName={buttonName}
       />
 
-      <section className="overflow-x-auto">
-        <section className="min-w-max w-full">
-          <Table
-            data={serverItems}
-            actions={(item) => (
-              <DeleteButton id={item._id} removeItem={service.remove} />
-            )}
-            columns={columns}
-          />
-        </section>
-      </section>
+
+        {serverItems.length > 0 && (
+          <section className="overflow-x-auto">
+            <section className="min-w-max w-full max-h-96 overflow-auto rounded-xl">
+              <Table
+                data={serverItems}
+                actions={(item) => (
+                  <DeleteButton id={item._id} removeItem={service.remove} />
+                )}
+                columns={columns}
+              />
+            </section>
+          </section>
+        )}
+
     </MainContainer>
   );
 }

@@ -10,7 +10,7 @@ const accountSchema = new Schema({
   // },
 });
 
-const Account =
-  mongoose.models.Account || mongoose.model("Account", accountSchema);
+const BankAccounts =
+  mongoose.models.BankAccounts || mongoose.model("BankAccounts", accountSchema);
 
-export default Account;
+export default BankAccounts;

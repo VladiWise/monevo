@@ -22,10 +22,10 @@ export default async function SettingsPage() {
         action={async () => {
           "use server";
 
-          await signOut();
+          await signOut({ redirectTo:  "/" });
         }}
       >
-        <button type="submit">Sing out</button>
+        <button type="submit">Sign out</button>
       </form>
     </div>
   );

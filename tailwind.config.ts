@@ -11,6 +11,7 @@ export default {
   ],
   theme: {
     extend: {
+
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
@@ -24,7 +25,7 @@ export default {
       screens: {
         'hover-hover': { raw: '(hover: hover)' },
         'hover-none': { raw: '(pointer: coarse)' },
-
+        "xs": "325px",
       },
 
     },
