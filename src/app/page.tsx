@@ -4,7 +4,6 @@ import { Header } from "@/components/Header";
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 import Image from "next/image";
 import Link from "next/link";
-function Page() {}
 
 export default async function MainPage() {
   const user = await getCurrentUser();
@@ -20,7 +19,7 @@ export default async function MainPage() {
               The investment tracker you have been waiting for
             </h1>
 
-            <p>That's for free. No worries</p>
+            <p>That&apos;s for free. No worries</p>
 
             <Button variant="secondary" type="submit" className="px-6">
               <Link href="/about">Get started</Link>
