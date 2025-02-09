@@ -77,8 +77,11 @@ function Page({ isUser }: { isUser: boolean }) {
         <form
           action={async () => {
             "use server";
-            isUser && redirect("/client/home");
-            !isUser && redirect("/auth/login");
+            if (isUser) {
+              redirect("/client/home");
+            } else {
+              redirect("/auth/login");
+            }
           }}
         >
           <Button variant="secondary" type="submit">
