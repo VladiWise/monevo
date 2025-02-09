@@ -44,9 +44,9 @@ function Page({ isUser }: { isUser: boolean }) {
       <section className=" text-lg text-gray-700 gap-3 flex flex-col">
         <h2 className="text-3xl font-bold text-gray-800">Overview</h2>
         <p className="text-lg text-gray-700">
-          Hi, fellas! I'm a novice software engineer with about 6 months of
-          experience writing code. Now I'm going to introduce you to my pet
-          project. That's an investment tracker. Developed a full-stack,
+          Hi, fellas! I&apos;m a novice software engineer with about 6 months of
+          experience writing code. Now I&apos;m going to introduce you to my pet
+          project. That&apos;s an investment tracker. Developed a full-stack,
           progressive web application designed to help users monitor their
           investment portfolios.
         </p>
@@ -108,7 +108,7 @@ export default async function MainPage() {
 
       {!user && (
         <main className="flex flex-col  h-full min-h-fit w-full pb-16 sm:pt-4 sm:px-4 md:p-4 md:pt-20 overflow-x-hidden">
-          <Page isUser={!!user}/>
+          <Page isUser={!!user} />
         </main>
       )}
 
@@ -117,7 +117,7 @@ export default async function MainPage() {
           <Navbar />
 
           <main className="flex flex-col  h-full min-h-fit w-full pb-16 sm:pt-4 sm:px-4 md:pb-4 md:pl-[12rem] md:pt-20 overflow-x-hidden">
-            <Page isUser={!!user}/>
+            <Page isUser={!!user} />
           </main>
         </>
       )}
