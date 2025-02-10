@@ -10,7 +10,7 @@ export async function Header() {
   const user = await getCurrentUser();
 
   return (
-    <header className="fixed top-0 left-0 w-full h-16 items-center justify-between z-50 py-2 pr-4 pl-[12rem] hidden md:flex bg-white shadow">
+    <header className="fixed top-0 left-0 w-full h-16 items-center justify-between z-50 py-2 pr-4 pl-[12rem] hidden md:flex bg-white border-b">
       <section className="flex items-center gap-2">
         <LogoIcon size={30} />
         <p className="text-xl font-bold text-primary">MONEVO</p>

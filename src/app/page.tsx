@@ -13,23 +13,46 @@ export default async function MainPage() {
       <Header />
 
       {!user && (
-        <main className="flex flex-col items-center h-full  w-full pb-16 sm:pt-4 sm:px-4 md:p-4 md:pt-32 overflow-x-hidden">
-          <div className="flex flex-col items-center gap-10 max-w-3xl">
+        <main className="flex flex-col items-center h-full  w-full pb-16 sm:pt-4 sm:px-4 md:p-4 md:pt-24 overflow-x-hidden">
+          <div className="flex flex-col items-center gap-8 max-w-3xl">
             <h1 className="text-5xl font-bold text-gray-800 text-center">
               The investment tracker you have been waiting for
             </h1>
 
             <p>That&apos;s for free. No worries</p>
+            <Link href="/about">
+              <Button variant="secondary" type="submit" className="px-6">
+                Get started
+              </Button>
+            </Link>
+            <Image
+              src="/card.webp"
+              alt="logo"
+              width={1500 / 2}
+              height={1080 / 2}
+              quality={100}
+              layout="intrinsic"
+              priority
+            />
 
-            <Button variant="secondary" type="submit" className="px-6">
-              <Link href="/about">Get started</Link>
-            </Button>
+            <Image
+              src="/card2.png"
+              alt="logo"
+              width={1500 / 2}
+              height={1080 / 2}
+              quality={100}
+              layout="intrinsic"
+              priority
+            />
 
             <Image
               src="/card.png"
               alt="logo"
               width={1500 / 2}
               height={1080 / 2}
+              quality={100}
+              layout="intrinsic"
+              priority
             />
           </div>
         </main>
