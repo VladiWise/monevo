@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { Notifications } from "@/components/Notifications";
-
+import { Providers } from "./providers";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,13 +17,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
-    <html lang="en">
-      <body className={`${inter.className} antialiased bg-zinc-100`}>
-        <Notifications />
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${inter.className} antialiased bg-zinc-100 dark:bg-darkMainBG`}
+      >
+        <Providers>
+          <Notifications />
 
-        {children}
+          {children}
+        </Providers>
       </body>
     </html>
   );

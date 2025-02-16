@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer utilities {
+  .bg-dark-svg {
+    background-image: url('/background.svg');
+    background-size: cover;
+    background-position: center;
+  }
+
+    .bg-light-svg {
+      background-image: url('/light-background.svg');
+      background-size: cover;
+      background-position: center;
+    }
+  }
+
+
 html,
 body,
 :root {

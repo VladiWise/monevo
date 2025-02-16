@@ -13,68 +13,22 @@ export default async function MainPage() {
       <Header />
 
       {!user && (
-        <main className="flex flex-col items-center h-full  w-full pb-16 sm:pt-4 sm:px-4 md:p-4 md:pt-24 overflow-x-hidden">
-          <div className="flex flex-col items-center gap-8 max-w-3xl">
-            <h1 className="text-5xl font-bold text-gray-800 text-center">
+        <main className="flex flex-col items-center h-full min-h-fit w-full pb-16 md:pb-0 sm:pt-4 md:pt-16 overflow-x-hidden dark:bg-dark-svg bg-light-svg">
+          <div className="flex flex-col items-center gap-14 max-w-3xl h-[calc(100vh-4rem)] pt-14">
+            <h1 className="text-5xl font-bold dark:text-white text-center">
               The investment tracker you have been waiting for
             </h1>
 
-            <p>That&apos;s for free. No worries</p>
+            <p className="dark:text-white text-center">
+              That&apos;s for free. No worries
+            </p>
             <Link href="/about">
-              <Button variant="secondary" type="submit" className="px-6">
+              <Button variant="primary" type="submit" className="px-6">
                 Get started
               </Button>
             </Link>
-            <Image
-              src="/card.webp"
-              alt="logo"
-              width={1500 / 2}
-              height={1080 / 2}
-              quality={100}
-              layout="intrinsic"
-              priority
-            />
-
-            <Image
-              src="/card2.png"
-              alt="logo"
-              width={1500 / 2}
-              height={1080 / 2}
-              quality={100}
-              layout="intrinsic"
-              priority
-            />
-
-            <Image
-              src="/card.png"
-              alt="logo"
-              width={1500 / 2}
-              height={1080 / 2}
-              quality={100}
-              layout="intrinsic"
-              priority
-            />
           </div>
         </main>
-      )}
-
-      {user && (
-        <>
-          <Navbar />
-
-          <main className="flex flex-col items-center h-full  w-full pb-16 sm:pt-4 sm:px-4 md:p-4 md:pt-32 overflow-x-hidden">
-            <h1 className="text-5xl font-bold text-gray-800">
-              Investment tracker
-            </h1>
-
-            <Image
-              src="/card.png"
-              alt="logo"
-              width={1500 / 2}
-              height={1080 / 2}
-            />
-          </main>
-        </>
       )}
     </>
   );
