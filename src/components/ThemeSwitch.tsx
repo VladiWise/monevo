@@ -6,7 +6,7 @@ import { FiSun, FiMoon } from "react-icons/fi";
 
 export function ThemeSwitch() {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
 
   // Prevent hydration mismatch by ensuring component runs only after mount
   useEffect(() => {

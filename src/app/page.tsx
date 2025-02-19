@@ -1,8 +1,6 @@
 import { Button } from "@/components/Button";
-import { Navbar } from "@/components/Navbar";
 import { Header } from "@/components/Header";
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
-import Image from "next/image";
 import Link from "next/link";
 
 export default async function MainPage() {
