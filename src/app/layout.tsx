@@ -22,11 +22,11 @@ export default async function RootLayout({
       <body
         className={`${inter.className} antialiased bg-lightMain dark:bg-darkMain`}
       >
-        <Providers>
+        {/* <Providers> */}
           <Notifications />
 
           {children}
-        </Providers>
+        {/* </Providers> */}
       </body>
     </html>
   );
