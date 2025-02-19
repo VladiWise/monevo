@@ -15,11 +15,11 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        darkMainBG: "0B0C0F",
-        lightMainBG: "F9F9F9",
-
+        darkMain: "#0B0C0F",
+        darkGray: "#6B7280",
+        lightMain: "#F9F9F9",
         primary: "#EF3226",
-        secondary: "#13161c",
+
       },
       boxShadow: {
         own: "0 5px 25px 0px rgb(0 0 0 / 0.2), 0 8px 10px -2px rgb(0 0 0 / 0.1)",
@@ -30,6 +30,7 @@ export default {
         'hover-hover': { raw: '(hover: hover)' },
         'hover-none': { raw: '(pointer: coarse)' },
         "xs": "325px",
+        "sm": "425",
       },
 
     },

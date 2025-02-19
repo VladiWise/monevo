@@ -84,7 +84,7 @@ function Page({ isUser }: { isUser: boolean }) {
             }
           }}
         >
-          <Button variant="secondary" type="submit">
+          <Button variant="darkMain" type="submit">
             Log in to Monevo
           </Button>
         </form>

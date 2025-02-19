@@ -26,7 +26,7 @@ export function ThemeSwitch() {
   ) : (
     <FiMoon
       onClick={() => setTheme("dark")}
-      className="cursor-pointer text-white"
+      className="cursor-pointer text-yellow-400"
       size={24}
     />
   );

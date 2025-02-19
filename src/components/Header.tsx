@@ -1,4 +1,3 @@
-
 import { signOut } from "@/auth";
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 import Image from "next/image";
@@ -14,15 +13,17 @@ export async function Header() {
   const user = await getCurrentUser();
 
   return (
-    <header className="fixed top-0 left-0 w-full h-16 items-center justify-between z-50 py-2 px-[12rem] hidden md:flex bg-[#1D202A] border-b border-[#2F3441]">
-      <section className="flex items-center gap-14">
-        <section className="flex items-center gap-2">
-          <LogoIcon size={30} color="white" />
-          <p className="text-2xl font-bold text-white">MONEVO</p>
+    <header className="fixed top-0 left-0 w-full h-16 items-center justify-between z-50 p-2 md:px-[8rem]  lg:px-[12rem]  flex bg-white  dark:bg-[#1D202A] border-b dark:border-[#2F3441] ">
+      <section className="flex items-center gap-14 w-full sm:w-auto">
+        <section className="flex items-center gap-2 w-full justify-center sm:w-auto sm:justify-normal">
+          <LogoIcon size={39} />
+          <p className="text-2xl font-bold text-primary dark:text-white">
+            MONEVO
+          </p>
           <ThemeSwitch />
         </section>
-        <Link href="/about">
-          <Button variant="whiteLink">About</Button>
+        <Link href="/about" className="hidden md:flex">
+          <Button variant="link">About</Button>
         </Link>
       </section>
       {!user && (
@@ -34,7 +35,7 @@ export async function Header() {
               redirect("/auth/login");
             }}
           >
-            <Button variant="whiteLink" type="submit">
+            <Button variant="link" type="submit" className="hidden sm:flex">
               Personal account
             </Button>
           </form>
