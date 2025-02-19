@@ -30,7 +30,7 @@ export default {
         'hover-hover': { raw: '(hover: hover)' },
         'hover-none': { raw: '(pointer: coarse)' },
         "xs": "325px",
-        "sm": "425",
+        "sm": "425px",
       },
 
     },
