@@ -4,6 +4,8 @@ import { Header } from "@/components/Header";
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { CommonMainLayout } from "@/components/CommonMainLayout";
+
 function Page({ isUser }: { isUser: boolean }) {
   const INFO = [
     {
@@ -106,23 +108,17 @@ export default async function AboutPage() {
   // if (user) redirect("/client/home");
   return (
     <>
-      <Header />
 
-      {!user && (
-        <main className="flex flex-col h-full w-full pb-16 sm:pt-4 sm:px-4 md:p-4 md:pt-20 overflow-x-hidden">
-          <Page isUser={!!user} />
-        </main>
-      )}
+      
+      <CommonMainLayout>
 
-      {user && (
-        <>
-          <Navbar />
+      <Page isUser={!!user} />
 
-          <main className="flex flex-col  h-full w-full pb-16 sm:pt-4 sm:px-4 md:pb-4 md:pl-[12rem] md:pt-20 overflow-x-hidden">
-            <Page isUser={!!user} />
-          </main>
-        </>
-      )}
+      </CommonMainLayout>
+
+
+
+
     </>
   );
 }
