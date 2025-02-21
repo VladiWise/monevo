@@ -99,7 +99,7 @@ export function Navbar() {
       </nav>
 
       {/* MOBILE NAVBAR */}
-      <nav className="fixed bottom-0 left-0 w-full flex justify-center z-50 sm:p-2 md:hidden">
+      <nav className="fixed bottom-0 left-0 w-full h-16 sm:h-20 flex justify-center z-50 sm:p-2 md:hidden">
         <section className="w-full sm:w-[30rem] flex justify-around sm:rounded-xl bg-white border-t-2 border-gray-200 shadow-lg">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;

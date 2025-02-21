@@ -10,9 +10,9 @@ export default async function MainPage() {
     <>
       <Header />
 
-      {!user && (
-        <main className="flex flex-col items-center h-full min-h-fit w-full pb-16 md:pb-0 pt-16 overflow-x-hidden dark:bg-dark-svg bg-light-svg">
-          <div className="flex flex-col items-center gap-14 max-w-3xl h-[calc(100vh-8rem)] md:h-[calc(100vh-4rem)] pt-14">
+
+        <main className="flex flex-col items-center h-full min-h-fit w-full pt-16 overflow-x-hidden dark:bg-dark-svg bg-light-svg">
+          <div className="flex flex-col items-center gap-14 max-w-3xl h-[calc(100vh-4rem)] pt-14">
             <h1 className="text-3xl sm:text-5xl font-bold dark:text-white text-center">
               The investment tracker you have been waiting for
             </h1>
@@ -27,7 +27,7 @@ export default async function MainPage() {
             </Link>
           </div>
         </main>
-      )}
+
     </>
   );
 }
