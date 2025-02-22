@@ -1,6 +1,6 @@
 import { Button } from "@/components/Button";
 import { Header } from "@/components/Header";
-import { getCurrentUser } from "@/auth-actions/getCurrentUser";
+// import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 import Link from "next/link";
 import { CommonMainLayout } from "@/components/CommonMainLayout";
 
