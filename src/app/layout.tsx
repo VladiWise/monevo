@@ -20,16 +20,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <Head>
-        <meta
-          name="theme-color"
-          content="#ffffff"
-          media="(prefers-color-scheme: light)"
-        />
-        <meta
-          name="theme-color"
-          content="#222222"
-          media="(prefers-color-scheme: dark)"
-        />
+        <meta name="theme-color" content="#0b0c0f" />
       </Head>
       <body
         className={`${inter.className} antialiased bg-lightMain dark:bg-darkMain`}
