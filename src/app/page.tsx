@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CommonMainLayout } from "@/components/CommonMainLayout";
 
 export default async function MainPage() {
-  const user = await getCurrentUser();
+  // const user = await getCurrentUser();
 
   return (
     <>
