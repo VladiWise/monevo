@@ -43,20 +43,21 @@ export async function Header() {
       )}
       {user && (
         <section className="flex items-center gap-2">
-          <div className="flex items-center h-full">
-            {user.image ? (
-              <Image
-                src={user?.image}
-                alt={"user"}
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
-            ) : (
-              <FaCircleUser size={40} fill="#6b7280" />
-            )}
-          </div>
-
+          <Link href="/client/settings">
+            <div className="flex items-center h-full">
+              {user.image ? (
+                <Image
+                  src={user?.image}
+                  alt={"user"}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+              ) : (
+                <FaCircleUser size={40} fill="#6b7280" />
+              )}
+            </div>
+          </Link>
 
           <form
             className="hidden sm:flex"

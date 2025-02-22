@@ -4,7 +4,7 @@ import "./globals.css";
 import { Notifications } from "@/components/Notifications";
 import { Providers } from "./providers";
 import { Inter } from "next/font/google";
-
+import Head from "next/head";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,6 +19,18 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <Head>
+        <meta
+          name="theme-color"
+          content="#ffffff"
+          media="(prefers-color-scheme: light)"
+        />
+        <meta
+          name="theme-color"
+          content="#222222"
+          media="(prefers-color-scheme: dark)"
+        />
+      </Head>
       <body
         className={`${inter.className} antialiased bg-lightMain dark:bg-darkMain`}
       >

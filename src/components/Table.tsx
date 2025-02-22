@@ -43,7 +43,7 @@ export function Table({
         {data?.map((item, rowIndex) => (
           <tr
             key={rowIndex}
-            className="bg-white even:bg-gray-100 text-darkMain dark:text-lightMain dark:bg-darkMain dark:even:bg-darkMain/30"
+            className="bg-white even:bg-gray-100 text-darkMain dark:text-lightMain dark:bg-darkMain/30 dark:even:bg-darkMain"
           >
             {columns?.map((column, colIndex) => (
               <td key={colIndex} className="py-1 pl-3 pr-0">
