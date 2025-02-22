@@ -1,6 +1,4 @@
 import { Button } from "@/components/Button";
-import { Navbar } from "@/components/Navbar";
-import { Header } from "@/components/Header";
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 import Image from "next/image";
 import { redirect } from "next/navigation";
