@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'An awesome invetment tracker',
     start_url: '/',
     display: 'standalone',
-    background_color: '#ffffff',
-    theme_color: '#000000',
+    background_color: 'red',
+    theme_color: 'green',
     icons: [
       {
         src: '/icon-192x192.png',
