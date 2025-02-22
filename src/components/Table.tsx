@@ -21,22 +21,19 @@ export function Table({
   ...props
 }: TableProps) {
   return (
-    <table
-      className={clsx("w-full", className)}
-      {...props}
-    >
+    <table className={clsx("w-full", className)} {...props}>
       <thead className="sticky top-0 z-10 ">
-        <tr className="bg-white even:bg-gray-100 z-10">
+        <tr className=" z-10">
           {columns?.map((column, index) => (
             <th
               key={index}
-              className=" bg-gray-200 py-2 pl-3 pr-2 top-0 z-10 text-left text-gray-500 text-sm"
+              className=" bg-gray-200 dark:bg-darkMain py-2 pl-3 pr-2 top-0 z-10 text-left text-gray-500 dark:text-darkGray text-sm"
             >
               {column.title}
             </th>
           ))}
           {actions && (
-            <th className=" bg-gray-200 py-2 pl-3 pr-2 top-0 z-10 text-left text-gray-500 text-sm">
+            <th className=" bg-gray-200 dark:bg-darkMain py-2 pl-3 pr-2 top-0 z-10 text-left text-gray-500 dark:text-darkGray text-sm">
               Actions
             </th>
           )}
@@ -46,7 +43,7 @@ export function Table({
         {data?.map((item, rowIndex) => (
           <tr
             key={rowIndex}
-            className="bg-white even:bg-gray-100 text-gray-800 "
+            className="bg-white even:bg-gray-100 text-darkMain dark:text-lightMain dark:bg-darkMain dark:even:bg-darkMain/30"
           >
             {columns?.map((column, colIndex) => (
               <td key={colIndex} className="py-1 pl-3 pr-0">

@@ -17,7 +17,7 @@ export async function Header() {
       <section className="flex items-center gap-14 w-full sm:w-auto">
         <section className="flex items-center gap-2 w-full justify-center sm:w-auto sm:justify-normal">
           <LogoIcon size={39} />
-          <p className="text-2xl font-bold text-primary dark:text-white">
+          <p className="text-2xl font-bold text-primary dark:text-white ">
             MONEVO
           </p>
           <ThemeSwitch />
@@ -57,7 +57,9 @@ export async function Header() {
             )}
           </div>
 
+
           <form
+            className="hidden sm:flex"
             action={async () => {
               "use server";
 

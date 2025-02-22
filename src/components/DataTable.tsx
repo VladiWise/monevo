@@ -33,7 +33,7 @@ export async function DataTable({
 }: DataTableProps) {
   return (
     <MainContainer>
-      <h1 className="text-2xl font-bold text-gray-800 w-full">{title}</h1>
+      <h1 className="text-2xl font-bold text-darkMain dark:text-white w-full">{title}</h1>
       <AssetFormSection
         serverItems={serverItems}
         getServerBody={getEtfServerBody}

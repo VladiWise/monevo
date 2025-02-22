@@ -25,7 +25,7 @@ const variants = {
     "bg-darkMain hover:bg-darkMain/80 active:bg-darkMain hover-none:active:bg-darkMain/70 text-white",
   simple:
     "bg-gray-100 hover:bg-gray-100/80 active:bg-gray-100 hover-none:active:bg-gray-100/70 text-gray-800",
-  link: "hover:underline underline-offset-2 text-darkMain dark:text-white hover:text-darkMain/80 dark:hover:text-gray-100/90 active:text-black",
+  link: "hover:underline underline-offset-2 text-darkMain dark:text-white hover:text-darkMain/80 dark:hover:text-white/80 active:text-black",
   whiteLink:
     "hover:underline underline-offset-2 text-white hover:text-gray-200 active:text-white",
 };
