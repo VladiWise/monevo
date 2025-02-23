@@ -45,24 +45,32 @@ export async function PUT(request: NextRequest) {
 
 
   async function updateMoexInfo(assets: any[], fetchMoexInfo: any, Model: any) {
-    assets.forEach(async (asset) => {
+    try {
+      assets.forEach(async (asset) => {
 
-      const moexJson = await fetchMoexInfo(asset.ticker)
+        const moexJson = await fetchMoexInfo(asset.ticker)
 
 
-      const price = Model !== Bond ? await getDataByField(moexJson, "price") : ((await getDataByField(moexJson, "price")) *
-        (await getDataByField(moexJson, "nominal")) *
-        (await fetchCurrencyValue(
-          await getDataByField(moexJson, "currency")
-        ))) /
-        100 +
-        (await getDataByField(moexJson, "coupon"))
+        const price = Model !== Bond ? await getDataByField(moexJson, "price") : ((await getDataByField(moexJson, "price")) *
+          (await getDataByField(moexJson, "nominal")) *
+          (await fetchCurrencyValue(
+            await getDataByField(moexJson, "currency")
+          ))) /
+          100 +
+          (await getDataByField(moexJson, "coupon"))
 
-      // console.log("asset::::::::::::::::::::", asset.ticker, price);
+        // console.log("asset::::::::::::::::::::", asset.ticker, price);
 
-      await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
-      await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.totalAmount) });
-    });
+        await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
+        await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.totalAmount) });
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return { error: error.message };
+      }
+      throw error;
+    }
+
   }
 
 

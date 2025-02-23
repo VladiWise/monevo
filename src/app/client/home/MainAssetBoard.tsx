@@ -24,11 +24,13 @@ export function MainAssetBoard({
 
   function sumAssets(currency: string) {
     const prevSum =
-      totalPrev.total.assets.bonds + totalPrev.total.assets.stocks;
+      totalPrev?.total?.assets?.bonds + totalPrev?.total?.assets?.stocks;
 
-    const diff = data.bonds + data.stocks - prevSum;
+    const diff = data?.bonds + data?.stocks - prevSum;
     const times =
-      prevSum === 0 ? 0 : roundToTwoDecimals((diff / prevSum) * 100);
+      prevSum === 0 || !prevSum
+        ? 0
+        : roundToTwoDecimals((diff / prevSum) * 100);
 
     const formattedStringRub = `${formatNumberWithSpaces(diff)}  ₽ | ${times}%`;
     const formattedStringUsd = `${formatNumberWithSpaces(
