@@ -4,6 +4,7 @@ import Fund from "@/models/fund";
 import Bond from "@/models/bond";
 import FundB from "@/models/fundB";
 import Stock from "@/models/stock";
+import Total from "@/models/main-total";
 
 import { NextResponse, NextRequest } from "next/server";
 import { fetchCurrencyValue } from "@/services/CurrencyService";
@@ -46,9 +47,6 @@ export async function PUT(request: NextRequest) {
   async function updateMoexInfo(assets: any[], fetchMoexInfo: any, Model: any) {
     assets.forEach(async (asset) => {
 
-
-
-
       const moexJson = await fetchMoexInfo(asset.ticker)
 
 
@@ -60,8 +58,7 @@ export async function PUT(request: NextRequest) {
         100 +
         (await getDataByField(moexJson, "coupon"))
 
-
-      console.log("asset::::::::::::::::::::", asset.ticker, price);
+      // console.log("asset::::::::::::::::::::", asset.ticker, price);
 
       await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
       await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.totalAmount) });
@@ -86,6 +83,25 @@ export async function PUT(request: NextRequest) {
 
 
     return NextResponse.json({ message: "Data updated successfully" }, { status: 200 });
+
+  } else {
+    return NextResponse.json({ message: "User ID not provided" }, { status: 400 });
+  }
+}
+
+
+export async function POST(request: NextRequest) {
+  await connectMongoDB();
+
+  if (request.nextUrl.searchParams.get("userId")) {
+
+    const { bonds, stocks } = await request.json();
+
+    const userId = request.nextUrl.searchParams.get("userId");
+
+    Total.create({ userId, assets: { bonds, stocks } });
+
+    return NextResponse.json({ message: "Data created successfully" }, { status: 200 });
 
   } else {
     return NextResponse.json({ message: "User ID not provided" }, { status: 400 });

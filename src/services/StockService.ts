@@ -60,7 +60,7 @@ export async function updateAccounts(id: string, body: any) {
 export async function remove(id: string) {
   try {
     const data = await api.delete(`/${PATH_POINT}/?id=${id}`);
-    revalidatePath("/");
+    // revalidatePath("/client/dashboard");
     return data;
   } catch (error) {
     console.error(`Error deleting ${NAME} with ID ${id}:`, error);

@@ -2,6 +2,7 @@
 
 import { useNotification } from "@/store/useNotification";
 import { HiOutlineTrash } from "react-icons/hi";
+import { useRouter } from "next/navigation";
 
 type DelButtonProps = {
   id: string;
@@ -10,7 +11,7 @@ type DelButtonProps = {
 
 export function DeleteButton({ id, removeItem }: DelButtonProps) {
   const notification = useNotification();
-
+  const router = useRouter();
   async function handleRemove(id: string) {
     const removeAnswer = confirm(`Remove ${id}?`);
 
@@ -22,6 +23,7 @@ export function DeleteButton({ id, removeItem }: DelButtonProps) {
         success: "Data successfully deleted!",
         error: "Failed to delete data.",
       })
+      .then(() => router.refresh())
       .catch(() => {});
   }
 

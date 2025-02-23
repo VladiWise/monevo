@@ -21,6 +21,8 @@ export function UpdateMoexButton({ userId }: { userId: string | undefined }) {
   }
 
   return (
-    <Button onClick={() => handleUpdateMoexInfoByUserId(userId)}>CLICK</Button>
+    <Button variant="link" onClick={() => handleUpdateMoexInfoByUserId(userId)}>
+      Refresh
+    </Button>
   );
 }

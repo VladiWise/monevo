@@ -5,7 +5,7 @@ import { Button } from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
-
+import { useNotification } from "@/store/useNotification";
 type ServerItem = {
   _id: string;
   ticker: string;
@@ -14,12 +14,6 @@ type ServerItem = {
   currency: string;
   userId: string;
 };
-
-// type Service = {
-//   getMoex: (ticker: string) => Promise<any>;
-//   createItem: (data: any) => Promise<any>;
-//   updateAccounts: (id: string, data: any) => Promise<any>;
-// };
 
 type BankAccounts = {
   _id: string;
@@ -41,10 +35,10 @@ export default function AssetFormSection({
   buttonName?: string;
 }) {
   const router = useRouter();
-
+  const notification = useNotification();
   const form = useForm({});
 
-  async function onSubmit(data: any) {
+  async function handleOnSubmit(data: any) {
     try {
       form.reset();
 
@@ -64,8 +58,6 @@ export default function AssetFormSection({
 
       const currentUser = await getCurrentUser();
 
-      console.log("CURRENT_USER::::::::::::::::::", currentUser);
-
       const serverBody = await getServerBody(
         serverItem,
         formattedData,
@@ -82,6 +74,16 @@ export default function AssetFormSection({
       console.error(error);
       throw error;
     }
+  }
+
+  async function onSubmit(data: any) {
+    notification
+      .promise(handleOnSubmit(data), {
+        loading: "Fetching data...",
+        success: "Data successfully fetched!",
+        error: "Failed to fetch data.",
+      })
+      .catch(() => {});
   }
 
   return (
