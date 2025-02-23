@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { fetchStockETFInfo } from "@/services/MoexService";
 
 const bondSchema = new Schema(
   {

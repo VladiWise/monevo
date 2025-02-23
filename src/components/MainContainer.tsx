@@ -14,7 +14,7 @@ export function MainContainer({
   return (
     <section
       className={clsx(
-        "flex flex-col gap-3 p-4 w-full rounded-2xl bg-white dark:bg-[#1D202A]",
+        "flex flex-col gap-3 p-4 w-full rounded-2xl bg-white dark:bg-darkMainGray",
         className,
         border ? "border-2" : ""
       )}

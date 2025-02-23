@@ -19,7 +19,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} antialiased bg-lightMain dark:bg-darkMain`}
+        className={`${inter.className} antialiased bg-lightMain dark:bg-darkMain text-darkMain dark:text-white`}
       >
         <Providers>
           <Notifications />
