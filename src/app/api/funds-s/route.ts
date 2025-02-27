@@ -1,10 +1,10 @@
 import connectMongoDB from "@/libs/mongodb";
-import FundB from "@/models/fundB";
+import Fund from "@/models/fundS";
 import { NextResponse, NextRequest } from "next/server";
 
 import { roundToTwoDecimals } from "@/utils/mathUtils";
 
-const MODEL = FundB
+const MODEL = Fund
 
 export async function GET(request: NextRequest) {
   await connectMongoDB();

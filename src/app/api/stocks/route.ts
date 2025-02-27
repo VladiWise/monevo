@@ -4,83 +4,89 @@ import { NextResponse, NextRequest } from "next/server";
 
 import { roundToTwoDecimals } from "@/utils/mathUtils";
 
+const MODEL = Stock
+
 export async function GET(request: NextRequest) {
   await connectMongoDB();
+  const userId = request.nextUrl.searchParams.get("userId");
+  const brokerId = request.nextUrl.searchParams.get("brokerId");
 
+  if (userId && brokerId) {
 
-  if (request.nextUrl.searchParams.get("userId")) {
-    const userId = request.nextUrl.searchParams.get("userId");
+    const items = await MODEL.find({ userId, brokerId });
 
-    const funds = await Stock.find({ userId });
-
-    return NextResponse.json(funds, { status: 200 });
+    return NextResponse.json(items, { status: 200 });
   } else if (request.nextUrl.searchParams.get("id")) {
     const id = request.nextUrl.searchParams.get("id");
 
-    const fund = await Stock.findById(id);
+    const item = await MODEL.findById(id);
 
-    return NextResponse.json(fund, { status: 200 });
+    return NextResponse.json(item, { status: 200 });
   } else {
-    const funds = await Stock.find();
-    return NextResponse.json(funds, { status: 200 });
+    return NextResponse.json({ message: "User ID not provided or ID not provided" }, { status: 400 });
   }
 
 
 }
 export async function POST(request: NextRequest) {
   const userId = request.nextUrl.searchParams.get("userId");
+  const brokerId = request.nextUrl.searchParams.get("brokerId");
+
+  if (userId && brokerId) {
+
+    const { name, ticker, currency, amount, price } =
+      await request.json();
+
+    await connectMongoDB();
 
 
-  const { accountId, name, ticker, currency, amount, price } =
-    await request.json();
+    const existingItem = await MODEL.findOne({ userId, brokerId, ticker });
 
-  await connectMongoDB();
+    if (existingItem) {
+      if (existingItem.amount + amount < 0) {
+        return NextResponse.json(
+          { message: "Amount must be positive" },
+          { status: 400 }
+        );
+      } else if (existingItem.amount + amount === 0) {
+        await existingItem.deleteOne();
+        return NextResponse.json(
+          { message: "Deleted successfully" },
+          { status: 200 }
+        );
+      }
+    }
 
-  if (amount < 0) {
+    if (existingItem) {
+      existingItem.amount += amount;
+      existingItem.total += roundToTwoDecimals(price * amount);
+      await existingItem.save();
+      return NextResponse.json(
+        { message: "Updated successfully" },
+        { status: 200 }
+      );
+    }
+
+    await MODEL.create({
+      userId,
+      brokerId,
+      name,
+      ticker,
+      currency,
+      price,
+      total: roundToTwoDecimals(price * amount),
+      amount,
+    });
+
     return NextResponse.json(
-      { message: "Amount must be positive" },
-      { status: 400 }
+      { message: "Created successfully" },
+      { status: 201 }
     );
+
+  } else {
+    return NextResponse.json({ message: "User ID not provided or ID not provided" }, { status: 400 });
   }
 
-  await Stock.create({
-    userId,
-    name,
-    ticker,
-    currency,
-    bankAccounts: [{ id: accountId, amount }],
-    price,
-    total: roundToTwoDecimals(price * amount),
-    totalAmount: amount,
-  });
-
-  return NextResponse.json(
-    { message: "Stock created successfully" },
-    { status: 201 }
-  );
-}
-
-export async function PUT(request: NextRequest) {
-  const id = request.nextUrl.searchParams.get("id");
-
-  const { accountId, name, ticker, currency, amount, price, total } = await request.json();
-
-  await connectMongoDB();
-
-  await Stock.findByIdAndUpdate(id, {
-    accountId,
-    name,
-    ticker,
-    currency,
-    amount,
-    price,
-    total,
-  });
-
-  return NextResponse.json(
-    { message: "Stock updated successfully" },
-    { status: 200 }
-  );
 }
 
 
@@ -89,53 +95,11 @@ export async function DELETE(request: NextRequest) {
 
   await connectMongoDB();
 
-  await Stock.findByIdAndDelete(id);
+  await MODEL.findByIdAndDelete(id);
 
   return NextResponse.json(
-    { message: "Stock deleted successfully" },
+    { message: "Deleted successfully" },
     { status: 200 }
   );
 }
 
-export async function PATCH(
-  request: NextRequest
-) {
-  await connectMongoDB();
-  const { accountId, amount, price } = await request.json(); // Получаем accountId и amount из тела запроса
-
-  try {
-
-    const id = request.nextUrl.searchParams.get("id");
-    const fund = await Stock.findById(id);
-
-    if (!fund) {
-      return NextResponse.json({ message: "Stock not found" }, { status: 404 });
-    }
-
-    const accountIndex = fund.bankAccounts.findIndex(
-      (bankAccount: { id: string }) => bankAccount.id === accountId
-    );
-
-    if (accountIndex !== -1) {
-      fund.bankAccounts[accountIndex].amount =
-        fund.bankAccounts[accountIndex].amount + amount;
-    } else {
-      fund.bankAccounts.push({ id: accountId, amount });
-    }
-
-    fund.price = roundToTwoDecimals(price);
-
-    fund.totalAmount += amount;
-    fund.total = roundToTwoDecimals(fund.totalAmount * price);
-
-    await fund.save();
-
-    return NextResponse.json({ message: "BankAccounts updated successfully" });
-  } catch (error) {
-    console.error("Error updating bankAccount:", error);
-    return NextResponse.json(
-      { message: "Error updating bankAccount", error },
-      { status: 500 }
-    );
-  }
-}

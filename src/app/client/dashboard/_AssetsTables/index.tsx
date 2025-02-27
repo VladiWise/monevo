@@ -9,12 +9,18 @@ import { Loader } from "@/components/Loader";
 import { MainContainer } from "@/components/MainContainer";
 
 export default async function AssetsTables() {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  const bankAccounts = await accountService.getList();
+  // const bankAccounts = await accountService.getList();
 
   return (
-    <>
-      <Suspense
+
+
+
+
+
+
+
+
+      {/* <Suspense
         fallback={
           <MainContainer>
             <Loader size="8" />
@@ -67,20 +73,8 @@ export default async function AssetsTables() {
           findAmountById={findAmountById}
           getDataByField={getDataByField}
         />
-      </Suspense>
-    </>
+      </Suspense> */}
+
   );
 
-  function findAmountById(item: any, accountId: string) {
-    let amount = 0;
-
-    item.bankAccounts.forEach((bankAccount: any) => {
-      if (bankAccount.id === accountId) {
-        amount = bankAccount.amount;
-        return bankAccount.amount;
-      }
-    });
-
-    return amount;
-  }
 }

@@ -1,6 +1,6 @@
 import connectMongoDB from "@/libs/mongodb";
 
-import Fund from "@/models/fund";
+import Fund from "@/models/fundS";
 import Bond from "@/models/bond";
 import FundB from "@/models/fundB";
 import Stock from "@/models/stock";

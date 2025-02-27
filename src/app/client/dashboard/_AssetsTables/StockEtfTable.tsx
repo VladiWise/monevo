@@ -1,7 +1,7 @@
 import { fetchStockETFInfo } from "@/services/MoexService";
 import { type MoexJson } from "@/utils/moexInfo";
 import { getLocalDateByISO } from "@/utils/dataFormat";
-import * as fundService from "@/services/FundService";
+import * as fundService from "@/services/FundSService";
 
 import { DataTable } from "@/components/DataTable";
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";

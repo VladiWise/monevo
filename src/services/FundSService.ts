@@ -3,8 +3,8 @@
 import api from "@/libs/fetch";
 import { revalidatePath } from "next/cache";
 
-const PATH_POINT = "bonds";
-const NAME = "bond";
+const PATH_POINT = "funds-s";
+const NAME = "fund";
 
 export async function getList(userId: string | undefined, brokerId: string | undefined) {
   try {
