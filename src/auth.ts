@@ -30,42 +30,37 @@ export const {
   },
   callbacks: {
 
-    async signIn({ user, account }) {
-      await connectMongoDB();
+    // async signIn({ user, account }) {
+    //   await connectMongoDB();
 
-      // // Allow OAuth without email verification
-      // if (account?.provider !== "credentials") return true;
+    //   // // Allow OAuth without email verification
+    //   // if (account?.provider !== "credentials") return true;
 
-      const existingUser = await getUserByEmail(user.email);
+    //   const existingUser = await getUserByEmail(user.email);
 
-      if (!existingUser) return false;
-
-
-      // // Prevent sign in if email is not verified
-      // if(!existingUser?.emailVerified) return false
+    //   if (!existingUser) return false;
 
 
+    //   // // Prevent sign in if email is not verified
+    //   // if(!existingUser?.emailVerified) return false
 
-      return true;
-    },
+
+
+    //   return true;
+    // },
 
 
     async session({ session }) {
-      // try {
 
-      // } catch (error) {
 
-      // }
       const user = await getUserByEmail(session.user.email);
 
 
-      if (!user) {
-        await signOut({ redirectTo: "/" });
-      }
-
-
       session.user.id = user._id;
-
+      if (!user || !user._id) {
+        console.error("User not found or _id is null, clearing session.");
+        throw new Error("User session invalid, logging out"); // This forces logout
+      }
 
       return session;
     },
