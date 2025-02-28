@@ -30,26 +30,32 @@ export const {
   },
   callbacks: {
 
-    // async signIn({ user, account }) {
-    // await connectMongoDB();
+    async signIn({ user, account }) {
+      await connectMongoDB();
 
-    //Allow OAuth without email verification
-    // if (account?.provider !== "credentials") return true;
+      // // Allow OAuth without email verification
+      // if (account?.provider !== "credentials") return true;
 
-    // const existingUser = await getUserByEmail(user.email);
+      const existingUser = await getUserByEmail(user.email);
 
-
-    //Prevent sign in if email is not verified
-    // if(!existingUser?.emailVerified) return false
-
-    //TODO: check if email is verified
+      if (!existingUser) return false;
 
 
-    //   return true;
-    // },
+      // // Prevent sign in if email is not verified
+      // if(!existingUser?.emailVerified) return false
+
+
+
+      return true;
+    },
 
 
     async session({ session }) {
+      // try {
+
+      // } catch (error) {
+
+      // }
       const user = await getUserByEmail(session.user.email);
       session.user.id = user._id;
       return session;
