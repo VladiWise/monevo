@@ -53,14 +53,7 @@ export const {
 
     async session({ session }) {
 
-
       const user = await getUserByEmail(session.user.email);
-
-
-      if (!user || !user._id) {
-        await api.get("/auth/logout")
-        // throw new Error("User session invalid, logging out"); // This forces logout
-      }
 
 
       session.user.id = user._id;
