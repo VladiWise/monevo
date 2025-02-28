@@ -62,7 +62,7 @@ export async function PUT(request: NextRequest) {
         // console.log("asset::::::::::::::::::::", asset.ticker, price);
 
         await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
-        await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.totalAmount) });
+        await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
       });
     } catch (error: unknown) {
       if (error instanceof Error) {

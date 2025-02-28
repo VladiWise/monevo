@@ -5,6 +5,7 @@ import { UpdateMoexButton } from "./UpdateMoexButton";
 import { Button } from "@/components/Button";
 import { CgArrowsExchangeV } from "react-icons/cg";
 import { roundToTwoDecimals } from "@/utils/mathUtils";
+import { useNotification } from "@/store/useNotification";
 import * as totalService from "@/services/TotalService";
 
 import { useState } from "react";
@@ -21,6 +22,8 @@ export function MainAssetBoard({
   usdValue: number;
 }) {
   const [currency, setCurrency] = useState<string>("RUB");
+
+  const notification = useNotification();
 
   function sumAssets(currency: string) {
     const prevSum =
@@ -78,7 +81,21 @@ export function MainAssetBoard({
           {currency === "RUB" ? "in USD" : "in RUB"}
         </Button>
       </section>
-      <Button variant="link" onClick={() => totalService.create(data, userId)}>
+      <Button
+        variant="link"
+        onClick={() =>
+          notification
+            .promise(totalService.create(data, userId), {
+              loading: "Updating data...",
+              success: "Data successfully updated",
+              error: "Failed to update data.",
+            })
+
+            .catch((error) => {
+              notification.add(error.message, "error", 6000);
+            })
+        }
+      >
         Record data
       </Button>
     </MainContainer>

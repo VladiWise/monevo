@@ -13,15 +13,22 @@ if (!API_KEY) {
 
 const handleRequest = async (url: string, options: RequestInit) => {
   "use server";
-  const response = await fetch(url, options);
+  try {
+    const response = await fetch(url, options);
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Something went wrong");
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Something went wrong");
+    }
+
+    const data = await response.json();
+    return data;
+
+  } catch (error) {
+    throw error;
   }
 
-  const data = await response.json();
-  return data;
+
 };
 
 const api = {

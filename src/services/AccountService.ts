@@ -47,15 +47,6 @@ export async function create(body: any, userId: string) {
 //   }
 // }
 
-// export async function updateAccounts(id: string, body: any) {
-//   try {
-//     const data = await api.patch(`/${PATH_POINT}?id=${id}`, body);
-//     return data;
-//   } catch (error) {
-//     console.error(`Error updating bankAccounts for ${NAME} with ID ${id}:`, error);
-//     throw error;
-//   }
-// }
 
 export async function remove(id: string) {
   try {

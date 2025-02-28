@@ -13,7 +13,7 @@ export function DeleteButton({ id, removeItem }: DelButtonProps) {
   const notification = useNotification();
   const router = useRouter();
   async function handleRemove(id: string) {
-    const removeAnswer = confirm(`Remove ${id}?`);
+    const removeAnswer = confirm(`You really wanna delete this item?`);
 
     if (!removeAnswer) return;
 
@@ -24,7 +24,9 @@ export function DeleteButton({ id, removeItem }: DelButtonProps) {
         error: "Failed to delete data.",
       })
       .then(() => router.refresh())
-      .catch(() => {});
+      .catch((err) => {
+        notification.add(err.message, "error", 6000);
+      });
   }
 
   return (
