@@ -56,11 +56,15 @@ export const {
       const user = await getUserByEmail(session.user.email);
 
 
-      session.user.id = user._id;
+
+
       if (!user || !user._id) {
         console.error("User not found or _id is null, clearing session.");
         throw new Error("User session invalid, logging out"); // This forces logout
       }
+
+
+      session.user.id = user._id;
 
       return session;
     },
