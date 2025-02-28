@@ -6,6 +6,7 @@ import connectMongoDB from "@/libs/mongodb";
 // import User from "@/models/user";
 import { getUserByEmail } from "./services/UserService";
 import { getUserById } from "./services/UserService";
+import api from "@/libs/fetch";
 
 export const {
   handlers: { GET, POST },
@@ -56,10 +57,8 @@ export const {
       const user = await getUserByEmail(session.user.email);
 
 
-
-
       if (!user || !user._id) {
-        console.error("User not found or _id is null, clearing session.");
+        await api.get("/auth/logout")
         throw new Error("User session invalid, logging out"); // This forces logout
       }
 
