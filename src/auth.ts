@@ -57,7 +57,16 @@ export const {
 
       // }
       const user = await getUserByEmail(session.user.email);
+
+
+      if (!user) {
+        await signOut({ redirectTo: "/" });
+      }
+
+
       session.user.id = user._id;
+
+
       return session;
     },
   },
