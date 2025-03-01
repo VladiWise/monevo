@@ -7,7 +7,7 @@ import Stock from "@/models/stock";
 import Total from "@/models/main-total";
 
 import { NextResponse, NextRequest } from "next/server";
-import { fetchCurrencyValue } from "@/services/CurrencyService";
+import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
 import { roundToTwoDecimals } from "@/utils/mathUtils";
 import { getDataByField } from "@/utils/moexInfo";
 import { fetchStockETFInfo, fetchBondInfo } from "@/services/MoexService";

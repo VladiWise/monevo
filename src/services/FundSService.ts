@@ -8,6 +8,7 @@ const NAME = "fund";
 
 export async function getList(userId: string | undefined, brokerId: string | undefined) {
   try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     const data = await api.get(`/${PATH_POINT}?userId=${userId}&brokerId=${brokerId}`);
     return data;
   } catch (error) {

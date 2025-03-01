@@ -11,6 +11,7 @@ import * as fundSService from "@/services/FundSService";
 import * as stockService from "@/services/StockService";
 import * as fundBService from "@/services/FundBService";
 import * as bondService from "@/services/BondService";
+import * as currencyService from "@/services/CurrencyService";
 type Account = {
   _id: string;
   shortName: string;
@@ -26,15 +27,26 @@ export function FormAssets({
   accounts,
   getFundEtfServerBody,
   getBondServerBody,
+  getCurrencyServerBody,
 }: {
   userId: string | undefined;
   accounts: Account[];
   getFundEtfServerBody: (data: any, moexJson: any) => Promise<any>;
   getBondServerBody: (data: any, moexJson: any) => Promise<any>;
+  getCurrencyServerBody: (data: any) => Promise<any>;
 }) {
   const router = useRouter();
   const notification = useNotification();
   const form = useForm({});
+
+  const CURRENCY = {
+    SUR: "Рубль",
+    USD: "Доллар США",
+    EUR: "Евро",
+    GBP: "Фунт стерлингов Соединенного королевства",
+    CNY: "Китайский юань",
+    KZT: "Казахтанский тенге",
+  };
 
   const type = form.watch("type") as AssType;
 
@@ -85,6 +97,11 @@ export function FormAssets({
           break;
 
         case "currency":
+
+          const currencyBody = await getCurrencyServerBody(data);
+
+          await currencyService.create(currencyBody, userId, data.brokerId);
+
           break;
 
         default:
@@ -119,7 +136,18 @@ export function FormAssets({
         <option value="currency">Currency</option>
       </Select>
 
-      <Input name="ticker" type="text" placeholder="Ticker" required />
+      {type === "currency" ? (
+        <Select name="currency" required>
+          {Object.keys(CURRENCY).map((currencyCode) => (
+            <option key={currencyCode} value={currencyCode}>
+              {CURRENCY[currencyCode as keyof typeof CURRENCY]}
+            </option>
+          ))}
+        </Select>
+      ) : (
+        <Input name="ticker" type="text" placeholder="Ticker" required />
+      )}
+
       <Input name="amount" type="text" placeholder="Amount" required />
 
       <Button type="submit">Create</Button>

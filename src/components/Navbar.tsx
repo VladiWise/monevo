@@ -86,7 +86,7 @@ export function Navbar() {
                   <span
                     className={clsx(
                       "text-lg font-semibold",
-                      isActive ? "text-primary" : `text-[#6b7280]`
+                      isActive ? "text-primary" : `text-darkGray`
                     )}
                   >
                     {link.label}

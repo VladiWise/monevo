@@ -2,18 +2,20 @@ import * as accountSevice from "@/services/AccountService";
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 import { FormAssets } from "./FormAssets";
 import { MainContainer } from "@/components/MainContainer";
-import { Table } from "@/components/Table";
-import { DeleteButton } from "@/components/DeleteButton";
 import { getLocalDateByISO } from "@/utils/dataFormat";
 import { roundToTwoDecimals } from "@/utils/mathUtils";
+import { CURRENCY } from "@/utils/moexInfo";
+import React, { Suspense } from "react";
+import { TableAssets } from "./TableAssets";
 
-import { fetchCurrencyValue } from "@/services/CurrencyService";
+import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
 import { type MoexJson } from "@/utils/moexInfo";
 import { getDataByField } from "@/utils/moexInfo";
 import * as fundSService from "@/services/FundSService";
 import * as stockService from "@/services/StockService";
 import * as fundBService from "@/services/FundBService";
 import * as bondService from "@/services/BondService";
+import * as currencyService from "@/services/CurrencyService";
 type Account = {
   _id: string;
   shortName: string;
@@ -48,6 +50,7 @@ const fundStockColumns = [
   {
     title: "price",
     name: "price",
+    getCellContent: (item: any) => roundToTwoDecimals(item.price),
   },
   {
     title: "amount",
@@ -87,6 +90,7 @@ const bondColumns = [
   {
     title: "Price",
     name: "price",
+    getCellContent: (item: any) => roundToTwoDecimals(item.price),
   },
 
   {
@@ -97,6 +101,42 @@ const bondColumns = [
   {
     title: "Mat date",
     name: "matDate",
+  },
+  {
+    title: "amount",
+    name: "amount",
+  },
+  {
+    title: "Total",
+    name: "total",
+    getCellContent: (item: any) => roundToTwoDecimals(item.total),
+  },
+];
+
+const currencyColumns = [
+  {
+    title: "Created",
+    name: "createdAt",
+    getCellContent: (item: any) => getLocalDateByISO(item.createdAt),
+  },
+  {
+    title: "Updated",
+    name: "updatedAt",
+    getCellContent: (item: any) => getLocalDateByISO(item.updatedAt),
+  },
+  {
+    title: "Name",
+    name: "name",
+  },
+  {
+    title: "Ticker",
+    name: "ticker",
+  },
+
+  {
+    title: "Price",
+    name: "price",
+    getCellContent: (item: any) => roundToTwoDecimals(item.price),
   },
   {
     title: "amount",
@@ -142,34 +182,42 @@ const getBondServerBody = async (data: any, moexJson: MoexJson) => {
   };
 };
 
-const TableAssets = ({
-  assets,
-  columns,
-  service,
-  children,
-}: {
-  assets: any[];
-  columns: any;
-  service: any;
-  children?: React.ReactNode;
-}) =>
-  assets.length > 0 && (
-    <>
-      <h1>{children}</h1>
-      <section className="overflow-x-auto">
-        <section className="min-w-max w-full max-h-96 overflow-auto rounded-xl">
-          <Table
-            data={assets}
-            actions={(item) => (
-              <DeleteButton id={item._id} removeItem={service.remove} />
-            )}
-            columns={columns}
-          />
-        </section>
-      </section>
-    </>
-  );
+const getCurrencyServerBody = async (data: any) => {
+  "use server";
+  return {
+    ticker: data.currency,
+    amount: +data.amount,
+    name: CURRENCY[data.currency as keyof typeof CURRENCY],
+    price: await fetchCurrencyValue(data.currency),
+  };
+};
 
+const Loading = () => (
+  <div className=" w-full">
+    <div className="flex animate-pulse space-x-4">
+      <div className="flex flex-col gap-4 py-1 w-full">
+        <div className="h-7 rounded bg-darkGray w-28"></div>
+
+        <div className="h-7 rounded bg-darkGray"></div>
+        <div className="space-y-3">
+          <div className="grid grid-cols-3 gap-4">
+            <div className="col-span-1 h-7 rounded bg-darkGray"></div>
+            <div className="col-span-2 h-7 rounded bg-darkGray"></div>
+          </div>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="col-span-2 h-7 rounded bg-darkGray"></div>
+            <div className="col-span-1 h-7 rounded bg-darkGray"></div>
+          </div>
+          <div className="h-7 rounded bg-darkGray"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const SuspenseLoading = ({ children }: { children: React.ReactNode }) => (
+  <Suspense fallback={<Loading />}>{children}</Suspense>
+);
 export default async function App() {
   const user = await getCurrentUser();
   const accounts = (await accountSevice.getList(user?.id)) as Account[];
@@ -183,67 +231,73 @@ export default async function App() {
           accounts={accounts}
           getFundEtfServerBody={getFundEtfServerBody}
           getBondServerBody={getBondServerBody}
+          getCurrencyServerBody={getCurrencyServerBody}
         />
       </MainContainer>
 
       {accounts.map(async (account) => {
-        const fundsS = (await fundSService.getList(
-          user?.id,
-          account._id
-        )) as any[];
-
-        const stocks = (await stockService.getList(
-          user?.id,
-          account._id
-        )) as any[];
-
-        const fundsB = (await fundBService.getList(
-          user?.id,
-          account._id
-        )) as any[];
-
-        const bonds = (await bondService.getList(
-          user?.id,
-          account._id
-        )) as any[];
-
         return (
           <MainContainer key={account._id}>
             <h1 className="text-xl font-bold text-darkMain dark:text-white w-full">
               {account.shortName}
             </h1>
 
-            <TableAssets
-              assets={fundsS}
-              columns={fundStockColumns}
-              service={fundSService}
-            >
-              ETF stocks
-            </TableAssets>
+            {/* <Loading /> */}
 
-            <TableAssets
-              assets={stocks}
-              columns={fundStockColumns}
-              service={stockService}
-            >
-              Stocks
-            </TableAssets>
+            <SuspenseLoading>
+              <TableAssets
+                userId={user?.id}
+                accountId={account._id}
+                columns={currencyColumns}
+                service={currencyService}
+              >
+                Currency
+              </TableAssets>
+            </SuspenseLoading>
 
-            <TableAssets
-              assets={fundsB}
-              columns={fundStockColumns}
-              service={fundBService}
-            >
-              ETF bonds
-            </TableAssets>
+            <SuspenseLoading>
+              <TableAssets
+                userId={user?.id}
+                accountId={account._id}
+                columns={fundStockColumns}
+                service={fundSService}
+              >
+                ETF stocks
+              </TableAssets>
+            </SuspenseLoading>
 
-            <TableAssets
-              assets={bonds}
-              columns={bondColumns}
-              service={bondService}
-            >
-              Bonds
-            </TableAssets>
+            <SuspenseLoading>
+              <TableAssets
+                userId={user?.id}
+                accountId={account._id}
+                columns={fundStockColumns}
+                service={stockService}
+              >
+                Stocks
+              </TableAssets>
+            </SuspenseLoading>
+
+            <SuspenseLoading>
+              <TableAssets
+                userId={user?.id}
+                accountId={account._id}
+                columns={fundStockColumns}
+                service={fundBService}
+              >
+                ETF bonds
+              </TableAssets>
+            </SuspenseLoading>
+
+            <SuspenseLoading>
+              <TableAssets
+                userId={user?.id}
+                accountId={account._id}
+                columns={bondColumns}
+                service={bondService}
+              >
+                Bonds
+              </TableAssets>
+            </SuspenseLoading>
           </MainContainer>
         );
       })}
