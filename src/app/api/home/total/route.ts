@@ -35,11 +35,11 @@ export async function POST(request: NextRequest) {
 
   if (request.nextUrl.searchParams.get("userId")) {
 
-    const { bonds, stocks } = await request.json();
+    const data = await request.json();
 
     const userId = request.nextUrl.searchParams.get("userId");
 
-    Total.create({ userId, assets: { bonds, stocks } });
+    Total.create({ userId, assets: data });
 
     return NextResponse.json({ message: "Data created successfully" }, { status: 200 });
 

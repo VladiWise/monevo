@@ -4,7 +4,7 @@ import api from "@/libs/fetch";
 import { revalidatePath } from "next/cache";
 
 const PATH_POINT = "broker-accounts";
-const NAME = "bond";
+const NAME = "broker account";
 
 export async function getList(userId: string | undefined) {
   try {
@@ -29,6 +29,8 @@ export async function getList(userId: string | undefined) {
 
 export async function create(body: any, userId: string) {
   try {
+    revalidatePath("/client/assets-accounts")
+    // revalidatePath("/client/dashboard")
     const data = await api.post(`/${PATH_POINT}?userId=${userId}`, body);
     return data;
   } catch (error) {
@@ -39,6 +41,8 @@ export async function create(body: any, userId: string) {
 
 // export async function update(id: string, body: any) {
 //   try {
+// revalidatePath("/client/home")
+// revalidatePath("/client/dashboard")
 //     const data = await api.put(`/${PATH_POINT}?id=${id}`, body);
 //     return data;
 //   } catch (error) {
@@ -50,8 +54,9 @@ export async function create(body: any, userId: string) {
 
 export async function remove(id: string) {
   try {
+    revalidatePath("/client/assets-accounts")
+    // revalidatePath("/client/dashboard")
     const data = await api.delete(`/${PATH_POINT}/?id=${id}`);
-    // revalidatePath("/");
     return data;
   } catch (error) {
     console.error(`Error deleting ${NAME} with ID ${id}:`, error);

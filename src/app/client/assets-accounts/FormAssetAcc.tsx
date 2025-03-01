@@ -9,9 +9,11 @@ import { useNotification } from "@/store/useNotification";
 export function FormAssetAcc({
   createAcc,
   userId,
+  isIIS,
 }: {
   createAcc: any;
   userId: string | undefined;
+  isIIS?: boolean;
 }) {
   const router = useRouter();
   const notification = useNotification();
@@ -35,10 +37,10 @@ export function FormAssetAcc({
     >
       <Input name="shortName" type="text" placeholder="Short name" required />
       <Input name="fullName" type="text" placeholder="Full name" required />
-      <Select name="isIIS" required>
+{      isIIS && <Select name="isIIS" required>
         <option value="false">Not IIS</option>
         <option value="true">IIS</option>
-      </Select>
+      </Select>}
       <Button type="submit">Create</Button>
     </FormProvider>
   );

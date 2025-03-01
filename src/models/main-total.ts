@@ -5,6 +5,9 @@ const totalSchema = new Schema(
     assets: {
       bonds: { type: Number, required: true },
       stocks: { type: Number, required: true },
+      cashBroker: { type: Number, required: true },
+      deposit: { type: Number, required: true },
+      cashFree: { type: Number, required: true },
     },
 
     userId: {

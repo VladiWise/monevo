@@ -1,8 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
-const BankAccountSchema = new Schema({
+const BrokerAccountSchema = new Schema({
   shortName: { type: String, required: true },
   fullName: { type: String, required: true },
+  isIIS: { type: Boolean, required: true },
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -16,7 +17,7 @@ const BankAccountSchema = new Schema({
 
 );
 
-const BankAccounts =
-  mongoose.models.BankAccounts || mongoose.model("BankAccounts", BankAccountSchema);
+const BrokerAccounts =
+  mongoose.models.BrokerAccounts || mongoose.model("BrokerAccounts", BrokerAccountSchema);
 
-export default BankAccounts;
+export default BrokerAccounts;

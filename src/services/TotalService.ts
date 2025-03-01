@@ -29,8 +29,10 @@ export async function getByUserId(userId: string | undefined) {
 
 export async function create(body: any, userId: string | undefined) {
   try {
-    const data = await api.post(`/${PATH_POINT}?userId=${userId}`, body);
+
     revalidatePath("/client/home");
+    const data = await api.post(`/${PATH_POINT}?userId=${userId}`, body);
+
     return data;
   } catch (error) {
     console.error(`Error creating ${NAME}:`, error);

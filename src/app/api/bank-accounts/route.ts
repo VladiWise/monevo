@@ -1,9 +1,7 @@
 import connectMongoDB from "@/libs/mongodb";
-import BrokerAccount from "@/models/broker-account";
-import Bond from "@/models/bond";
-import FundB from "@/models/fundB";
-import FundS from "@/models/fundS";
-import Stock from "@/models/stock";
+import BankAccounts from "@/models/bank-account";
+import Deposit from "@/models/deposit";
+import CashFree from "@/models/cash-free";
 
 import { NextResponse, NextRequest } from "next/server";
 
@@ -15,7 +13,7 @@ export async function GET(request: NextRequest) {
   if (request.nextUrl.searchParams.get("userId")) {
     const userId = request.nextUrl.searchParams.get("userId");
 
-    const bankAccounts = await BrokerAccount.find({ userId });
+    const bankAccounts = await BankAccounts.find({ userId });
 
     return NextResponse.json(bankAccounts, { status: 200 });
   } else {
@@ -32,20 +30,19 @@ export async function POST(request: NextRequest) {
 
     await connectMongoDB();
 
-    await BrokerAccount.create({
+    await BankAccounts.create({
       shortName,
       fullName,
-      isIIS,
       userId
     });
 
     return NextResponse.json(
-      { message: "BrokerAccount created successfully" },
+      { message: "BankAccounts created successfully" },
       { status: 201 }
     );
   } catch (error) {
 
-    return NextResponse.json({ message: "Error creating BrokerAccount" }, { status: 500 });
+    return NextResponse.json({ message: "Error creating BankAccounts" }, { status: 500 });
 
   }
 
@@ -56,24 +53,23 @@ export async function DELETE(request: NextRequest) {
 
   await connectMongoDB();
 
-  const bonds = await Bond.find({ brokerId: id });
-  const stocks = await Stock.find({ brokerId: id });
-  const funds = await FundS.find({ brokerId: id });
-  const fundsB = await FundB.find({ brokerId: id });
+  // REWORK TO DEPOSITS
+  const deposits = await Deposit.find({ brokerId: id });
+  const cashFree = await CashFree.find({ brokerId: id });
 
 
 
-  if (bonds.length > 0 || stocks.length > 0 || funds.length > 0 || fundsB.length > 0) {
+  if (deposits.length > 0 || cashFree.length > 0) {
     return NextResponse.json(
       { message: "Broker account cannot be deleted because it has assets" },
       { status: 400 }
     )
   }
 
-  await BrokerAccount.findByIdAndDelete(id);
+  await BankAccounts.findByIdAndDelete(id);
 
   return NextResponse.json(
-    { message: "BrokerAccount deleted successfully" },
+    { message: "BankAccounts deleted successfully" },
     { status: 200 }
   );
 }

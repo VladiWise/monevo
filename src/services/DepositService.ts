@@ -3,8 +3,8 @@
 import api from "@/libs/fetch";
 import { revalidatePath } from "next/cache";
 
-const PATH_POINT = "funds-s";
-const NAME = "fund";
+const PATH_POINT = "deposits";
+const NAME = "deposit";
 
 export async function getList(userId: string | undefined, brokerId: string | undefined) {
   try {
@@ -17,11 +17,10 @@ export async function getList(userId: string | undefined, brokerId: string | und
 }
 
 export async function create(body: any, userId: string | undefined, brokerId: string | undefined) {
-  try {
-    console.log("body::::::::::::::::::::::::::::::::", body);
 
+  try {
     revalidatePath("/client/home")
-    revalidatePath("/client/dashboard")
+    revalidatePath("/client/cash")
     const data = await api.post(`/${PATH_POINT}?userId=${userId}&brokerId=${brokerId}`, body);
     return data;
   } catch (error) {
@@ -33,7 +32,7 @@ export async function create(body: any, userId: string | undefined, brokerId: st
 export async function remove(id: string) {
   try {
     revalidatePath("/client/home")
-    revalidatePath("/client/dashboard")
+    revalidatePath("/client/cash")
     const data = await api.delete(`/${PATH_POINT}/?id=${id}`);
     return data;
   } catch (error) {

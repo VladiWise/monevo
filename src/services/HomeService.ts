@@ -9,6 +9,7 @@ const PATH_POINT = "home";
 type Asset = {
   bonds: number;
   stocks: number;
+  cashBroker: number;
 };
 
 export async function getAssetsInfoByUserId(userId: string | undefined) {
@@ -24,8 +25,9 @@ export async function getAssetsInfoByUserId(userId: string | undefined) {
 
 export async function updateMoexInfoByUserId(userId: string | undefined) {
   try {
+    revalidatePath("/client/home")
+    revalidatePath("/client/dashboard")
     const data = await api.put(`/${PATH_POINT}?userId=${userId}`);
-    revalidatePath("/client/home");
     return data;
   } catch (error) {
     console.error(`Error fetching main client info with ID ${userId}:`, error);

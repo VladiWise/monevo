@@ -80,6 +80,7 @@ export function FormAssets({
           const moexETFStockJson = await fetchStockETFInfo(
             formattedData.ticker
           );
+
           const ETFStockBody = await getFundEtfServerBody(
             formattedData,
             moexETFStockJson
@@ -97,7 +98,6 @@ export function FormAssets({
           break;
 
         case "currency":
-
           const currencyBody = await getCurrencyServerBody(data);
 
           await currencyService.create(currencyBody, userId, data.brokerId);

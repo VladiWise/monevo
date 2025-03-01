@@ -40,6 +40,8 @@ const api = {
       headers: {
         "x-api-key": API_KEY,
       },
+
+      cache: "force-cache",
       ...customOptions, // Custom options override defaults
     };
 

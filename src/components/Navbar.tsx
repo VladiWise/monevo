@@ -35,14 +35,14 @@ const navLinks: NavLink[] = [
     icon: <BsFillBarChartFill size={ICON_SIZE} />,
   },
   {
-    href: "/client/services",
-    label: "Services",
-    icon: <IoIosBrowsers size={ICON_SIZE} />,
-  },
-  {
-    href: "/client/broker-accounts",
+    href: "/client/assets-accounts",
     label: "Accounts",
     icon: <FaImagePortrait size={ICON_SIZE} />,
+  },
+  {
+    href: "/client/cash",
+    label: "Cash",
+    icon: <IoIosBrowsers size={ICON_SIZE} />,
   },
   {
     href: "/client/dashboard",
