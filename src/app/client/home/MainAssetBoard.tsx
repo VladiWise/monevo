@@ -74,7 +74,10 @@ export function MainAssetBoard({
     <div className="flex items-center justify-between w-full">
       <span className="text-lg dark:text-white font-medium">{title}</span>
       <span className="text-lg dark:text-white font-bold">
-        {Math.round(data[category])}
+        {currency === "USD" &&
+          `${formatNumberWithSpaces(Math.round(data[category] / usdValue))} $`}
+        {currency === "RUB" &&
+          `${formatNumberWithSpaces(Math.round(data[category]))} ₽`}
       </span>
     </div>
   );
