@@ -90,7 +90,7 @@ export function FormAssets({
 
       {/* <Input name="matDate" type="date" placeholder="Mat date" required /> */}
 
-      <Input name="amount" type="text" placeholder="Amount" required />
+      <Input name="amount" type="number" placeholder="Amount" required />
 
       <Button type="submit">Create</Button>
     </FormProvider>

@@ -148,7 +148,7 @@ export function FormAssets({
         <Input name="ticker" type="text" placeholder="Ticker" required />
       )}
 
-      <Input name="amount" type="text" placeholder="Amount" required />
+      <Input name="amount" type="number" placeholder="Amount" required />
 
       <Button type="submit">Create</Button>
     </FormProvider>
