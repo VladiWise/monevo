@@ -4,6 +4,12 @@ interface MoexField {
   name?: string;
 }
 
+interface MoexFieldRequired {
+  title: string;
+  id: string;
+  name: string;
+}
+
 export const MOEX_INFO_NAME: Record<string, MoexField> = {
   total: { title: "Total" },
   amount: { title: "Amount" },
@@ -15,6 +21,7 @@ export const MOEX_INFO_NAME: Record<string, MoexField> = {
   ticker: { title: "Ticker", id: "securities", name: "TICKER" },
   currency: { title: "Currency", id: "securities", name: "FACEUNIT" },
   price: { title: "Price", id: "marketdata", name: "LAST" },
+  prevPrice: { title: "Prev Price", id: "securities", name: "PREVPRICE" },
   nominal: { title: "Nominal", id: "securities", name: "LOTVALUE" },
   coupon: { title: "Coupon", id: "securities", name: "ACCRUEDINT" },
   bondYield: { title: "Yield", id: "marketdata_yields", name: "EFFECTIVEYIELD" },
@@ -28,6 +35,8 @@ export interface MoexJson {
   };
 }
 
+
+
 export async function getDataByField(moexJson: MoexJson, fieldKey: keyof typeof MOEX_INFO_NAME) {
   "use server";
   const field = MOEX_INFO_NAME[fieldKey];
@@ -38,14 +47,24 @@ export async function getDataByField(moexJson: MoexJson, fieldKey: keyof typeof 
   if (index === -1) {
     throw new Error(`Field ${field.name} not found in columns`);
   }
+
+  if (fieldKey === "price") {
+    if (moexJson[field.id]?.data[0][index]) {
+      return moexJson[field.id].data[0][index]
+    } else {
+      const field = MOEX_INFO_NAME.prevPrice as MoexFieldRequired;
+      const index = moexJson[field.id].columns.indexOf(field.name);
+      return moexJson[field.id].data[0][index]
+    }
+  }
   return moexJson[field.id].data[0][index];
 }
 
-// const CURRENCY = {
-//     "SUR": "Рубль",
-//     "USD": "Доллар США",
-//     "EUR": "Евро",
-//     "GBP": "Фунт стерлингов Соединенного королевства",
-//     "CNY": "Китайский юань",
-//     "KZT": "Казахтанский тенге"
-// }
+export const CURRENCY = {
+  "SUR": "Рубль",
+  "USD": "Доллар США",
+  "EUR": "Евро",
+  "GBP": "Фунт стерлингов Соединенного королевства",
+  "CNY": "Китайский юань",
+  "KZT": "Казахтанский тенге"
+}

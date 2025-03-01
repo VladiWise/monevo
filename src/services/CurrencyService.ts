@@ -1,36 +1,42 @@
 "use server";
 
-interface Currency {
-  ID?: string;
-  NumCode?: string;
-  CharCode?: string;
-  Nominal?: number;
-  Name?: string;
-  Value: number;
-  Previous?: number;
-}
+import api from "@/libs/fetch";
+import { revalidatePath } from "next/cache";
 
-export async function fetchCurrencyValue(currencyCode: string) {
+const PATH_POINT = "currency";
+const NAME = "currency";
+
+export async function getList(userId: string | undefined, brokerId: string | undefined) {
   try {
-    const url = "https://www.cbr-xml-daily.ru/daily_json.js";
-    let foundCurrency: Currency | null = { Value: 1 };
-
-    const response = await fetch(url, {
-      next: { revalidate: 6 * 60 * 60 },
-    });
-    const currencies = await response.json();
-
-    Object.keys(currencies.Valute).forEach((key) => {
-      if (key === currencyCode) {
-        foundCurrency = currencies.Valute[key];
-      }
-    });
-
-    return foundCurrency.Value;
+    const data = await api.get(`/${PATH_POINT}?userId=${userId}&brokerId=${brokerId}`);
+    return data;
   } catch (error) {
-    console.error("Error fetching currency value:", error);
+    console.error(`Error fetching ${PATH_POINT}:`, error);
     throw error;
   }
+}
 
-};
+export async function create(body: any, userId: string | undefined, brokerId: string | undefined) {
 
+  try {
+    revalidatePath("/client/home")
+    revalidatePath("/client/dashboard")
+    const data = await api.post(`/${PATH_POINT}?userId=${userId}&brokerId=${brokerId}`, body);
+    return data;
+  } catch (error) {
+    console.error(`Error creating ${NAME}:`, error);
+    throw error;
+  }
+}
+
+export async function remove(id: string) {
+  try {
+    revalidatePath("/client/home")
+    revalidatePath("/client/dashboard")
+    const data = await api.delete(`/${PATH_POINT}/?id=${id}`);
+    return data;
+  } catch (error) {
+    console.error(`Error deleting ${NAME} with ID ${id}:`, error);
+    throw error;
+  }
+}

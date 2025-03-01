@@ -1,11 +1,11 @@
 import { Loader } from "@/components/Loader";
 
-function Loading() {
+export default async function Loading() {
   return (
-    <div className="h-full w-[20rem] flex items-center justify-center">
+    <div className="h-full w-full flex items-center justify-center">
       <Loader size="10" />
     </div>
   );
 }
 
-export default Loading;
+

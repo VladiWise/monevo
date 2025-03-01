@@ -1,0 +1,152 @@
+import connectMongoDB from "@/libs/mongodb";
+
+import Fund from "@/models/fundS";
+import Bond from "@/models/bond";
+import FundB from "@/models/fundB";
+import Stock from "@/models/stock";
+import Currency from "@/models/currency";
+
+import Deposit from "@/models/deposit";
+import CashFree from "@/models/cash-free";
+
+import Total from "@/models/main-total";
+
+import { NextResponse, NextRequest } from "next/server";
+import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
+import { roundToTwoDecimals } from "@/utils/mathUtils";
+import { getDataByField } from "@/utils/moexInfo";
+import { fetchStockETFInfo, fetchBondInfo } from "@/services/MoexService";
+
+
+export async function GET(request: NextRequest) {
+  await connectMongoDB();
+
+
+  if (request.nextUrl.searchParams.get("userId")) {
+
+    const userId = request.nextUrl.searchParams.get("userId");
+
+    const fundsS = await Fund.find({ userId });
+    const bonds = await Bond.find({ userId });
+    const fundsB = await FundB.find({ userId });
+    const stocks = await Stock.find({ userId });
+    const currency = await Currency.find({ userId });
+
+    const deposit = await Deposit.find({ userId });
+    const cashFree = await CashFree.find({ userId });
+
+
+    const sumFundS = fundsS.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+    const sumStock = stocks.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+    const sumcurrency = currency.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+    const sumBond = bonds.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+    const sumFundB = fundsB.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+
+    const sumDeposit = deposit.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+    const sumCashFree = cashFree.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+
+
+    return NextResponse.json({
+      bonds: sumBond + sumFundB,
+      stocks: sumStock + sumFundS,
+      cashBroker: sumcurrency,
+      cashFree: sumCashFree,
+      deposit: sumDeposit
+    }, { status: 200 });
+
+  } else {
+    return NextResponse.json({ message: "User ID not provided" }, { status: 400 });
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  await connectMongoDB();
+
+
+  async function updateMoexInfo(assets: any[], fetchMoexInfo: any, Model: any) {
+    try {
+      assets.forEach(async (asset) => {
+
+        if (Model === Currency) {
+          const price = await fetchMoexInfo(asset.ticker);
+          await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
+          await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
+
+        } else {
+          const moexJson = await fetchMoexInfo(asset.ticker)
+
+
+          const price = Model !== Bond ? await getDataByField(moexJson, "price") : ((await getDataByField(moexJson, "price")) *
+            (await getDataByField(moexJson, "nominal")) *
+            (await fetchCurrencyValue(
+              await getDataByField(moexJson, "currency")
+            ))) /
+            100 +
+            (await getDataByField(moexJson, "coupon"))
+
+
+          await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
+          await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
+
+        }
+
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return { error: error.message };
+      }
+      throw error;
+    }
+
+  }
+
+
+  if (request.nextUrl.searchParams.get("userId")) {
+
+    const userId = request.nextUrl.searchParams.get("userId");
+
+    const fundsS = await Fund.find({ userId });
+    const fundsB = await FundB.find({ userId });
+    const stocks = await Stock.find({ userId });
+    const bonds = await Bond.find({ userId });
+
+    const currency = await Currency.find({ userId });
+
+    const deposit = await Deposit.find({ userId });
+    const cashFree = await CashFree.find({ userId });
+
+    await updateMoexInfo(fundsS, fetchStockETFInfo, Fund);
+    await updateMoexInfo(fundsB, fetchStockETFInfo, FundB);
+    await updateMoexInfo(stocks, fetchStockETFInfo, Stock);
+    await updateMoexInfo(bonds, fetchBondInfo, Bond);
+
+    await updateMoexInfo(currency, fetchCurrencyValue, Currency);
+
+    await updateMoexInfo(deposit, fetchCurrencyValue, Deposit);
+    await updateMoexInfo(cashFree, fetchCurrencyValue, CashFree);
+
+    return NextResponse.json({ message: "Data updated successfully" }, { status: 200 });
+
+  } else {
+    return NextResponse.json({ message: "User ID not provided" }, { status: 400 });
+  }
+}
+
+
+export async function POST(request: NextRequest) {
+  await connectMongoDB();
+
+  if (request.nextUrl.searchParams.get("userId")) {
+
+    const data = await request.json();
+
+    const userId = request.nextUrl.searchParams.get("userId");
+
+    Total.create({ userId, assets: data });
+
+    return NextResponse.json({ message: "Data created successfully" }, { status: 200 });
+
+  } else {
+    return NextResponse.json({ message: "User ID not provided" }, { status: 400 });
+  }
+}

@@ -65,7 +65,7 @@ export function LoginForm() {
         onSubmit={onSubmit}
         className="flex flex-col gap-3"
       >
-        <section className="flex flex-col gap-1">
+        <section className="flex flex-col gap-1 text-darkGray">
           <label>Email</label>
           <Input name="email" disabled={isPending} />
           {errors.email && (
@@ -73,7 +73,7 @@ export function LoginForm() {
           )}
         </section>
 
-        <section className="flex flex-col gap-1">
+        <section className="flex flex-col gap-1 text-darkGray">
           <label>Password</label>
           <Input name="password" type="password" disabled={isPending} />
 
