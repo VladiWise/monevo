@@ -20,41 +20,29 @@ export const {
     error: "/auth/error",
   },
 
-  events: {
-    async linkAccount({ user }) {
-      connectMongoDB();
-      const ProviderUser = await getUserById(user.id);
-      ProviderUser.emailVerified = new Date();
-      await ProviderUser.save();
+  // events: {
+  //   async linkAccount({ user }) {
+  //     connectMongoDB();
+  //     const   = await getUserById(user.id);
+  //     ProviderUser.emailVerified = new Date();
+  //     await ProviderUser.save();
 
-    }
-  },
+  //   }
+  // },
   callbacks: {
 
-    // async signIn({ user, account }) {
-    //   await connectMongoDB();
-
-    //   // // Allow OAuth without email verification
-    //   // if (account?.provider !== "credentials") return true;
-
-    //   const existingUser = await getUserByEmail(user.email);
-
-    //   if (!existingUser) return false;
 
 
-    //   // // Prevent sign in if email is not verified
-    //   // if(!existingUser?.emailVerified) return false
-
-
-
-    //   return true;
-    // },
-
-
-    async session({ session }) {
+    async session({ session, token }) {
 
       const user = await getUserByEmail(session.user.email);
 
+      if (!user) {
+        if (token.sub) {
+          session.user.id = token.sub;
+        }
+        return session;
+      }
 
       session.user.id = user._id;
 

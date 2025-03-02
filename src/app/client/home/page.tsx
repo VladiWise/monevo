@@ -20,6 +20,8 @@ type Data = {
   deposit: number;
 };
 export default async function App() {
+
+
   const user = await getCurrentUser();
   const data = (await getAssetsInfoByUserId(user?.id)) as Data;
   const totalPrev = await totalService.getByUserId(user?.id);

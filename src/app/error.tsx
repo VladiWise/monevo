@@ -1,5 +1,7 @@
 "use client"; // Error boundaries must be Client Components
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 import { useEffect } from "react";
 export default function Error({
   error,
@@ -20,7 +22,16 @@ export default function Error({
         <button
           onClick={
             // Attempt to recover by trying to re-render the segment
-            () => reset()
+            async () => {
+              // const cookies = await fetch(`/api/logout`, {
+              //   method: "GET",
+              //   headers: {
+              //     "x-api-key": "c6uXEy4EJXE6tcCdKaNdSzPW3tHXO9pg",
+              //   },
+              // });
+              
+              reset();
+            }
           }
         >
           Try again

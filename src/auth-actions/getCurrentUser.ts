@@ -1,16 +1,10 @@
 "use server";
 
-import { auth, signOut } from "@/auth";
+import { auth } from "@/auth";
 
 
 export async function getCurrentUser() {
   const session = await auth();
 
-  if (!session?.user) {
-    await signOut({ redirectTo: "/" });
-    return null;
-  }
-
-
-  return session.user;
+  return session?.user;
 }
