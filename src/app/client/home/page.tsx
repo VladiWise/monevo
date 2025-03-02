@@ -30,7 +30,7 @@ export default async function App() {
   const usdValue = await fetchCurrencyValue("USD");
 
   return (
-    <div className="flex flex-col gap-10 sm:p-4 w-full h-full items-center text-sm font-light">
+    <div className="flex flex-col items-center gap-10 w-full ">
       <MainAssetBoard
         userId={user?.id}
         data={data}
