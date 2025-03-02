@@ -15,6 +15,7 @@ import { getDataByField } from "@/utils/moexInfo";
 
 import * as depositService from "@/services/DepositService";
 import * as cashFreeService from "@/services/CashFreeService";
+import * as loanService from "@/services/LoanService";
 type Account = {
   _id: string;
   shortName: string;
@@ -257,6 +258,17 @@ export default async function App() {
                 service={cashFreeService}
               >
                 Cash
+              </TableAssets>
+            </SuspenseLoading>
+
+            <SuspenseLoading>
+              <TableAssets
+                userId={user?.id}
+                accountId={account._id}
+                columns={currencyColumns}
+                service={loanService}
+              >
+                Loan
               </TableAssets>
             </SuspenseLoading>
 

@@ -8,15 +8,8 @@ import { roundToTwoDecimals } from "@/utils/mathUtils";
 import { useNotification } from "@/store/useNotification";
 import * as totalService from "@/services/TotalService";
 
+import { Data } from "@/app/client/home/page";
 import { useState } from "react";
-
-type Data = {
-  bonds: number;
-  stocks: number;
-  cashBroker: number;
-  cashFree: number;
-  deposit: number;
-};
 
 export function MainAssetBoard({
   userId,
@@ -38,13 +31,15 @@ export function MainAssetBoard({
     data?.stocks +
     data?.cashBroker +
     data?.deposit +
-    data?.cashFree;
+    data?.cashFree -
+    data?.loan;
   const prevSum =
     totalPrev?.total?.assets?.bonds +
     totalPrev?.total?.assets?.stocks +
     totalPrev?.total?.assets?.cashBroker +
     totalPrev?.total?.assets?.deposit +
-    totalPrev?.total?.assets?.cashFree;
+    totalPrev?.total?.assets?.cashFree -
+    totalPrev?.total?.assets?.loan;
 
   function sumAssets(currency: string) {
     const diff = currentSum - prevSum;
@@ -85,7 +80,7 @@ export function MainAssetBoard({
   return (
     <>
       <MainContainer className="max-w-96 items-center dark:text-white">
-        Total assets
+        Net assets
         <section className="h-32 flex flex-col items-center justify-center">
           <span className="text-2xl dark:text-white font-bold">
             {currency === "RUB" && `${formatNumberWithSpaces(currentSum)} ₽`}
@@ -141,6 +136,14 @@ export function MainAssetBoard({
           <CategorySection category="stocks" title="Stocks" />
           <CategorySection category="cashBroker" title="Cash broker" />
           <CategorySection category="cashFree" title="Cash free" />
+          <CategorySection category="loan" title="Loans" />
+        </section>
+      </MainContainer>
+
+      <MainContainer className="max-w-96 items-center dark:text-white">
+        Total assets
+        <section className="h-fit flex flex-col items-start justify-center w-full p-4">
+          {currentSum + data?.loan}
         </section>
       </MainContainer>
     </>

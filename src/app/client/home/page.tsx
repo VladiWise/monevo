@@ -12,12 +12,13 @@ import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
 import { MainAssetBoard } from "./MainAssetBoard";
 import * as totalService from "@/services/TotalService";
 
-type Data = {
+export type Data = {
   bonds: number;
   stocks: number;
   cashBroker: number;
   cashFree: number;
   deposit: number;
+  loan: number;
 };
 export default async function App() {
 

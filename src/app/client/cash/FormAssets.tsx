@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useNotification } from "@/store/useNotification";
 import * as depositService from "@/services/DepositService";
 import * as cashFreeService from "@/services/CashFreeService";
+import * as loanService from "@/services/LoanService";
 type Account = {
   _id: string;
   shortName: string;
@@ -50,8 +51,10 @@ export function FormAssets({
 
       if (type === "deposit") {
         await depositService.create(currencyBody, userId, data.brokerId);
-      } else {
+      } else if (type === "cashFree") {
         await cashFreeService.create(currencyBody, userId, data.brokerId);
+      } else if (type === "loan") {
+        await loanService.create(currencyBody, userId, data.brokerId);
       }
 
       router.refresh();
@@ -78,6 +81,8 @@ export function FormAssets({
         <option value="deposit">Deposit</option>
 
         <option value="cashFree">Cash</option>
+
+        <option value="loan">Loan</option>
       </Select>
 
       <Select name="currency" required>

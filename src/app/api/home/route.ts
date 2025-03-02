@@ -5,9 +5,9 @@ import Bond from "@/models/bond";
 import FundB from "@/models/fundB";
 import Stock from "@/models/stock";
 import Currency from "@/models/currency";
-
 import Deposit from "@/models/deposit";
 import CashFree from "@/models/cash-free";
+import Loan from "@/models/loan";
 
 import Total from "@/models/main-total";
 
@@ -31,9 +31,9 @@ export async function GET(request: NextRequest) {
     const fundsB = await FundB.find({ userId });
     const stocks = await Stock.find({ userId });
     const currency = await Currency.find({ userId });
-
     const deposit = await Deposit.find({ userId });
     const cashFree = await CashFree.find({ userId });
+    const loan = await Loan.find({ userId });
 
 
     const sumFundS = fundsS.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
@@ -41,9 +41,9 @@ export async function GET(request: NextRequest) {
     const sumcurrency = currency.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
     const sumBond = bonds.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
     const sumFundB = fundsB.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
-
     const sumDeposit = deposit.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
     const sumCashFree = cashFree.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+    const sumLoan = loan.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
 
 
     return NextResponse.json({
@@ -51,7 +51,8 @@ export async function GET(request: NextRequest) {
       stocks: sumStock + sumFundS,
       cashBroker: sumcurrency,
       cashFree: sumCashFree,
-      deposit: sumDeposit
+      deposit: sumDeposit,
+      loan: sumLoan
     }, { status: 200 });
 
   } else {
@@ -109,21 +110,21 @@ export async function PUT(request: NextRequest) {
     const fundsB = await FundB.find({ userId });
     const stocks = await Stock.find({ userId });
     const bonds = await Bond.find({ userId });
-
     const currency = await Currency.find({ userId });
-
     const deposit = await Deposit.find({ userId });
     const cashFree = await CashFree.find({ userId });
+    const loans = await Loan.find({ userId });
 
     await updateMoexInfo(fundsS, fetchStockETFInfo, Fund);
     await updateMoexInfo(fundsB, fetchStockETFInfo, FundB);
     await updateMoexInfo(stocks, fetchStockETFInfo, Stock);
     await updateMoexInfo(bonds, fetchBondInfo, Bond);
-
     await updateMoexInfo(currency, fetchCurrencyValue, Currency);
-
     await updateMoexInfo(deposit, fetchCurrencyValue, Deposit);
     await updateMoexInfo(cashFree, fetchCurrencyValue, CashFree);
+    await updateMoexInfo(loans, fetchCurrencyValue, Loan);
+
+
 
     return NextResponse.json({ message: "Data updated successfully" }, { status: 200 });
 
