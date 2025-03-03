@@ -27,6 +27,8 @@ export async function updateMoexInfoByUserId(userId: string | undefined) {
   try {
     revalidatePath("/client/home")
     revalidatePath("/client/dashboard")
+    revalidatePath("/client/cash")
+
     const data = await api.put(`/${PATH_POINT}?userId=${userId}`);
     return data;
   } catch (error) {

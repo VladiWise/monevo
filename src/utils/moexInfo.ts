@@ -39,25 +39,34 @@ export interface MoexJson {
 
 export async function getDataByField(moexJson: MoexJson, fieldKey: keyof typeof MOEX_INFO_NAME) {
   "use server";
-  const field = MOEX_INFO_NAME[fieldKey];
-  if (!field.id || !field.name) {
-    throw new Error(`Field ${fieldKey} is missing id or name`);
-  }
-  const index = moexJson[field.id].columns.indexOf(field.name);
-  if (index === -1) {
-    throw new Error(`Field ${field.name} not found in columns`);
-  }
-
-  if (fieldKey === "price") {
-    if (moexJson[field.id]?.data[0][index]) {
-      return moexJson[field.id].data[0][index]
-    } else {
-      const field = MOEX_INFO_NAME.prevPrice as MoexFieldRequired;
-      const index = moexJson[field.id].columns.indexOf(field.name);
-      return moexJson[field.id].data[0][index]
+  try {
+    const field = MOEX_INFO_NAME[fieldKey];
+    if (!field.id || !field.name) {
+      throw new Error(`Field ${fieldKey} is missing id or name`);
     }
+
+
+    const index = moexJson[field.id]?.columns?.indexOf(field.name);
+
+
+    if (index === -1 || !index) {
+      throw new Error(`Field ${field.name} not found in columns`);
+    }
+
+    if (fieldKey === "price") {
+      if (moexJson[field.id]?.data[0][index]) {
+        return moexJson[field.id].data[0][index]
+      } else {
+        const field = MOEX_INFO_NAME.prevPrice as MoexFieldRequired;
+        const index = moexJson[field.id]?.columns?.indexOf(field.name);
+        return moexJson[field.id].data[0][index]
+      }
+    }
+    return moexJson[field.id].data[0][index];
+  } catch (error) {
+    console.error(error);
+    throw error
   }
-  return moexJson[field.id].data[0][index];
 }
 
 export const CURRENCY = {

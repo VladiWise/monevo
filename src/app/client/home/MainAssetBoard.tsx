@@ -112,7 +112,8 @@ export function MainAssetBoard({
         </section>
         <Button
           variant="link"
-          onClick={() =>
+          onClick={() => {
+            if (!confirm("You really want to record data?")) return;
             notification
               .promise(totalService.create(data, userId), {
                 loading: "Updating data...",
@@ -122,8 +123,8 @@ export function MainAssetBoard({
 
               .catch((error) => {
                 notification.add(error.message, "error", 6000);
-              })
-          }
+              });
+          }}
         >
           Record data
         </Button>

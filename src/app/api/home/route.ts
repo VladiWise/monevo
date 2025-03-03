@@ -19,56 +19,65 @@ import { fetchStockETFInfo, fetchBondInfo } from "@/services/MoexService";
 
 
 export async function GET(request: NextRequest) {
-  await connectMongoDB();
+  try {
 
 
-  if (request.nextUrl.searchParams.get("userId")) {
-
-    const userId = request.nextUrl.searchParams.get("userId");
-
-    const fundsS = await Fund.find({ userId });
-    const bonds = await Bond.find({ userId });
-    const fundsB = await FundB.find({ userId });
-    const stocks = await Stock.find({ userId });
-    const currency = await Currency.find({ userId });
-    const deposit = await Deposit.find({ userId });
-    const cashFree = await CashFree.find({ userId });
-    const loan = await Loan.find({ userId });
+    await connectMongoDB();
 
 
-    const sumFundS = fundsS.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
-    const sumStock = stocks.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
-    const sumcurrency = currency.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
-    const sumBond = bonds.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
-    const sumFundB = fundsB.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
-    const sumDeposit = deposit.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
-    const sumCashFree = cashFree.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
-    const sumLoan = loan.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+    if (request.nextUrl.searchParams.get("userId")) {
+
+      const userId = request.nextUrl.searchParams.get("userId");
+
+      const fundsS = await Fund.find({ userId });
+      const bonds = await Bond.find({ userId });
+      const fundsB = await FundB.find({ userId });
+      const stocks = await Stock.find({ userId });
+      const currency = await Currency.find({ userId });
+      const deposit = await Deposit.find({ userId });
+      const cashFree = await CashFree.find({ userId });
+      const loan = await Loan.find({ userId });
 
 
-    return NextResponse.json({
-      bonds: sumBond + sumFundB,
-      stocks: sumStock + sumFundS,
-      cashBroker: sumcurrency,
-      cashFree: sumCashFree,
-      deposit: sumDeposit,
-      loan: sumLoan
-    }, { status: 200 });
+      const sumFundS = fundsS.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+      const sumStock = stocks.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+      const sumcurrency = currency.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+      const sumBond = bonds.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+      const sumFundB = fundsB.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+      const sumDeposit = deposit.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+      const sumCashFree = cashFree.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
+      const sumLoan = loan.reduce((acc, item) => acc + roundToTwoDecimals(item.total), 0);
 
-  } else {
-    return NextResponse.json({ message: "User ID not provided" }, { status: 400 });
+
+      return NextResponse.json({
+        bonds: sumBond + sumFundB,
+        stocks: sumStock + sumFundS,
+        cashBroker: sumcurrency,
+        cashFree: sumCashFree,
+        deposit: sumDeposit,
+        loan: sumLoan
+      }, { status: 200 });
+
+    } else {
+      return NextResponse.json({ message: "User ID not provided" }, { status: 400 });
+    }
+
+  } catch (error) {
+    return NextResponse.json({ message: "Error fetching data", error }, { status: 500 });
+
   }
 }
 
 export async function PUT(request: NextRequest) {
-  await connectMongoDB();
+  try {
+    await connectMongoDB();
 
 
-  async function updateMoexInfo(assets: any[], fetchMoexInfo: any, Model: any) {
-    try {
+    async function updateMoexInfo(assets: any[], fetchMoexInfo: any, Model: any) {
+
       assets.forEach(async (asset) => {
 
-        if (Model === Currency) {
+        if (Model === Currency || Model === Deposit || Model === CashFree || Model === Loan) {
           const price = await fetchMoexInfo(asset.ticker);
           await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
           await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
@@ -92,44 +101,44 @@ export async function PUT(request: NextRequest) {
         }
 
       });
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        return { error: error.message };
-      }
-      throw error;
+
     }
 
-  }
 
+    if (request.nextUrl.searchParams.get("userId")) {
 
-  if (request.nextUrl.searchParams.get("userId")) {
+      const userId = request.nextUrl.searchParams.get("userId");
 
-    const userId = request.nextUrl.searchParams.get("userId");
+      const fundsS = await Fund.find({ userId });
+      const fundsB = await FundB.find({ userId });
+      const stocks = await Stock.find({ userId });
+      const bonds = await Bond.find({ userId });
+      const currency = await Currency.find({ userId });
+      const deposit = await Deposit.find({ userId });
+      const cashFree = await CashFree.find({ userId });
+      const loans = await Loan.find({ userId });
 
-    const fundsS = await Fund.find({ userId });
-    const fundsB = await FundB.find({ userId });
-    const stocks = await Stock.find({ userId });
-    const bonds = await Bond.find({ userId });
-    const currency = await Currency.find({ userId });
-    const deposit = await Deposit.find({ userId });
-    const cashFree = await CashFree.find({ userId });
-    const loans = await Loan.find({ userId });
-
-    await updateMoexInfo(fundsS, fetchStockETFInfo, Fund);
-    await updateMoexInfo(fundsB, fetchStockETFInfo, FundB);
-    await updateMoexInfo(stocks, fetchStockETFInfo, Stock);
-    await updateMoexInfo(bonds, fetchBondInfo, Bond);
-    await updateMoexInfo(currency, fetchCurrencyValue, Currency);
-    await updateMoexInfo(deposit, fetchCurrencyValue, Deposit);
-    await updateMoexInfo(cashFree, fetchCurrencyValue, CashFree);
-    await updateMoexInfo(loans, fetchCurrencyValue, Loan);
+      await updateMoexInfo(fundsS, fetchStockETFInfo, Fund);
+      await updateMoexInfo(fundsB, fetchStockETFInfo, FundB);
+      await updateMoexInfo(stocks, fetchStockETFInfo, Stock);
+      await updateMoexInfo(bonds, fetchBondInfo, Bond);
+      await updateMoexInfo(currency, fetchCurrencyValue, Currency);
+      await updateMoexInfo(deposit, fetchCurrencyValue, Deposit);
+      await updateMoexInfo(cashFree, fetchCurrencyValue, CashFree);
+      await updateMoexInfo(loans, fetchCurrencyValue, Loan);
 
 
 
-    return NextResponse.json({ message: "Data updated successfully" }, { status: 200 });
+      return NextResponse.json({ message: "Data updated successfully" }, { status: 200 });
 
-  } else {
-    return NextResponse.json({ message: "User ID not provided" }, { status: 400 });
+    } else {
+      return NextResponse.json({ message: "User ID not provided" }, { status: 400 });
+    }
+  } catch (error) {
+
+    NextResponse.json({ message: "Error updating moex info", error }, { status: 500 });
+
+    throw error
   }
 }
 
