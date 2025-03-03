@@ -21,20 +21,21 @@ export type Data = {
   loan: number;
 };
 export default async function App() {
-
-
   const user = await getCurrentUser();
   const data = (await getAssetsInfoByUserId(user?.id)) as Data;
   const totalPrev = await totalService.getByUserId(user?.id);
 
-  const usdValue = await fetchCurrencyValue("USD");
+  const USD = await fetchCurrencyValue("USD");
+  const EUR = await fetchCurrencyValue("EUR");
+  const GBP = await fetchCurrencyValue("GBP");
+  const CNY = await fetchCurrencyValue("CNY");
 
   return (
     <div className="flex flex-col items-center gap-10 w-full ">
       <MainAssetBoard
         userId={user?.id}
         data={data}
-        usdValue={usdValue}
+        currencies={{ USD, EUR, GBP, CNY }}
         totalPrev={totalPrev}
       />
     </div>

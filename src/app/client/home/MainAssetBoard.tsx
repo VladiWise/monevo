@@ -7,6 +7,7 @@ import { CgArrowsExchangeV } from "react-icons/cg";
 import { roundToTwoDecimals } from "@/utils/mathUtils";
 import { useNotification } from "@/store/useNotification";
 import * as totalService from "@/services/TotalService";
+import clsx from "clsx";
 
 import { Data } from "@/app/client/home/page";
 import { useState } from "react";
@@ -15,12 +16,12 @@ export function MainAssetBoard({
   userId,
   data,
   totalPrev,
-  usdValue,
+  currencies,
 }: {
   userId: string | undefined;
   data: Data;
   totalPrev: any;
-  usdValue: number;
+  currencies: { USD: number; EUR: number; GBP: number; CNY: number };
 }) {
   const [currency, setCurrency] = useState<string>("RUB");
 
@@ -50,7 +51,7 @@ export function MainAssetBoard({
 
     const formattedStringRub = `${formatNumberWithSpaces(diff)}  ₽ | ${times}%`;
     const formattedStringUsd = `${formatNumberWithSpaces(
-      diff / usdValue
+      diff / currencies.USD
     )}  $ | ${times}%`;
 
     return {
@@ -66,13 +67,27 @@ export function MainAssetBoard({
     category: keyof Data;
     title: string;
   }) => (
-    <div className="flex items-center justify-between w-full">
-      <span className="text-lg dark:text-white font-medium">{title}</span>
-      <span className="text-lg dark:text-white font-bold">
+    <div className={clsx("flex items-center justify-between w-full")}>
+      <span className="text-base dark:text-white font-medium">{title}</span>
+      <span className="text-base dark:text-white font-bold">
         {currency === "USD" &&
-          `${formatNumberWithSpaces(Math.round(data[category] / usdValue))} $`}
-        {currency === "RUB" &&
-          `${formatNumberWithSpaces(Math.round(data[category]))} ₽`}
+          `${formatNumberWithSpaces(data[category] / currencies.USD)} $`}
+        {currency === "RUB" && `${formatNumberWithSpaces(data[category])} ₽`}
+      </span>
+    </div>
+  );
+
+  const CurrencySection = ({
+    currency,
+    title,
+  }: {
+    currency: keyof typeof currencies;
+    title: string;
+  }) => (
+    <div className={clsx("flex items-center justify-between w-full")}>
+      <span className="text-base dark:text-white font-medium">{title}</span>
+      <span className="text-base dark:text-white font-bold">
+        {roundToTwoDecimals(currencies[currency])}
       </span>
     </div>
   );
@@ -86,7 +101,7 @@ export function MainAssetBoard({
             {currency === "RUB" && `${formatNumberWithSpaces(currentSum)} ₽`}
 
             {currency === "USD" &&
-              `${formatNumberWithSpaces(currentSum / usdValue)} $`}
+              `${formatNumberWithSpaces(currentSum / currencies.USD)} $`}
           </span>
 
           {sumAssets(currency).isProfit ? (
@@ -138,13 +153,30 @@ export function MainAssetBoard({
           <CategorySection category="cashBroker" title="Cash broker" />
           <CategorySection category="cashFree" title="Cash free" />
           <CategorySection category="loan" title="Loans" />
+
+          <div className={clsx("flex items-center justify-between w-full")}>
+            <span className="text-lg dark:text-white font-medium">
+              Total capital
+            </span>
+            <span className="text-lg dark:text-white font-bold">
+              {currency === "USD" &&
+                `${formatNumberWithSpaces(
+                  (currentSum + data?.loan) / currencies.USD
+                )} $`}
+              {currency === "RUB" &&
+                `${formatNumberWithSpaces(currentSum + data?.loan)} ₽`}
+            </span>
+          </div>
         </section>
       </MainContainer>
 
       <MainContainer className="max-w-96 items-center dark:text-white">
-        Total assets
+        Currencies
         <section className="h-fit flex flex-col items-start justify-center w-full p-4">
-          {currentSum + data?.loan}
+          <CurrencySection currency="USD" title="USD" />
+          <CurrencySection currency="EUR" title="EUR" />
+          <CurrencySection currency="GBP" title="GBP" />
+          <CurrencySection currency="CNY" title="CNY" />
         </section>
       </MainContainer>
     </>
