@@ -114,11 +114,11 @@ const bondColumns = [
 ];
 
 const currencyColumns = [
-  {
-    title: "Created",
-    name: "createdAt",
-    getCellContent: (item: any) => getLocalDateByISO(item.createdAt),
-  },
+  // {
+  //   title: "Created",
+  //   name: "createdAt",
+  //   getCellContent: (item: any) => getLocalDateByISO(item.createdAt),
+  // },
   {
     title: "Updated",
     name: "updatedAt",
@@ -238,7 +238,6 @@ export default async function App() {
           <MainContainer key={account._id}>
             <Heading>{account.shortName}</Heading>
 
-
             <SuspenseLoading>
               <TableAssets
                 userId={user?.id}
@@ -271,8 +270,6 @@ export default async function App() {
                 Loan
               </TableAssets>
             </SuspenseLoading>
-
-           
           </MainContainer>
         );
       })}

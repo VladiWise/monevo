@@ -26,11 +26,11 @@ type Account = {
 };
 
 const fundStockColumns = [
-  {
-    title: "Created",
-    name: "createdAt",
-    getCellContent: (item: any) => getLocalDateByISO(item.createdAt),
-  },
+  // {
+  //   title: "Created",
+  //   name: "createdAt",
+  //   getCellContent: (item: any) => getLocalDateByISO(item.createdAt),
+  // },
   {
     title: "Updated",
     name: "updatedAt",
@@ -65,11 +65,11 @@ const fundStockColumns = [
 ];
 
 const bondColumns = [
-  {
-    title: "Created",
-    name: "createdAt",
-    getCellContent: (item: any) => getLocalDateByISO(item.createdAt),
-  },
+  // {
+  //   title: "Created",
+  //   name: "createdAt",
+  //   getCellContent: (item: any) => getLocalDateByISO(item.createdAt),
+  // },
   {
     title: "Updated",
     name: "updatedAt",
@@ -115,11 +115,11 @@ const bondColumns = [
 ];
 
 const currencyColumns = [
-  {
-    title: "Created",
-    name: "createdAt",
-    getCellContent: (item: any) => getLocalDateByISO(item.createdAt),
-  },
+  // {
+  //   title: "Created",
+  //   name: "createdAt",
+  //   getCellContent: (item: any) => getLocalDateByISO(item.createdAt),
+  // },
   {
     title: "Updated",
     name: "updatedAt",
