@@ -26,7 +26,7 @@ export async function getAssetsInfoByUserId(userId: string | undefined) {
 export async function updateMoexInfoByUserId(userId: string | undefined) {
   try {
     revalidatePath("/client/home")
-    revalidatePath("/client/dashboard")
+    revalidatePath("/client/assets")
     revalidatePath("/client/cash")
 
     const data = await api.put(`/${PATH_POINT}?userId=${userId}`);
