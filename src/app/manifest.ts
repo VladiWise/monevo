@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'Monevo',
     short_name: 'Monevo',
     description: 'An awesome invetment tracker',
-    start_url: '/client/home',
+    start_url: '/',
     display: 'fullscreen',
     background_color: '#0B0C0F',
     theme_color: '#0B0C0F',
