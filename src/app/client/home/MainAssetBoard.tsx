@@ -13,11 +13,13 @@ import { Data } from "@/app/client/home/page";
 import { useState } from "react";
 
 export function MainAssetBoard({
+  time,
   userId,
   data,
   totalPrev,
   currencies,
 }: {
+  time: number;
   userId: string | undefined;
   data: Data;
   totalPrev: any;
@@ -95,7 +97,7 @@ export function MainAssetBoard({
   return (
     <>
       <MainContainer className="max-w-96 items-center dark:text-white">
-        Net assets
+        Net capital {time && `(${new Date(time).toLocaleString()})`}
         <section className="h-32 flex flex-col items-center justify-center">
           <span className="text-2xl dark:text-white font-bold">
             {currency === "RUB" && `${formatNumberWithSpaces(currentSum)} ₽`}
