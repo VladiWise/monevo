@@ -13,13 +13,13 @@ import { Data } from "@/app/client/home/page";
 import { useState } from "react";
 
 export function MainAssetBoard({
-  time,
+
   userId,
   data,
   totalPrev,
   currencies,
 }: {
-  time: number;
+
   userId: string | undefined;
   data: Data;
   totalPrev: any;

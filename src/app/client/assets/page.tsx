@@ -26,7 +26,7 @@ type Account = {
 };
 
 export default async function App() {
-  // "use cache";
+
   const fundStockColumns = [
     // {
     //   title: "Created",

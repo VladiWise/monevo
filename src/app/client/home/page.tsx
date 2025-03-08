@@ -22,7 +22,7 @@ export type Data = {
 };
 export default async function App() {
   const user = await getCurrentUser();
-  const {data, time} = (await getAssetsInfoByUserId(user?.id)) as {data: Data, time: number};
+  const data = (await getAssetsInfoByUserId(user?.id)) as Data;
 
   const totalPrev = await totalService.getByUserId(user?.id);
 
@@ -34,7 +34,6 @@ export default async function App() {
   return (
     <div className="flex flex-col items-center gap-10 w-full ">
       <MainAssetBoard
-      time={time}
         userId={user?.id}
         data={data}
         currencies={{ USD, EUR, GBP, CNY }}
