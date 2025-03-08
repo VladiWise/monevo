@@ -97,7 +97,7 @@ export function MainAssetBoard({
   return (
     <>
       <MainContainer className="max-w-96 items-center dark:text-white">
-        Net capital {time && `(${new Date(time).toLocaleString()})`}
+        Net capital
         <section className="h-32 flex flex-col items-center justify-center">
           <span className="text-2xl dark:text-white font-bold">
             {currency === "RUB" && `${formatNumberWithSpaces(currentSum)} ₽`}

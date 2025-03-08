@@ -24,16 +24,16 @@ export async function getAssetsInfoByUserId(userId: string | undefined) {
 
 
 export async function updateMoexInfoByUserId(userId: string | undefined) {
+  revalidatePath("/client/home")
+  revalidatePath("/client/assets")
+  revalidatePath("/client/cash")
+  
   try {
     const data = await api.put(`/${PATH_POINT}?userId=${userId}`);
     return data;
   } catch (error) {
     console.error(`Error fetching main client info with ID ${userId}:`, error);
     throw error;
-  } finally {
-    revalidatePath("/client/home")
-    revalidatePath("/client/assets")
-    revalidatePath("/client/cash")
   }
 }
 

@@ -17,9 +17,10 @@ export async function getList(userId: string | undefined, brokerId: string | und
 }
 
 export async function create(body: any, userId: string | undefined, brokerId: string | undefined) {
+  revalidatePath("/client/home")
+  revalidatePath("/client/assets")
   try {
-    revalidatePath("/client/home")
-    revalidatePath("/client/dashboard")
+
     const data = await api.post(`/${PATH_POINT}?userId=${userId}&brokerId=${brokerId}`, body);
     return data;
   } catch (error) {
@@ -29,9 +30,10 @@ export async function create(body: any, userId: string | undefined, brokerId: st
 }
 
 export async function remove(id: string) {
+  revalidatePath("/client/home")
+  revalidatePath("/client/assets")
   try {
-    revalidatePath("/client/home")
-    revalidatePath("/client/dashboard")
+
     const data = await api.delete(`/${PATH_POINT}/?id=${id}`);
     return data;
   } catch (error) {

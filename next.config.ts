@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  experimental: {
+    dynamicIO: true,
+  },
+
+
 };
 
 export default nextConfig;

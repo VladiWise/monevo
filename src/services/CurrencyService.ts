@@ -20,7 +20,7 @@ export async function create(body: any, userId: string | undefined, brokerId: st
 
   try {
     revalidatePath("/client/home")
-    revalidatePath("/client/dashboard")
+    revalidatePath("/client/assets")
     const data = await api.post(`/${PATH_POINT}?userId=${userId}&brokerId=${brokerId}`, body);
     return data;
   } catch (error) {
@@ -32,7 +32,7 @@ export async function create(body: any, userId: string | undefined, brokerId: st
 export async function remove(id: string) {
   try {
     revalidatePath("/client/home")
-    revalidatePath("/client/dashboard")
+    revalidatePath("/client/assets")
     const data = await api.delete(`/${PATH_POINT}/?id=${id}`);
     return data;
   } catch (error) {
