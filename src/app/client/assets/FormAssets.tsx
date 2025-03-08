@@ -108,7 +108,7 @@ export function FormAssets({
           break;
       }
 
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       throw error;
     }

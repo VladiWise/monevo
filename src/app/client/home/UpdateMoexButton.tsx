@@ -16,7 +16,7 @@ export function UpdateMoexButton({ userId }: { userId: string | undefined }) {
         success: "Data successfully updated",
         error: "Failed to update data.",
       })
-      .then(() => router.refresh())
+      // .then(() => router.refresh())
       .catch((error) => {
         notification.add(error.message, "error", 6000);
       });

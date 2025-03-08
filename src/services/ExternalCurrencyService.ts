@@ -16,7 +16,7 @@ export async function fetchCurrencyValue(currencyCode: string) {
     let foundCurrency: Currency | null = { Value: 1 };
 
     const response = await fetch(url, {
-      next: { revalidate: 6 * 60 * 60 },
+      next: { revalidate: 60 * 60 },
     });
     const currencies = await response.json();
 

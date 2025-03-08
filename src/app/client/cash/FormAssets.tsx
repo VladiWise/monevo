@@ -57,7 +57,7 @@ export function FormAssets({
         await loanService.create(currencyBody, userId, data.brokerId);
       }
 
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       throw error;
     }

@@ -23,7 +23,7 @@ export function FormAssetAcc({
     try {
       form.reset();
       await createAcc(data, userId);
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       console.error(`Error creating ${userId}:`, error);
     }
