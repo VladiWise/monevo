@@ -2,18 +2,17 @@ import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URL;
 
-// Определяем интерфейс для кэша
+
 interface MongooseConnection {
     conn: typeof mongoose | null;
     promise: Promise<typeof mongoose> | null;
 }
 
-// Расширяем глобальный объект
 declare global {
+    // eslint-disable-next-line no-var
     var mongoose: MongooseConnection | undefined;
 }
 
-// Инициализируем кэш
 const cached: MongooseConnection = global.mongoose || {
     conn: null,
     promise: null,
@@ -55,7 +54,6 @@ async function connectMongoDB() {
     }
 }
 
-// Обработчики событий
 mongoose.connection.on("connected", () => {
     console.log("MongoDB connected successfully");
 });
@@ -68,7 +66,6 @@ mongoose.connection.on("disconnected", () => {
     console.log("MongoDB disconnected");
 });
 
-// Graceful shutdown
 process.on("SIGINT", async () => {
     if (cached.conn) {
         await mongoose.connection.close();
@@ -77,6 +74,7 @@ process.on("SIGINT", async () => {
 });
 
 export default connectMongoDB;
+
 
 
 
