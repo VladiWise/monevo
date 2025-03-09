@@ -12,6 +12,7 @@ import * as stockService from "@/services/StockService";
 import * as fundBService from "@/services/FundBService";
 import * as bondService from "@/services/BondService";
 import * as currencyService from "@/services/CurrencyService";
+import { CURRENCY } from "@/utils/constants";
 type Account = {
   _id: string;
   shortName: string;
@@ -38,15 +39,6 @@ export function FormAssets({
   const router = useRouter();
   const notification = useNotification();
   const form = useForm({});
-
-  const CURRENCY = {
-    SUR: "Рубль",
-    USD: "Доллар США",
-    EUR: "Евро",
-    GBP: "Фунт стерлингов Соединенного королевства",
-    CNY: "Китайский юань",
-    KZT: "Казахтанский тенге",
-  };
 
   const type = form.watch("type") as AssType;
 

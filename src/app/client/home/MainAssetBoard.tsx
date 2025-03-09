@@ -12,18 +12,20 @@ import clsx from "clsx";
 import { Data } from "@/app/client/home/page";
 import { useState } from "react";
 
-export function MainAssetBoard({
+import { type Currencies } from "@/app/client/home/page";
 
+export function MainAssetBoard({
   userId,
   data,
   totalPrev,
   currencies,
+  currencyCategories,
 }: {
-
   userId: string | undefined;
   data: Data;
   totalPrev: any;
   currencies: { USD: number; EUR: number; GBP: number; CNY: number };
+  currencyCategories: Currencies[];
 }) {
   const [currency, setCurrency] = useState<string>("RUB");
 
@@ -69,35 +71,81 @@ export function MainAssetBoard({
     category: keyof Data;
     title: string;
   }) => (
-    <div className={clsx("flex items-center justify-between w-full")}>
+    <>
+      {/* <div className={clsx("flex items-center justify-between w-full")}> */}
       <span className="text-base dark:text-white font-medium">{title}</span>
-      <span className="text-base dark:text-white font-bold">
+      <span className="text-base dark:text-white font-bold justify-self-end">
         {currency === "USD" &&
           `${formatNumberWithSpaces(data[category] / currencies.USD)} $`}
         {currency === "RUB" && `${formatNumberWithSpaces(data[category])} ₽`}
       </span>
-    </div>
+
+      <span className="text-sm dark:text-white font-light justify-self-end">
+        {roundToTwoDecimals((data[category] / (currentSum + data?.loan)) * 100)}
+        %
+      </span>
+      {/* </div> */}
+    </>
   );
 
   const CurrencySection = ({
-    currency,
+    value,
     title,
   }: {
-    currency: keyof typeof currencies;
+    value: number;
     title: string;
   }) => (
-    <div className={clsx("flex items-center justify-between w-full")}>
+    <>
+      {/* <div className={clsx("flex items-center justify-between w-full")}> */}
       <span className="text-base dark:text-white font-medium">{title}</span>
-      <span className="text-base dark:text-white font-bold">
-        {roundToTwoDecimals(currencies[currency])}
+      <span className="text-base dark:text-white font-bold justify-self-end">
+        {formatNumberWithSpaces(value)} ₽
       </span>
-    </div>
+      <span className="text-sm dark:text-white font-light justify-self-end">
+        {roundToTwoDecimals((value / (currentSum + data?.loan)) * 100)}%
+      </span>
+      {/* </div> */}
+    </>
+  );
+
+  // const CurrencySection = ({
+  //   currency,
+  //   title,
+  // }: {
+  //   currency: keyof typeof currencies;
+  //   title: string;
+  // }) => (
+  //   <div className={clsx("flex items-center justify-between w-full")}>
+  //     <span className="text-base dark:text-white font-medium">{title}</span>
+  //     <span className="text-base dark:text-white font-bold">
+  //       {roundToTwoDecimals(currencies[currency])}
+  //     </span>
+  //   </div>
+  // );
+
+  const MainBlockSection = ({
+    children,
+    title,
+    isLeftSection,
+  }: {
+    children: React.ReactNode;
+    title?: string;
+    isLeftSection?: boolean;
+  }) => (
+    <MainContainer
+      className={clsx(
+        "h-72 max-w-96 items-center dark:text-white justify-between gap-0",
+        isLeftSection && "justify-self-end"
+      )}
+    >
+      {title && <span className="text-xl font-bold">{title}</span>}
+      {children}
+    </MainContainer>
   );
 
   return (
     <>
-      <MainContainer className="max-w-96 items-center dark:text-white">
-        Net capital
+      <MainBlockSection title="Net capital" isLeftSection>
         <section className="h-32 flex flex-col items-center justify-center">
           <span className="text-2xl dark:text-white font-bold">
             {currency === "RUB" && `${formatNumberWithSpaces(currentSum)} ₽`}
@@ -145,42 +193,63 @@ export function MainAssetBoard({
         >
           Record data
         </Button>
-      </MainContainer>
-      <MainContainer className="max-w-96 items-center dark:text-white">
-        Categories
-        <section className="h-fit flex flex-col items-start justify-center w-full p-4">
+      </MainBlockSection>
+
+      <MainBlockSection title="Categories">
+        {/* <section className=" flex flex-col items-start justify-center w-full h-full "> */}
+
+        <section className=" grid grid-cols-[3fr_3fr_1fr] w-full items-center gap-x-2">
           <CategorySection category="deposit" title="Deposits" />
           <CategorySection category="bonds" title="Bonds" />
           <CategorySection category="stocks" title="Stocks" />
           <CategorySection category="cashBroker" title="Cash broker" />
           <CategorySection category="cashFree" title="Cash free" />
+          
           <CategorySection category="loan" title="Loans" />
-
-          <div className={clsx("flex items-center justify-between w-full")}>
-            <span className="text-lg dark:text-white font-medium">
-              Total capital
-            </span>
-            <span className="text-lg dark:text-white font-bold">
-              {currency === "USD" &&
-                `${formatNumberWithSpaces(
-                  (currentSum + data?.loan) / currencies.USD
-                )} $`}
-              {currency === "RUB" &&
-                `${formatNumberWithSpaces(currentSum + data?.loan)} ₽`}
-            </span>
-          </div>
         </section>
-      </MainContainer>
 
-      <MainContainer className="max-w-96 items-center dark:text-white">
-        Currencies
-        <section className="h-fit flex flex-col items-start justify-center w-full p-4">
+        <div className={clsx("flex items-center justify-between w-full")}>
+          <span className="text-lg dark:text-white font-medium">
+            Total capital
+          </span>
+          <span className="text-lg dark:text-white font-bold">
+            {currency === "USD" &&
+              `${formatNumberWithSpaces(
+                (currentSum + data?.loan) / currencies.USD
+              )} $`}
+            {currency === "RUB" &&
+              `${formatNumberWithSpaces(currentSum + data?.loan)} ₽`}
+          </span>
+        </div>
+        {/* </section> */}
+      </MainBlockSection>
+
+      <MainBlockSection title="Type of assets" isLeftSection>
+        <section className=" flex flex-col items-start justify-center w-full h-full p-4"></section>
+      </MainBlockSection>
+
+      <MainBlockSection title="Currencies">
+        <section className=" grid grid-cols-[3fr_3fr_1fr] w-full items-center gap-x-2  ">
+          {currencyCategories.map((categ) => (
+            <CurrencySection
+              title={categ.currency}
+              value={categ.value}
+              key={categ.name}
+            />
+          ))}
+        </section>
+
+        <span>Main currency RUB (SUR)</span>
+      </MainBlockSection>
+
+      {/* <MainBlockSection title="Currencies" isLeftSection>
+        <section className=" flex flex-col items-start justify-center w-full h-full p-4">
           <CurrencySection currency="USD" title="USD" />
           <CurrencySection currency="EUR" title="EUR" />
           <CurrencySection currency="GBP" title="GBP" />
           <CurrencySection currency="CNY" title="CNY" />
         </section>
-      </MainContainer>
+      </MainBlockSection> */}
     </>
   );
 

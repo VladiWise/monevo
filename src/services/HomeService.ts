@@ -22,6 +22,16 @@ export async function getAssetsInfoByUserId(userId: string | undefined) {
   }
 }
 
+export async function getCurrenciesInfoByUserId(userId: string | undefined) {
+  try {
+    const data = await api.get(`/${PATH_POINT}/currencies?userId=${userId}`, { next: { tags: ["home"] } });
+    return data 
+  } catch (error) {
+    console.error(`Error fetching main client info with ID ${userId}:`, error);
+    throw error;
+  }
+}
+
 
 export async function updateMoexInfoByUserId(userId: string | undefined) {
   revalidateTag("assets");

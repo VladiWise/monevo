@@ -69,11 +69,3 @@ export async function getDataByField(moexJson: MoexJson, fieldKey: keyof typeof 
   }
 }
 
-export const CURRENCY = {
-  "SUR": "Рубль",
-  "USD": "Доллар США",
-  "EUR": "Евро",
-  "GBP": "Фунт стерлингов Соединенного королевства",
-  "CNY": "Китайский юань",
-  "KZT": "Казахтанский тенге"
-}

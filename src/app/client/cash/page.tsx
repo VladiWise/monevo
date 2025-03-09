@@ -4,7 +4,7 @@ import { FormAssets } from "./FormAssets";
 import { MainContainer } from "@/components/MainContainer";
 import { getLocalDateByISO } from "@/utils/dataFormat";
 import { roundToTwoDecimals } from "@/utils/mathUtils";
-import { CURRENCY } from "@/utils/moexInfo";
+import { CURRENCY } from "@/utils/constants";
 import React, { Suspense } from "react";
 import { TableAssets } from "./TableAssets";
 import { Heading } from "@/components/Heading";

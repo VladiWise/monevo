@@ -6,6 +6,7 @@ import { Button } from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useNotification } from "@/store/useNotification";
+import { CURRENCY } from "@/utils/constants";
 import * as depositService from "@/services/DepositService";
 import * as cashFreeService from "@/services/CashFreeService";
 import * as loanService from "@/services/LoanService";
@@ -32,14 +33,6 @@ export function FormAssets({
   const notification = useNotification();
   const form = useForm({});
 
-  const CURRENCY = {
-    SUR: "Рубль",
-    USD: "Доллар США",
-    EUR: "Евро",
-    GBP: "Фунт стерлингов Соединенного королевства",
-    CNY: "Китайский юань",
-    KZT: "Казахтанский тенге",
-  };
 
   const type = form.watch("type") as AssType;
 
