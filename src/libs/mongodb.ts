@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URL;
 
+if (!MONGODB_URI) {
+    throw new Error("Please define the MONGODB_URL environment variable");
+}
 
 interface MongooseConnection {
     conn: typeof mongoose | null;
@@ -26,7 +29,6 @@ async function connectMongoDB() {
     if (!MONGODB_URI) {
         throw new Error("Please define the MONGODB_URL environment variable");
     }
-
     if (cached.conn) {
         return cached.conn;
     }
@@ -34,8 +36,6 @@ async function connectMongoDB() {
     if (!cached.promise) {
         const opts = {
             bufferCommands: true,
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
             serverSelectionTimeoutMS: 5000,
             socketTimeoutMS: 45000,
         };
@@ -74,6 +74,7 @@ process.on("SIGINT", async () => {
 });
 
 export default connectMongoDB;
+
 
 
 
