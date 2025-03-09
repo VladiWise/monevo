@@ -21,9 +21,10 @@ import { fetchStockETFInfo, fetchBondInfo } from "@/services/MoexService";
 
 
 export async function GET(request: NextRequest) {
-  try {
 
-    await connectMongoDB();
+  await connectMongoDB();
+  
+  try {
 
     if (request.nextUrl.searchParams.get("userId")) {
 
