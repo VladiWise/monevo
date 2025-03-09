@@ -7,24 +7,23 @@ import Stock from "@/models/stock";
 import Currency from "@/models/currency";
 import Deposit from "@/models/deposit";
 import CashFree from "@/models/cash-free";
-import Loan from "@/models/loan";
+// import Loan from "@/models/loan";
 
-import Total from "@/models/main-total";
+// import Total from "@/models/main-total";
 
 import { CURRENCY } from "@/utils/constants";
 
 import { NextResponse, NextRequest } from "next/server";
-import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
+// import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
 import { roundToTwoDecimals } from "@/utils/mathUtils";
-import { getDataByField } from "@/utils/moexInfo";
-import { fetchStockETFInfo, fetchBondInfo } from "@/services/MoexService";
+// import { getDataByField } from "@/utils/moexInfo";
+// import { fetchStockETFInfo, fetchBondInfo } from "@/services/MoexService";
 
 
 export async function GET(request: NextRequest) {
-
-  await connectMongoDB();
-  
   try {
+
+    await connectMongoDB();
 
     if (request.nextUrl.searchParams.get("userId")) {
 
