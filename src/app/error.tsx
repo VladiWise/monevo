@@ -29,8 +29,8 @@ export default function Error({
               //     "x-api-key": "c6uXEy4EJXE6tcCdKaNdSzPW3tHXO9pg",
               //   },
               // });
-              
-              reset();
+
+              window.location.reload();
             }
           }
         >
