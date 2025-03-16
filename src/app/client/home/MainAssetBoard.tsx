@@ -20,12 +20,14 @@ export function MainAssetBoard({
   totalPrev,
   currencies,
   currencyCategories,
+  IISTotal,
 }: {
   userId: string | undefined;
   data: Data;
   totalPrev: any;
   currencies: { USD: number; EUR: number; GBP: number; CNY: number };
   currencyCategories: Currencies[];
+  IISTotal: number;
 }) {
   const [currency, setCurrency] = useState<string>("RUB");
 
@@ -88,7 +90,7 @@ export function MainAssetBoard({
     </>
   );
 
-  const CurrencySection = ({
+  const SingleSection = ({
     value,
     title,
   }: {
@@ -108,7 +110,7 @@ export function MainAssetBoard({
     </>
   );
 
-  // const CurrencySection = ({
+  // const SingleSection = ({
   //   currency,
   //   title,
   // }: {
@@ -198,13 +200,13 @@ export function MainAssetBoard({
       <MainBlockSection title="Categories">
         {/* <section className=" flex flex-col items-start justify-center w-full h-full "> */}
 
-        <section className=" grid grid-cols-[3fr_3fr_1fr] w-full items-center gap-x-2">
+        <section className=" grid grid-cols-[3fr_3fr_1fr] w-full items-center gap-x-2 gap-1 ">
           <CategorySection category="deposit" title="Deposits" />
           <CategorySection category="bonds" title="Bonds" />
           <CategorySection category="stocks" title="Stocks" />
           <CategorySection category="cashBroker" title="Cash broker" />
           <CategorySection category="cashFree" title="Cash free" />
-          
+
           <CategorySection category="loan" title="Loans" />
         </section>
 
@@ -225,29 +227,40 @@ export function MainAssetBoard({
       </MainBlockSection>
 
       <MainBlockSection title="Type of assets" isLeftSection>
-        <section className=" flex flex-col items-start justify-center w-full h-full p-4"></section>
+        <div className="flex flex-col h-full w-full justify-center">
+          <section className=" grid grid-cols-[3fr_3fr_1fr] w-full items-center gap-x-2 gap-1 ">
+            <SingleSection
+              title="Liquid assets"
+              value={currentSum + data?.loan - IISTotal}
+            />
+
+            <SingleSection title="IIS" value={IISTotal} />
+          </section>
+        </div>
+
+        {/* <span></span> */}
       </MainBlockSection>
 
       <MainBlockSection title="Currencies">
-        <section className=" grid grid-cols-[3fr_3fr_1fr] w-full items-center gap-x-2  ">
-          {currencyCategories.map((categ) => (
-            <CurrencySection
-              title={categ.currency}
-              value={categ.value}
-              key={categ.name}
-            />
-          ))}
-        </section>
-
-        <span>Main currency RUB (SUR)</span>
+        <div className="flex flex-col h-full w-full justify-center">
+          <section className=" grid grid-cols-[3fr_3fr_1fr] w-full items-center gap-x-2 gap-1 ">
+            {currencyCategories.map((categ) => (
+              <SingleSection
+                title={categ.currency}
+                value={categ.value}
+                key={categ.name}
+              />
+            ))}
+          </section>
+        </div>
       </MainBlockSection>
 
       {/* <MainBlockSection title="Currencies" isLeftSection>
         <section className=" flex flex-col items-start justify-center w-full h-full p-4">
-          <CurrencySection currency="USD" title="USD" />
-          <CurrencySection currency="EUR" title="EUR" />
-          <CurrencySection currency="GBP" title="GBP" />
-          <CurrencySection currency="CNY" title="CNY" />
+          <SingleSection currency="USD" title="USD" />
+          <SingleSection currency="EUR" title="EUR" />
+          <SingleSection currency="GBP" title="GBP" />
+          <SingleSection currency="CNY" title="CNY" />
         </section>
       </MainBlockSection> */}
     </>

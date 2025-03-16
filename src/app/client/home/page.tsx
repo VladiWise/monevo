@@ -3,6 +3,7 @@ import {
   getAssetsInfoByUserId,
   getCurrenciesInfoByUserId,
   updateMoexInfoByUserId,
+  getAssetTypesByUserId
 } from "@/services/HomeService";
 import { MainContainer } from "@/components/MainContainer";
 import { CardIcon } from "@/components/SvgIcons";
@@ -35,7 +36,7 @@ export default async function App() {
   const data = (await getAssetsInfoByUserId(user?.id)) as Data;
   const currencyCategories = (await getCurrenciesInfoByUserId(user?.id)) as Currencies[];
 
-  
+  const IISTotal = await getAssetTypesByUserId(user?.id);
 
   const totalPrev = await totalService.getByUserId(user?.id);
 
@@ -52,6 +53,7 @@ export default async function App() {
         currencies={{ USD, EUR, GBP, CNY }}
         totalPrev={totalPrev}
         currencyCategories={currencyCategories}
+        IISTotal={IISTotal}
       />
     </div>
   );
