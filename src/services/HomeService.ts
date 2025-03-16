@@ -12,6 +12,17 @@ type Asset = {
   cashBroker: number;
 };
 
+export async function getAssetTypesByUserId(userId: string | undefined) {
+  try {
+    const data = await api.get(`/${PATH_POINT}/asset-type?userId=${userId}`, { next: { tags: ["home"] } });
+    return data as number;
+  } catch (error) {
+    console.error(`Error fetching main client info with ID ${userId}:`, error);
+    throw error;
+  }
+}
+
+
 export async function getAssetsInfoByUserId(userId: string | undefined) {
   try {
     const data = await api.get(`/${PATH_POINT}?userId=${userId}`, { next: { tags: ["home"] } });
@@ -25,7 +36,7 @@ export async function getAssetsInfoByUserId(userId: string | undefined) {
 export async function getCurrenciesInfoByUserId(userId: string | undefined) {
   try {
     const data = await api.get(`/${PATH_POINT}/currencies?userId=${userId}`, { next: { tags: ["home"] } });
-    return data 
+    return data
   } catch (error) {
     console.error(`Error fetching main client info with ID ${userId}:`, error);
     throw error;
