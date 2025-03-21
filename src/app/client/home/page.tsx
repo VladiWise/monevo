@@ -3,6 +3,7 @@ import { TypeOfAssets } from "./sections/TypeOfAssets";
 import { Categories } from "./sections/Categories";
 import { MainBlockWrapper } from "./MainBlockWrapper";
 import { Suspense } from "react";
+import { SuspenseMainBlockWrapper } from "./SuspenseMainBlockWrapper";
 
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 
@@ -56,30 +57,30 @@ export default async function App() {
     </div>
   );
 }
-export function SuspenseMainBlockWrapper({
-  title = "Loading...",
-  isLeftSection,
-}: {
-  title?: string;
-  isLeftSection?: boolean;
-}) {
-  return (
-    <MainBlockWrapper isLeftSection={isLeftSection} title={title}>
-      <div className="animate-pulse flex flex-col h-full w-full justify-center gap-1">
-        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+// export function SuspenseMainBlockWrapper({
+//   title = "Loading...",
+//   isLeftSection,
+// }: {
+//   title?: string;
+//   isLeftSection?: boolean;
+// }) {
+//   return (
+//     <MainBlockWrapper isLeftSection={isLeftSection} title={title}>
+//       <div className="animate-pulse flex flex-col h-full w-full justify-center gap-1">
+//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
 
-        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
 
-        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
 
-        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
 
-        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
 
-        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
 
-        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
-      </div>
-    </MainBlockWrapper>
-  );
-}
+//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+//       </div>
+//     </MainBlockWrapper>
+//   );
+// }

@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { SuspenseMainBlockWrapper } from "@/app/client/home/page";
+import { SuspenseMainBlockWrapper } from "../SuspenseMainBlockWrapper";
+
 import { MainContainer } from "@/components/MainContainer";
 import { UpdateMoexButton } from "../UpdateMoexButton";
 import { Button } from "@/components/Button";
@@ -83,7 +84,8 @@ export function NetCapital({
     };
   }
 
-  if (isLoading) return <SuspenseMainBlockWrapper title="Net capital" isLeftSection />;
+  if (isLoading)
+    return <SuspenseMainBlockWrapper title="Net capital" isLeftSection />;
 
   return (
     <MainBlockWrapper title="Net capital" isLeftSection={isLeftSection}>
