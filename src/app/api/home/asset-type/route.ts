@@ -43,6 +43,10 @@ export async function GET(request: NextRequest) {
 
     }))
 
+    if (total.length == 0) {
+      return NextResponse.json(0, { status: 200 });
+    }
+
     const IISTotal = total?.reduce((acc, item) => acc + item);
 
     console.log("IISTotal", IISTotal);
