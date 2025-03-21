@@ -1,17 +1,18 @@
+import { Currencies } from "./sections/Currencies";
+import { TypeOfAssets } from "./sections/TypeOfAssets";
+import { Categories } from "./sections/Categories";
+import { MainBlockWrapper } from "./MainBlockWrapper";
+import { Suspense } from "react";
+
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
+
 import {
   getAssetsInfoByUserId,
-  getCurrenciesInfoByUserId,
-  updateMoexInfoByUserId,
-  getAssetTypesByUserId
+  getAssetTypesByUserId,
 } from "@/services/HomeService";
-import { MainContainer } from "@/components/MainContainer";
-import { CardIcon } from "@/components/SvgIcons";
-import { Button } from "@/components/Button";
-import { UpdateMoexButton } from "./UpdateMoexButton";
-import { roundToTwoDecimals } from "@/utils/mathUtils";
+
 import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
-import { MainAssetBoard } from "./MainAssetBoard";
+import { NetCapital } from "./sections/NetCapital";
 import * as totalService from "@/services/TotalService";
 import { CURRENCY } from "@/utils/constants";
 
@@ -24,37 +25,61 @@ export type Data = {
   loan: number;
 };
 
-export type Currencies = {
+export type CurrenciesType = {
   currency: keyof typeof CURRENCY;
-  name:  typeof CURRENCY[keyof typeof CURRENCY];
+  name: (typeof CURRENCY)[keyof typeof CURRENCY];
   value: number;
 };
 
-
 export default async function App() {
   const user = await getCurrentUser();
-  const data = (await getAssetsInfoByUserId(user?.id)) as Data;
-  const currencyCategories = (await getCurrenciesInfoByUserId(user?.id)) as Currencies[];
-
-  const IISTotal = await getAssetTypesByUserId(user?.id);
-
-  const totalPrev = await totalService.getByUserId(user?.id);
-
-  const USD = await fetchCurrencyValue("USD");
-  const EUR = await fetchCurrencyValue("EUR");
-  const GBP = await fetchCurrencyValue("GBP");
-  const CNY = await fetchCurrencyValue("CNY");
 
   return (
     <div className="flex flex-col items-center w-full gap-10 md:grid md:grid-cols-2  ">
-      <MainAssetBoard
-        userId={user?.id}
-        data={data}
-        currencies={{ USD, EUR, GBP, CNY }}
-        totalPrev={totalPrev}
-        currencyCategories={currencyCategories}
-        IISTotal={IISTotal}
-      />
+      <NetCapital userId={user?.id} isLeftSection />
+
+      <Suspense fallback={<SuspenseMainBlockWrapper title="Categories" />}>
+        <Categories />
+      </Suspense>
+
+      <Suspense
+        fallback={
+          <SuspenseMainBlockWrapper title="Type of assets" isLeftSection />
+        }
+      >
+        <TypeOfAssets isLeftSection />
+      </Suspense>
+
+      <Suspense fallback={<SuspenseMainBlockWrapper title="Currencies" />}>
+        <Currencies />
+      </Suspense>
     </div>
+  );
+}
+export function SuspenseMainBlockWrapper({
+  title = "Loading...",
+  isLeftSection,
+}: {
+  title?: string;
+  isLeftSection?: boolean;
+}) {
+  return (
+    <MainBlockWrapper isLeftSection={isLeftSection} title={title}>
+      <div className="animate-pulse flex flex-col h-full w-full justify-center gap-1">
+        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+
+        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+
+        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+
+        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+
+        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+
+        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+
+        <div className="h-6 rounded-lg bg-darkGray w-full"></div>
+      </div>
+    </MainBlockWrapper>
   );
 }

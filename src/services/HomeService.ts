@@ -2,15 +2,10 @@
 
 import api from "@/libs/fetch";
 import { revalidateTag } from "next/cache";
-
+import { type Data } from "@/app/client/home/page";
 const PATH_POINT = "home";
 
 
-type Asset = {
-  bonds: number;
-  stocks: number;
-  cashBroker: number;
-};
 
 export async function getAssetTypesByUserId(userId: string | undefined) {
   try {
@@ -26,7 +21,7 @@ export async function getAssetTypesByUserId(userId: string | undefined) {
 export async function getAssetsInfoByUserId(userId: string | undefined) {
   try {
     const data = await api.get(`/${PATH_POINT}?userId=${userId}`, { next: { tags: ["home"] } });
-    return data as Asset;
+    return data as Data;
   } catch (error) {
     console.error(`Error fetching main client info with ID ${userId}:`, error);
     throw error;

@@ -1,0 +1,56 @@
+import { MainBlockWrapper } from "../MainBlockWrapper";
+import { SingleSection } from "../SingleSection";
+import { type Data } from "@/app/client/home/page";
+
+import { getCurrentUser } from "@/auth-actions/getCurrentUser";
+import {
+  getAssetsInfoByUserId,
+  getCurrenciesInfoByUserId,
+} from "@/services/HomeService";
+
+import { CURRENCY } from "@/utils/constants";
+
+export type CurrenciesType = {
+  currency: keyof typeof CURRENCY;
+  name: (typeof CURRENCY)[keyof typeof CURRENCY];
+  value: number;
+};
+
+export async function Currencies({
+  isLeftSection,
+}: {
+  isLeftSection?: boolean;
+}) {
+  const user = await getCurrentUser();
+  const data = (await getAssetsInfoByUserId(user?.id)) as Data;
+  const currencyCategories = (await getCurrenciesInfoByUserId(
+    user?.id
+  )) as CurrenciesType[];
+
+  const totalAssets =
+    data?.bonds +
+    data?.stocks +
+    data?.cashBroker +
+    data?.deposit +
+    data?.cashFree;
+  // data?.loan;
+
+  // await new Promise((resolve) => setTimeout(resolve, 25000));
+
+  return (
+    <MainBlockWrapper title="Currencies" isLeftSection={isLeftSection}>
+      <div className="flex flex-col h-full w-full justify-center">
+        <section className=" grid grid-cols-[3fr_3fr_1fr] w-full items-center gap-x-2 gap-1 ">
+          {currencyCategories.map((categ) => (
+            <SingleSection
+              totalAssets={totalAssets}
+              title={categ.currency}
+              value={categ.value}
+              key={categ.name}
+            />
+          ))}
+        </section>
+      </div>
+    </MainBlockWrapper>
+  );
+}

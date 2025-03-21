@@ -5,7 +5,13 @@ import { updateMoexInfoByUserId } from "@/services/HomeService";
 import { useNotification } from "@/store/useNotification";
 import { useRouter } from "next/navigation";
 
-export function UpdateMoexButton({ userId }: { userId: string | undefined }) {
+export function UpdateMoexButton({
+  userId,
+  updateContent,
+}: {
+  userId: string | undefined;
+  updateContent: () => Promise<void>;
+}) {
   const notification = useNotification();
   const router = useRouter();
 
@@ -16,7 +22,7 @@ export function UpdateMoexButton({ userId }: { userId: string | undefined }) {
         success: "Data successfully updated",
         error: "Failed to update data.",
       })
-      // .then(() => router.refresh())
+      .then(() => updateContent())
       .catch((error) => {
         notification.add(error.message, "error", 6000);
       });
