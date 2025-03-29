@@ -4,8 +4,8 @@ import { FormProvider } from "@/components/FormContext";
 import { Button } from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useNotification } from "@/store/useNotification";
 
+import toast from "react-hot-toast";
 export function FormAssetAcc({
   createAcc,
   userId,
@@ -16,7 +16,7 @@ export function FormAssetAcc({
   isIIS?: boolean;
 }) {
   const router = useRouter();
-  const notification = useNotification();
+
   const form = useForm({});
 
   async function handleOnSubmit(data: any) {
@@ -48,13 +48,13 @@ export function FormAssetAcc({
   );
 
   async function onSubmit(data: any) {
-    notification
-      .promise(handleOnSubmit(data), {
+    toast.promise(
+      handleOnSubmit(data).then(() => router.refresh()),
+      {
         loading: "Creating...",
         success: "Successfully created!",
         error: "Failed to create.",
-      })
-      .then(() => router.refresh())
-      .catch(() => {});
+      }
+    );
   }
 }

@@ -1,4 +1,7 @@
 "use client";
+
+import toast from "react-hot-toast";
+
 import { fetchStockETFInfo, fetchBondInfo } from "@/services/MoexService";
 
 import { Input, Select } from "@/components/form-elements";
@@ -6,7 +9,6 @@ import { FormProvider } from "@/components/FormContext";
 import { Button } from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useNotification } from "@/store/useNotification";
 import * as fundSService from "@/services/FundSService";
 import * as stockService from "@/services/StockService";
 import * as fundBService from "@/services/FundBService";
@@ -37,7 +39,6 @@ export function FormAssets({
   getCurrencyServerBody: (data: any) => Promise<any>;
 }) {
   const router = useRouter();
-  const notification = useNotification();
   const form = useForm({});
 
   const type = form.watch("type") as AssType;
@@ -121,6 +122,8 @@ export function FormAssets({
       </Select>
 
       <Select name="type" required>
+        <option value="">Select option</option>
+
         <option value="stock">Stock</option>
         <option value="bond">Bond</option>
         <option value="ETFstock">ETF stock</option>
@@ -147,14 +150,13 @@ export function FormAssets({
   );
 
   async function onSubmit(data: any) {
-    notification
-      .promise(handleOnSubmit(data), {
+    toast.promise(
+      handleOnSubmit(data).then(() => router.refresh()),
+      {
         loading: "Creating...",
         success: "Successfully created!",
         error: "Failed to create.",
-      }).then(() => router.refresh())
-      .catch((error) => {
-        console.error(error);
-      });
+      }
+    );
   }
 }

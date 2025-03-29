@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/Button";
 import { updateMoexInfoByUserId } from "@/services/HomeService";
-
+import toast from "react-hot-toast";
 import { useNotification } from "@/store/useNotification";
 import { useRouter } from "next/navigation";
 
@@ -16,13 +16,18 @@ export function UpdateMoexButton({
   const router = useRouter();
 
   async function handleUpdateMoexInfoByUserId(userId: string | undefined) {
-    notification
-      .promise(updateMoexInfoByUserId(userId), {
-        loading: "Updating data...",
-        success: "Data successfully updated",
-        error: "Failed to update data.",
-      })
-      .then(() => updateContent())
+    toast
+      .promise(
+        updateMoexInfoByUserId(userId)
+          .then(() => updateContent())
+          .then(() => router.refresh()),
+        {
+          loading: "Updating data...",
+          success: "Data successfully updated",
+          error: "Failed to update data.",
+        }
+      )
+
       .catch((error) => {
         notification.add(error.message, "error", 6000);
       });

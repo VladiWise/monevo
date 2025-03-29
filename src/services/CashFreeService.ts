@@ -18,7 +18,7 @@ export async function getList(userId: string | undefined, brokerId: string | und
 
 export async function create(body: any, userId: string | undefined, brokerId: string | undefined) {
   try {
-    
+
     const data = await api.post(`/${PATH_POINT}?userId=${userId}&brokerId=${brokerId}`, body);
     revalidateTag("cash");
     revalidateTag("home");

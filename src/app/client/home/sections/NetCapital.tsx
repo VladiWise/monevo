@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-
+import toast from "react-hot-toast";
 import { SuspenseMainBlockWrapper } from "../SuspenseMainBlockWrapper";
 
 import { MainContainer } from "@/components/MainContainer";
@@ -128,15 +128,21 @@ export function NetCapital({
         variant="link"
         onClick={() => {
           if (!confirm("You really want to record data?")) return;
-          notification
-            .promise(totalService.create(data, userId), {
-              loading: "Updating data...",
-              success: "Data successfully updated",
-              error: "Failed to update data.",
-            })
-            .then(() => {
-              fetchPageData();
-            })
+          toast
+            .promise(
+              totalService
+                .create(data, userId)
+                .then(() => {
+                  fetchPageData();
+                })
+                .then(() => router.refresh()),
+              {
+                loading: "Updating data...",
+                success: "Data successfully updated",
+                error: "Failed to update data.",
+              }
+            )
+
             .catch((error) => {
               notification.add(error.message, "error", 6000);
             });

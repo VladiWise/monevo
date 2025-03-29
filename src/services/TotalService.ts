@@ -8,7 +8,7 @@ const NAME = "total";
 
 export async function getList(userId: string | undefined) {
   try {
-    const data = await api.get(`/${PATH_POINT}?userId=${userId}`, {next: {tags: ["total"]}});
+    const data = await api.get(`/${PATH_POINT}?userId=${userId}`, { next: { tags: ["total"] } });
     return data;
   } catch (error) {
     console.error(`Error fetching ${PATH_POINT}:`, error);
@@ -19,7 +19,7 @@ export async function getList(userId: string | undefined) {
 
 export async function getByUserId(userId: string | undefined) {
   try {
-    const data = await api.get(`/${PATH_POINT}?userId=${userId}`, {next: {tags: ["total"]}});
+    const data = await api.get(`/${PATH_POINT}?userId=${userId}`, { next: { tags: ["total"] } });
     return data;
   } catch (error) {
     console.error(`Error fetching ${NAME} with ID ${userId}:`, error);
@@ -28,10 +28,10 @@ export async function getByUserId(userId: string | undefined) {
 }
 
 export async function create(body: any, userId: string | undefined) {
-  
+
   try {
     const data = await api.post(`/${PATH_POINT}?userId=${userId}`, body);
-    
+
     revalidateTag("total");
     return data;
   } catch (error) {

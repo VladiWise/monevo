@@ -3,7 +3,7 @@
 import { useNotification } from "@/store/useNotification";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useRouter } from "next/navigation";
-
+import toast from "react-hot-toast";
 type DelButtonProps = {
   id: string;
   removeItem: (id: string) => Promise<void>;
@@ -17,13 +17,16 @@ export function DeleteButton({ id, removeItem }: DelButtonProps) {
 
     if (!removeAnswer) return;
 
-    notification
-      .promise(removeItem(id), {
-        loading: "Deleting data...",
-        success: "Data successfully deleted!",
-        error: "Failed to delete data.",
-      })
-      .then(() => router.refresh())
+    toast
+      .promise(
+        removeItem(id).then(() => router.refresh()),
+        {
+          loading: "Deleting data...",
+          success: "Data successfully deleted!",
+          error: "Failed to delete data.",
+        }
+      )
+
       .catch((err) => {
         notification.add(err.message, "error", 6000);
       });
