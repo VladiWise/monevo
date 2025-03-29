@@ -200,7 +200,7 @@ export default async function App() {
       <div className="flex animate-pulse space-x-4">
         <div className="flex flex-col gap-4 py-1 w-full">
           <div className="h-7 rounded bg-darkGray w-28"></div>
-
+{/* dfghdfhdfgh */}
           <div className="h-7 rounded bg-darkGray"></div>
           <div className="space-y-3">
             <div className="grid grid-cols-3 gap-4">
