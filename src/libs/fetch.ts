@@ -18,16 +18,15 @@ const handleRequest = async (url: string, options: RequestInit) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || "Something went wrong");
+      return { message: errorData.message || "Something went wrong"}
     }
 
     const data = await response.json();
     return data;
 
   } catch (error) {
-    throw error;
+    return { message: "Something went wrong"}
   }
-
 
 };
 
