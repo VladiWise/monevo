@@ -23,15 +23,15 @@ export async function TypeOfAssets({
 }) {
   const user = await getCurrentUser();
   const data = (await getAssetsInfoByUserId(user?.id)) as Data;
-  const IISTotal = await getAssetTypesByUserId(user?.id) as number;
+  const IISTotal = await getAssetTypesByUserId(user?.id);
 
   const totalAssets =
     data?.bonds +
     data?.stocks +
     data?.cashBroker +
     data?.deposit +
-    data?.cashFree
-    // data?.loan;
+    data?.cashFree;
+  // data?.loan;
 
   // await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -41,13 +41,13 @@ export async function TypeOfAssets({
         <section className=" grid grid-cols-[3fr_3fr_1fr] w-full items-center gap-x-2 gap-1 ">
           <SingleSection
             title="Liquid assets"
-            value={totalAssets - IISTotal}
+            value={totalAssets - (IISTotal ?? 0)}
             totalAssets={totalAssets}
           />
 
           <SingleSection
             title="IIS"
-            value={IISTotal}
+            value={IISTotal ?? 0}
             totalAssets={totalAssets}
           />
         </section>
