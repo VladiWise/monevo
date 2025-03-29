@@ -40,12 +40,18 @@ export function NetCapital({
   }, []);
 
   async function fetchPageData() {
-    setData(await getAssetsInfoByUserId(userId));
-
+    const assetsInfo = await getAssetsInfoByUserId(userId);
+    if (assetsInfo) {
+      setData(assetsInfo);
+    } else {
+      // Handle the case where assetsInfo is undefined
+      console.error('Failed to fetch assets info');
+    }
+  
     setTotalPrev(await totalService.getByUserId(userId));
-
+  
     setUSD(await fetchCurrencyValue("USD"));
-
+  
     setIsLoading(false);
   }
 
