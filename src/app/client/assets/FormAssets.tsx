@@ -152,7 +152,7 @@ export function FormAssets({
         loading: "Creating...",
         success: "Successfully created!",
         error: "Failed to create.",
-      })
+      }).then(() => router.refresh())
       .catch((error) => {
         console.error(error);
       });

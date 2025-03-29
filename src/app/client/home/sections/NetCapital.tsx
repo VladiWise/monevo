@@ -45,32 +45,32 @@ export function NetCapital({
       setData(assetsInfo);
     } else {
       // Handle the case where assetsInfo is undefined
-      console.error('Failed to fetch assets info');
+      console.error("Failed to fetch assets info");
     }
-  
+
     setTotalPrev(await totalService.getByUserId(userId));
-  
+
     setUSD(await fetchCurrencyValue("USD"));
-  
+
     setIsLoading(false);
   }
 
   const notification = useNotification();
 
   const currentSum =
-    data?.bonds +
-    data?.stocks +
-    data?.cashBroker +
-    data?.deposit +
-    data?.cashFree -
-    data?.loan;
+    +data?.bonds +
+    +data?.stocks +
+    +data?.cashBroker +
+    +data?.deposit +
+    +data?.cashFree -
+    +data?.loan;
   const prevSum =
-    totalPrev?.total?.assets?.bonds +
-    totalPrev?.total?.assets?.stocks +
-    totalPrev?.total?.assets?.cashBroker +
-    totalPrev?.total?.assets?.deposit +
-    totalPrev?.total?.assets?.cashFree -
-    totalPrev?.total?.assets?.loan;
+    +totalPrev?.total?.assets?.bonds +
+    +totalPrev?.total?.assets?.stocks +
+    +totalPrev?.total?.assets?.cashBroker +
+    +totalPrev?.total?.assets?.deposit +
+    +totalPrev?.total?.assets?.cashFree -
+    +totalPrev?.total?.assets?.loan;
 
   function sumAssets(currency: string) {
     const diff = currentSum - prevSum;

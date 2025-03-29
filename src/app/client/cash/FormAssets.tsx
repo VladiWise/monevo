@@ -33,7 +33,6 @@ export function FormAssets({
   const notification = useNotification();
   const form = useForm({});
 
-
   const type = form.watch("type") as AssType;
 
   async function handleOnSubmit(data: any) {
@@ -101,6 +100,7 @@ export function FormAssets({
         success: "Successfully created!",
         error: "Failed to create.",
       })
+      .then(() => router.refresh())
       .catch((error) => {
         console.error(error);
       });

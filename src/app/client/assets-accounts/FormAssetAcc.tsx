@@ -37,10 +37,12 @@ export function FormAssetAcc({
     >
       <Input name="shortName" type="text" placeholder="Short name" required />
       <Input name="fullName" type="text" placeholder="Full name" required />
-{      isIIS && <Select name="isIIS" required>
-        <option value="false">Not IIS</option>
-        <option value="true">IIS</option>
-      </Select>}
+      {isIIS && (
+        <Select name="isIIS" required>
+          <option value="false">Not IIS</option>
+          <option value="true">IIS</option>
+        </Select>
+      )}
       <Button type="submit">Create</Button>
     </FormProvider>
   );
@@ -52,6 +54,7 @@ export function FormAssetAcc({
         success: "Successfully created!",
         error: "Failed to create.",
       })
+      .then(() => router.refresh())
       .catch(() => {});
   }
 }

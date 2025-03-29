@@ -23,7 +23,7 @@ export function DeleteButton({ id, removeItem }: DelButtonProps) {
         success: "Data successfully deleted!",
         error: "Failed to delete data.",
       })
-      // .then(() => router.refresh())
+      .then(() => router.refresh())
       .catch((err) => {
         notification.add(err.message, "error", 6000);
       });
