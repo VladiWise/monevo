@@ -18,21 +18,11 @@ export default function Error({
   return (
     <>
       <main className="flex flex-col items-center justify-center h-full min-h-fit w-full overflow-x-hidden">
-        <h2>Something went wrong!</h2>
+        <h2>{error.message || "Something went wrong!"}</h2>
         <button
-          onClick={
-            // Attempt to recover by trying to re-render the segment
-            async () => {
-              // const cookies = await fetch(`/api/logout`, {
-              //   method: "GET",
-              //   headers: {
-              //     "x-api-key": "c6uXEy4EJXE6tcCdKaNdSzPW3tHXO9pg",
-              //   },
-              // });
-
-              window.location.reload();
-            }
-          }
+          onClick={async () => {
+            window.location.reload();
+          }}
         >
           Try again
         </button>

@@ -13,7 +13,7 @@ export async function getAssetTypesByUserId(userId: string | undefined) {
     return data as number;
   } catch (error) {
     console.error(`Error fetching main client info with ID ${userId}:`, error);
-    throw error;
+    
   }
 }
 
@@ -24,7 +24,7 @@ export async function getAssetsInfoByUserId(userId: string | undefined) {
     return data as Data;
   } catch (error) {
     console.error(`Error fetching main client info with ID ${userId}:`, error);
-    throw error;
+    
   }
 }
 
@@ -34,22 +34,25 @@ export async function getCurrenciesInfoByUserId(userId: string | undefined) {
     return data
   } catch (error) {
     console.error(`Error fetching main client info with ID ${userId}:`, error);
-    throw error;
+    
   }
 }
 
 
 export async function updateMoexInfoByUserId(userId: string | undefined) {
-  revalidateTag("assets");
-  revalidateTag("cash");
-  revalidateTag("home");
 
   try {
     const data = await api.put(`/${PATH_POINT}?userId=${userId}`);
+
+    revalidateTag("assets");
+    revalidateTag("cash");
+    revalidateTag("home");
+
     return data;
+
   } catch (error) {
     console.error(`Error fetching main client info with ID ${userId}:`, error);
-    throw error;
+    
   }
 }
 
