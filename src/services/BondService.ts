@@ -8,11 +8,11 @@ const NAME = "bond";
 
 export async function getList(userId: string | undefined, brokerId: string | undefined) {
   try {
-    const data = await api.get(`/${PATH_POINT}?userId=${userId}&brokerId=${brokerId}`, {next: {tags: ["assets"]}});
+    const data = await api.get(`/${PATH_POINT}?userId=${userId}&brokerId=${brokerId}`, { next: { tags: ["assets"] } });
     return data;
   } catch (error) {
     console.error(`Error fetching ${PATH_POINT}:`, error);
-    
+
   }
 }
 
@@ -24,18 +24,24 @@ export async function create(body: any, userId: string | undefined, brokerId: st
     return data;
   } catch (error) {
     console.error(`Error creating ${NAME}:`, error);
-    
+
   }
 }
 
 export async function remove(id: string) {
-  revalidateTag("assets");
-  revalidateTag("home");
+
   try {
     const data = await api.delete(`/${PATH_POINT}/?id=${id}`);
+
+
+    revalidateTag("assets");
+    revalidateTag("home");
+
+
+
     return data;
   } catch (error) {
     console.error(`Error deleting ${NAME} with ID ${id}:`, error);
-    
+
   }
 }

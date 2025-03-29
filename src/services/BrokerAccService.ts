@@ -28,10 +28,10 @@ export async function getList(userId: string | undefined) {
 // }
 
 export async function create(body: any, userId: string) {
-  revalidateTag("accounts");
   try {
     // revalidatePath("/client/dashboard")
     const data = await api.post(`/${PATH_POINT}?userId=${userId}`, body);
+    revalidateTag("accounts");
     return data;
   } catch (error) {
     console.error(`Error creating ${NAME}:`, error);
@@ -53,10 +53,10 @@ export async function create(body: any, userId: string) {
 
 
 export async function remove(id: string) {
-  revalidateTag("accounts");
   try {
     // revalidatePath("/client/dashboard")
     const data = await api.delete(`/${PATH_POINT}/?id=${id}`);
+    revalidateTag("accounts");
     return data;
   } catch (error) {
     console.error(`Error deleting ${NAME} with ID ${id}:`, error);

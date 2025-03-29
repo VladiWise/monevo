@@ -28,11 +28,11 @@ export async function getByUserId(userId: string | undefined) {
 }
 
 export async function create(body: any, userId: string | undefined) {
-  revalidateTag("total");
-
+  
   try {
     const data = await api.post(`/${PATH_POINT}?userId=${userId}`, body);
-
+    
+    revalidateTag("total");
     return data;
   } catch (error) {
     console.error(`Error creating ${NAME}:`, error);
