@@ -22,9 +22,7 @@ import { getErrorMessage } from "@/utils/getErrorMessage";
 export async function GET(request: NextRequest) {
   try {
 
-
     await connectMongoDB();
-
 
     if (request.nextUrl.searchParams.get("userId")) {
 
@@ -51,12 +49,12 @@ export async function GET(request: NextRequest) {
 
 
       return NextResponse.json({
-        bonds: sumBond ?? 0 + sumFundB ?? 0,
-        stocks: sumStock ?? 0 + sumFundS ?? 0,
-        cashBroker: sumcurrency ?? 0,
-        cashFree: sumCashFree ?? 0,
-        deposit: sumDeposit ?? 0,
-        loan: sumLoan ?? 0
+        bonds: (sumBond || 0) + (sumFundB || 0),
+        stocks: (sumStock || 0) + (sumFundS || 0),
+        cashBroker: (sumcurrency || 0),
+        cashFree: (sumCashFree || 0),
+        deposit: (sumDeposit || 0),
+        loan: (sumLoan || 0)
       }, { status: 200 });
 
     } else {
