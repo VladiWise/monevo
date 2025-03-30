@@ -1,6 +1,8 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY
 
+import { getErrorMessage } from "@/utils/getErrorMessage";
+
 if (!API_URL) {
   console.error("NEXT_PUBLIC_API_URL environment variable is not set.");
   throw new Error("NEXT_PUBLIC_API_URL environment variable is not set.");
@@ -28,7 +30,7 @@ const handleRequest = async (url: string, options: RequestInit) => {
     return data;
 
   } catch (error) {
-    throw new Error(error?.message || "Something went wrong")
+    throw new Error(getErrorMessage(error));
   }
 
 };
