@@ -1,16 +1,14 @@
 "use client";
 
-import { useNotification } from "@/store/useNotification";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 type DelButtonProps = {
   id: string;
-  removeItem: (id: string) => Promise<void>;
+  removeItem: (id: string) => Promise<any>;
 };
 
 export function DeleteButton({ id, removeItem }: DelButtonProps) {
-  const notification = useNotification();
   const router = useRouter();
   async function handleRemove(id: string) {
     const removeAnswer = confirm(`You really wanna delete this item?`);
@@ -19,7 +17,13 @@ export function DeleteButton({ id, removeItem }: DelButtonProps) {
 
     toast
       .promise(
-        removeItem(id).then(() => router.refresh()),
+        removeItem(id)
+          .then((data) => {
+            if (data?.error) {
+              throw new Error(data.error);
+            }
+          })
+          .then(() => router.refresh()),
         {
           loading: "Deleting data...",
           success: "Data successfully deleted!",

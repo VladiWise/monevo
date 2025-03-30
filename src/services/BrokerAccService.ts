@@ -2,6 +2,7 @@
 
 import api from "@/libs/fetch";
 import { revalidateTag } from "next/cache";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 
 const PATH_POINT = "broker-accounts";
 const NAME = "broker account";
@@ -59,6 +60,6 @@ export async function remove(id: string) {
     revalidateTag("accounts");
     return data;
   } catch (error) {
-    throw new Error(`Error deleting ${NAME}.`);
+    return { error: getErrorMessage(error) };
   }
 }
