@@ -5,6 +5,8 @@ import { Button } from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
+import { getErrorMessage } from "@/utils/getErrorMessage";
+
 import toast from "react-hot-toast";
 export function FormAssetAcc({
   createAcc,
@@ -54,11 +56,10 @@ export function FormAssetAcc({
         {
           loading: "Creating...",
           success: "Successfully created!",
-          error: "Failed to create.",
         }
       )
       .catch((error) => {
-        error?.message && toast.error(error?.message);
+        toast.error(getErrorMessage(error, "Failed to create."));
       });
   }
 }

@@ -9,6 +9,8 @@ import { CURRENCY } from "@/utils/constants";
 import * as depositService from "@/services/DepositService";
 import * as cashFreeService from "@/services/CashFreeService";
 import * as loanService from "@/services/LoanService";
+
+import { getErrorMessage } from "@/utils/getErrorMessage";
 type Account = {
   _id: string;
   shortName: string;
@@ -98,11 +100,10 @@ export function FormAssets({
         {
           loading: "Creating...",
           success: "Successfully created!",
-          error: "Failed to create.",
         }
       )
       .catch((error) => {
-        error?.message && toast.error(error?.message);
+        toast.error(getErrorMessage(error, "Failed to create."));
       });
   }
 }
