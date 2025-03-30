@@ -40,7 +40,7 @@ export function NetCapital({
   }, []);
 
   async function fetchPageData() {
-    const assetsInfo = await getAssetsInfoByUserId(userId);
+    const assetsInfo = await getAssetsInfoByUserId(userId!);
     if (assetsInfo) {
       setData(assetsInfo);
     } else {
@@ -144,7 +144,7 @@ export function NetCapital({
             )
 
             .catch((error) => {
-              notification.add(error.message, "error", 6000);
+              toast.error(error?.message || "Failed to update data.");
             });
         }}
       >

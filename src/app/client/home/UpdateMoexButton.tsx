@@ -2,7 +2,7 @@
 import { Button } from "@/components/Button";
 import { updateMoexInfoByUserId } from "@/services/HomeService";
 import toast from "react-hot-toast";
-import { useNotification } from "@/store/useNotification";
+
 import { useRouter } from "next/navigation";
 
 export function UpdateMoexButton({
@@ -12,10 +12,9 @@ export function UpdateMoexButton({
   userId: string | undefined;
   updateContent: () => Promise<void>;
 }) {
-  const notification = useNotification();
   const router = useRouter();
 
-  async function handleUpdateMoexInfoByUserId(userId: string | undefined) {
+  async function handleUpdateMoexInfoByUserId(userId: string) {
     toast
       .promise(
         updateMoexInfoByUserId(userId)
@@ -24,17 +23,15 @@ export function UpdateMoexButton({
         {
           loading: "Updating data...",
           success: "Data successfully updated",
-          error: "Failed to update data.",
         }
       )
-
       .catch((error) => {
-        notification.add(error.message, "error", 6000);
+        toast.error(error?.message || "Failed to update data.");
       });
   }
 
   return (
-    <Button variant="link" onClick={() => handleUpdateMoexInfoByUserId(userId)}>
+    <Button variant="link" onClick={() => handleUpdateMoexInfoByUserId(userId!)}>
       Refresh
     </Button>
   );

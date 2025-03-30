@@ -59,7 +59,6 @@ export async function remove(id: string) {
     revalidateTag("accounts");
     return data;
   } catch (error) {
-    console.error(`Error deleting ${NAME} with ID ${id}:`, error);
     throw error;
   }
 }

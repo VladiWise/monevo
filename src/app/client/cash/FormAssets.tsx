@@ -92,13 +92,17 @@ export function FormAssets({
   );
 
   async function onSubmit(data: any) {
-    toast.promise(
-      handleOnSubmit(data).then(() => router.refresh()),
-      {
-        loading: "Creating...",
-        success: "Successfully created!",
-        error: "Failed to create.",
-      }
-    );
+    toast
+      .promise(
+        handleOnSubmit(data).then(() => router.refresh()),
+        {
+          loading: "Creating...",
+          success: "Successfully created!",
+          error: "Failed to create.",
+        }
+      )
+      .catch((error) => {
+        error?.message && toast.error(error?.message);
+      });
   }
 }

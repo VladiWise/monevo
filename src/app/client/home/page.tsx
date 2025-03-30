@@ -34,6 +34,9 @@ export type CurrenciesType = {
 
 export default async function App() {
   const user = await getCurrentUser();
+  if (!user?.id) {
+    throw new Error("User not authenticated");
+  }
 
   return (
     <div className="flex flex-col items-center w-full gap-10 md:grid md:grid-cols-2  ">
@@ -57,30 +60,3 @@ export default async function App() {
     </div>
   );
 }
-// export function SuspenseMainBlockWrapper({
-//   title = "Loading...",
-//   isLeftSection,
-// }: {
-//   title?: string;
-//   isLeftSection?: boolean;
-// }) {
-//   return (
-//     <MainBlockWrapper isLeftSection={isLeftSection} title={title}>
-//       <div className="animate-pulse flex flex-col h-full w-full justify-center gap-1">
-//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
-
-//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
-
-//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
-
-//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
-
-//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
-
-//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
-
-//         <div className="h-6 rounded-lg bg-darkGray w-full"></div>
-//       </div>
-//     </MainBlockWrapper>
-//   );
-// }

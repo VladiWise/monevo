@@ -22,7 +22,11 @@ export async function Categories({
   isLeftSection?: boolean;
 }) {
   const user = await getCurrentUser();
-  const data = (await getAssetsInfoByUserId(user?.id)) as Data;
+  if (!user?.id) {
+    throw new Error("User not authenticated");
+  }
+
+  const data = (await getAssetsInfoByUserId(user.id)) as Data;
 
   const totalAssets =
     data?.bonds +
@@ -30,9 +34,7 @@ export async function Categories({
     data?.cashBroker +
     data?.deposit +
     data?.cashFree;
-  // data?.loan;
 
-  // await new Promise((resolve) => setTimeout(resolve, 4000));
 
   return (
     <MainBlockWrapper title="Categories">

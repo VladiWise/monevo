@@ -23,12 +23,10 @@ export function DeleteButton({ id, removeItem }: DelButtonProps) {
         {
           loading: "Deleting data...",
           success: "Data successfully deleted!",
-          error: "Failed to delete data.",
         }
       )
-
       .catch((err) => {
-        notification.add(err.message, "error", 6000);
+        toast.error(err?.message || "Failed to delete data.");
       });
   }
 

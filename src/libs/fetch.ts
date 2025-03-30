@@ -16,16 +16,19 @@ const handleRequest = async (url: string, options: RequestInit) => {
   try {
     const response = await fetch(url, options);
 
+    console.log("response.ok", response.ok);
+
+
     if (!response.ok) {
       const errorData = await response.json();
-      return { message: errorData.message || "Something went wrong"}
+      throw new Error(errorData.message || "Something went wrong")
     }
 
     const data = await response.json();
     return data;
 
   } catch (error) {
-    return { message: "Something went wrong"}
+    throw new Error(error?.message || "Something went wrong")
   }
 
 };
@@ -59,7 +62,7 @@ const api = {
     });
   },
 
-  put: async (endpoint: string, body = {}) => {
+  put: async (endpoint: string, customOptions: RequestInit = {}, body = {}) => {
     const url = `${API_URL}${endpoint}`;
     return handleRequest(url, {
       method: "PUT",
@@ -68,6 +71,7 @@ const api = {
         "x-api-key": API_KEY,
       },
       body: JSON.stringify(body),
+      ...customOptions,
     });
   },
 
