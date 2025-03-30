@@ -14,8 +14,6 @@ import * as totalService from "@/services/TotalService";
 
 import { Data } from "@/app/client/home/page";
 
-
-
 export function NetCapitalClient({
   userId,
   isLeftSection,

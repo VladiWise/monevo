@@ -33,6 +33,8 @@ export async function create(body: any, userId: string | undefined) {
     const data = await api.post(`/${PATH_POINT}?userId=${userId}`, body);
 
     revalidateTag("total");
+    revalidateTag("home");
+
     return data;
   } catch (error) {
     console.error(`Error creating ${NAME}:`, error);
