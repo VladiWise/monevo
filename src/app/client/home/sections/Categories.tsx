@@ -22,11 +22,9 @@ export async function Categories({
   isLeftSection?: boolean;
 }) {
   const user = await getCurrentUser();
-  if (!user?.id) {
-    throw new Error("User not authenticated");
-  }
 
-  const data = (await getAssetsInfoByUserId(user.id)) as Data;
+
+  const data = (await getAssetsInfoByUserId(user.id!)) as Data;
 
   const totalAssets =
     data?.bonds +

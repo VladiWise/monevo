@@ -22,9 +22,10 @@ export async function Currencies({
   isLeftSection?: boolean;
 }) {
   const user = await getCurrentUser();
-  const data = (await getAssetsInfoByUserId(user?.id)) as Data;
+
+  const data = (await getAssetsInfoByUserId(user.id!)) as Data;
   const currencyCategories = (await getCurrenciesInfoByUserId(
-    user?.id
+    user.id!
   )) as CurrenciesType[];
 
   const totalAssets =

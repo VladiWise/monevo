@@ -34,9 +34,7 @@ export type CurrenciesType = {
 
 export default async function App() {
   const user = await getCurrentUser();
-  if (!user?.id) {
-    throw new Error("User not authenticated");
-  }
+
 
   return (
     <div className="flex flex-col items-center w-full gap-10 md:grid md:grid-cols-2  ">

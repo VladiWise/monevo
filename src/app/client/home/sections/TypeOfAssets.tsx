@@ -22,11 +22,9 @@ export async function TypeOfAssets({
   isLeftSection?: boolean;
 }) {
   const user = await getCurrentUser();
-  if (!user?.id) {
-    throw new Error("User not authenticated");
-  }
-  const data = (await getAssetsInfoByUserId(user?.id)) as Data;
-  const IISTotal = await getAssetTypesByUserId(user?.id);
+
+  const data = (await getAssetsInfoByUserId(user?.id!)) as Data;
+  const IISTotal = await getAssetTypesByUserId(user?.id!);
 
   const totalAssets =
     data?.bonds +
