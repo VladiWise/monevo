@@ -28,61 +28,69 @@ export async function GET(request: NextRequest) {
 
 }
 export async function POST(request: NextRequest) {
-  const userId = request.nextUrl.searchParams.get("userId");
-  const brokerId = request.nextUrl.searchParams.get("brokerId");
-
-  if (userId && brokerId) {
-
-    const { name, ticker, amount, price } =
-      await request.json();
-
-    await connectMongoDB();
+  try {
 
 
-    const existingItem = await MODEL.findOne({ userId, brokerId, ticker });
+    const userId = request.nextUrl.searchParams.get("userId");
+    const brokerId = request.nextUrl.searchParams.get("brokerId");
 
-    if (existingItem) {
-      if (existingItem.amount + amount < 0) {
+    if (userId && brokerId) {
+
+      const { name, ticker, amount, price } =
+        await request.json();
+
+      await connectMongoDB();
+
+
+      const existingItem = await MODEL.findOne({ userId, brokerId, ticker });
+
+      if (existingItem) {
+        if (existingItem.amount + amount < 0) {
+          return NextResponse.json(
+            { message: "Amount must be positive" },
+            { status: 400 }
+          );
+        } else if (existingItem.amount + amount === 0) {
+          await existingItem.deleteOne();
+          return NextResponse.json(
+            { message: "Deleted successfully" },
+            { status: 200 }
+          );
+        }
+      }
+
+      if (existingItem) {
+        existingItem.amount += amount;
+        existingItem.total += roundToTwoDecimals(price * amount);
+        await existingItem.save();
         return NextResponse.json(
-          { message: "Amount must be positive" },
-          { status: 400 }
-        );
-      } else if (existingItem.amount + amount === 0) {
-        await existingItem.deleteOne();
-        return NextResponse.json(
-          { message: "Deleted successfully" },
+          { message: "Updated successfully" },
           { status: 200 }
         );
       }
-    }
 
-    if (existingItem) {
-      existingItem.amount += amount;
-      existingItem.total += roundToTwoDecimals(price * amount);
-      await existingItem.save();
+      await MODEL.create({
+        userId,
+        brokerId,
+        name,
+        ticker,
+        price,
+        total: roundToTwoDecimals(price * amount),
+        amount,
+      });
+
       return NextResponse.json(
-        { message: "Updated successfully" },
-        { status: 200 }
+        { message: "Created successfully" },
+        { status: 201 }
       );
+
+    } else {
+      return NextResponse.json({ message: "User ID not provided or ID not provided" }, { status: 400 });
     }
 
-    await MODEL.create({
-      userId,
-      brokerId,
-      name,
-      ticker,
-      price,
-      total: roundToTwoDecimals(price * amount),
-      amount,
-    });
+  } catch (error) {
+    return NextResponse.json({ message: "Error creating item" }, { status: 400 });
 
-    return NextResponse.json(
-      { message: "Created successfully" },
-      { status: 201 }
-    );
-
-  } else {
-    return NextResponse.json({ message: "User ID not provided or ID not provided" }, { status: 400 });
   }
 
 }

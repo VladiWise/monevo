@@ -1,6 +1,8 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY
 
+import { getErrorMessage } from "@/utils/getErrorMessage";
+
 if (!API_URL) {
   console.error("NEXT_PUBLIC_API_URL environment variable is not set.");
   throw new Error("NEXT_PUBLIC_API_URL environment variable is not set.");
@@ -16,18 +18,20 @@ const handleRequest = async (url: string, options: RequestInit) => {
   try {
     const response = await fetch(url, options);
 
+    console.log("response.ok", response.ok);
+
+
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || "Something went wrong");
+      throw new Error(errorData.message || "Something went wrong")
     }
 
     const data = await response.json();
     return data;
 
   } catch (error) {
-    throw error;
+    throw new Error(getErrorMessage(error));
   }
-
 
 };
 
@@ -60,7 +64,7 @@ const api = {
     });
   },
 
-  put: async (endpoint: string, body = {}) => {
+  put: async (endpoint: string, customOptions: RequestInit = {}, body = {}) => {
     const url = `${API_URL}${endpoint}`;
     return handleRequest(url, {
       method: "PUT",
@@ -69,6 +73,7 @@ const api = {
         "x-api-key": API_KEY,
       },
       body: JSON.stringify(body),
+      ...customOptions,
     });
   },
 

@@ -2,6 +2,7 @@ import connectMongoDB from "@/libs/mongodb";
 import BankAccounts from "@/models/bank-account";
 import Deposit from "@/models/deposit";
 import CashFree from "@/models/cash-free";
+import Loan from "@/models/loan";
 
 import { NextResponse, NextRequest } from "next/server";
 
@@ -56,12 +57,13 @@ export async function DELETE(request: NextRequest) {
   // REWORK TO DEPOSITS
   const deposits = await Deposit.find({ brokerId: id });
   const cashFree = await CashFree.find({ brokerId: id });
+  const loans = await Loan.find({ brokerId: id });
 
 
 
-  if (deposits.length > 0 || cashFree.length > 0) {
+  if (deposits.length > 0 || cashFree.length > 0 || loans.length > 0) {
     return NextResponse.json(
-      { message: "Broker account cannot be deleted because it has assets" },
+      { message: "Bank account cannot be deleted because it has assets" },
       { status: 400 }
     )
   }

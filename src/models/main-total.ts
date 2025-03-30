@@ -8,7 +8,9 @@ const totalSchema = new Schema(
       cashBroker: { type: Number, required: true },
       deposit: { type: Number, required: true },
       cashFree: { type: Number, required: true },
+      loan: { type: Number, required: true },
     },
+
 
     userId: {
       type: Schema.Types.ObjectId,

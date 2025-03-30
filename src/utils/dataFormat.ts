@@ -1,10 +1,8 @@
 export function getLocalDateByISO(isoDateString: Date): string {
   const date = new Date(isoDateString);
-  const day = date.getDate().toString().padStart(2, "0");
-  const month = (date.getMonth() + 1).toString().padStart(2, "0");
-  const shortYear = date.getFullYear().toString().slice(-2);
 
-  return `${day}.${month}.${shortYear}`;
+
+  return date.toLocaleString();
 }
 
 export function calculateYearsAndMonths(targetDate: Date): string {

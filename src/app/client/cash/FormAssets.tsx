@@ -1,13 +1,16 @@
 "use client";
-
+import toast from "react-hot-toast";
 import { Input, Select } from "@/components/form-elements";
 import { FormProvider } from "@/components/FormContext";
 import { Button } from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useNotification } from "@/store/useNotification";
+import { CURRENCY } from "@/utils/constants";
 import * as depositService from "@/services/DepositService";
 import * as cashFreeService from "@/services/CashFreeService";
+import * as loanService from "@/services/LoanService";
+
+import { getErrorMessage } from "@/utils/getErrorMessage";
 type Account = {
   _id: string;
   shortName: string;
@@ -28,17 +31,7 @@ export function FormAssets({
   getCurrencyServerBody: (data: any) => Promise<any>;
 }) {
   const router = useRouter();
-  const notification = useNotification();
   const form = useForm({});
-
-  const CURRENCY = {
-    SUR: "Рубль",
-    USD: "Доллар США",
-    EUR: "Евро",
-    GBP: "Фунт стерлингов Соединенного королевства",
-    CNY: "Китайский юань",
-    KZT: "Казахтанский тенге",
-  };
 
   const type = form.watch("type") as AssType;
 
@@ -50,11 +43,13 @@ export function FormAssets({
 
       if (type === "deposit") {
         await depositService.create(currencyBody, userId, data.brokerId);
-      } else {
+      } else if (type === "cashFree") {
         await cashFreeService.create(currencyBody, userId, data.brokerId);
+      } else if (type === "loan") {
+        await loanService.create(currencyBody, userId, data.brokerId);
       }
 
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       throw error;
     }
@@ -75,9 +70,11 @@ export function FormAssets({
       </Select>
 
       <Select name="type" required>
+        <option value="">Select option</option>
         <option value="deposit">Deposit</option>
-
         <option value="cashFree">Cash</option>
+
+        <option value="loan">Loan</option>
       </Select>
 
       <Select name="currency" required>
@@ -90,21 +87,23 @@ export function FormAssets({
 
       {/* <Input name="matDate" type="date" placeholder="Mat date" required /> */}
 
-      <Input name="amount" type="text" placeholder="Amount" required />
+      <Input name="amount" type="number" placeholder="Amount" required />
 
       <Button type="submit">Create</Button>
     </FormProvider>
   );
 
   async function onSubmit(data: any) {
-    notification
-      .promise(handleOnSubmit(data), {
-        loading: "Creating...",
-        success: "Successfully created!",
-        error: "Failed to create.",
-      })
+    toast
+      .promise(
+        handleOnSubmit(data).then(() => router.refresh()),
+        {
+          loading: "Creating...",
+          success: "Successfully created!",
+        }
+      )
       .catch((error) => {
-        console.error(error);
+        toast.error(getErrorMessage(error, "Failed to create."));
       });
   }
 }

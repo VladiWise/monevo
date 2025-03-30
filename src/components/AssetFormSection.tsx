@@ -69,7 +69,7 @@ export default function AssetFormSection({
         : service.create(serverBody, currentUser?.id);
 
       await action;
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       console.error(error);
       throw error;

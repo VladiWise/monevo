@@ -1,4 +1,7 @@
 "use client";
+
+import toast from "react-hot-toast";
+
 import { fetchStockETFInfo, fetchBondInfo } from "@/services/MoexService";
 
 import { Input, Select } from "@/components/form-elements";
@@ -6,12 +9,14 @@ import { FormProvider } from "@/components/FormContext";
 import { Button } from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useNotification } from "@/store/useNotification";
 import * as fundSService from "@/services/FundSService";
 import * as stockService from "@/services/StockService";
 import * as fundBService from "@/services/FundBService";
 import * as bondService from "@/services/BondService";
 import * as currencyService from "@/services/CurrencyService";
+import { CURRENCY } from "@/utils/constants";
+
+import { getErrorMessage } from "@/utils/getErrorMessage";
 type Account = {
   _id: string;
   shortName: string;
@@ -36,17 +41,7 @@ export function FormAssets({
   getCurrencyServerBody: (data: any) => Promise<any>;
 }) {
   const router = useRouter();
-  const notification = useNotification();
   const form = useForm({});
-
-  const CURRENCY = {
-    SUR: "Рубль",
-    USD: "Доллар США",
-    EUR: "Евро",
-    GBP: "Фунт стерлингов Соединенного королевства",
-    CNY: "Китайский юань",
-    KZT: "Казахтанский тенге",
-  };
 
   const type = form.watch("type") as AssType;
 
@@ -108,7 +103,7 @@ export function FormAssets({
           break;
       }
 
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       throw error;
     }
@@ -129,6 +124,8 @@ export function FormAssets({
       </Select>
 
       <Select name="type" required>
+        <option value="">Select option</option>
+
         <option value="stock">Stock</option>
         <option value="bond">Bond</option>
         <option value="ETFstock">ETF stock</option>
@@ -148,21 +145,23 @@ export function FormAssets({
         <Input name="ticker" type="text" placeholder="Ticker" required />
       )}
 
-      <Input name="amount" type="text" placeholder="Amount" required />
+      <Input name="amount" type="number" placeholder="Amount" required />
 
       <Button type="submit">Create</Button>
     </FormProvider>
   );
 
   async function onSubmit(data: any) {
-    notification
-      .promise(handleOnSubmit(data), {
-        loading: "Creating...",
-        success: "Successfully created!",
-        error: "Failed to create.",
-      })
+    toast
+      .promise(
+        handleOnSubmit(data).then(() => router.refresh()),
+        {
+          loading: "Creating...",
+          success: "Successfully created!",
+        }
+      )
       .catch((error) => {
-        console.error(error);
+        toast.error(getErrorMessage(error, "Failed to create."));
       });
   }
 }

@@ -1,39 +1,60 @@
+import { Currencies } from "./sections/Currencies";
+import { TypeOfAssets } from "./sections/TypeOfAssets";
+import { Categories } from "./sections/Categories";
+import { MainBlockWrapper } from "./MainBlockWrapper";
+import { Suspense } from "react";
+import { SuspenseMainBlockWrapper } from "./SuspenseMainBlockWrapper";
+
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
+
 import {
   getAssetsInfoByUserId,
-  updateMoexInfoByUserId,
+  getAssetTypesByUserId,
 } from "@/services/HomeService";
-import { MainContainer } from "@/components/MainContainer";
-import { CardIcon } from "@/components/SvgIcons";
-import { Button } from "@/components/Button";
-import { UpdateMoexButton } from "./UpdateMoexButton";
-import { roundToTwoDecimals } from "@/utils/mathUtils";
-import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
-import { MainAssetBoard } from "./MainAssetBoard";
-import * as totalService from "@/services/TotalService";
 
-type Data = {
+import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
+import { NetCapital } from "./sections/NetCapital";
+import * as totalService from "@/services/TotalService";
+import { CURRENCY } from "@/utils/constants";
+
+export type Data = {
   bonds: number;
   stocks: number;
   cashBroker: number;
   cashFree: number;
   deposit: number;
+  loan: number;
 };
+
+export type CurrenciesType = {
+  currency: keyof typeof CURRENCY;
+  name: (typeof CURRENCY)[keyof typeof CURRENCY];
+  value: number;
+};
+
 export default async function App() {
   const user = await getCurrentUser();
-  const data = (await getAssetsInfoByUserId(user?.id)) as Data;
-  const totalPrev = await totalService.getByUserId(user?.id);
 
-  const usdValue = await fetchCurrencyValue("USD");
 
   return (
-    <div className="flex flex-col gap-10 sm:p-4 w-full h-full items-center text-sm font-light">
-      <MainAssetBoard
-        userId={user?.id}
-        data={data}
-        usdValue={usdValue}
-        totalPrev={totalPrev}
-      />
+    <div className="flex flex-col items-center w-full gap-10 md:grid md:grid-cols-2  ">
+      <NetCapital userId={user?.id} isLeftSection />
+
+      <Suspense fallback={<SuspenseMainBlockWrapper title="Categories" />}>
+        <Categories />
+      </Suspense>
+
+      <Suspense
+        fallback={
+          <SuspenseMainBlockWrapper title="Type of assets" isLeftSection />
+        }
+      >
+        <TypeOfAssets isLeftSection />
+      </Suspense>
+
+      <Suspense fallback={<SuspenseMainBlockWrapper title="Currencies" />}>
+        <Currencies />
+      </Suspense>
     </div>
   );
 }

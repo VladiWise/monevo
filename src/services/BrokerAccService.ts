@@ -1,14 +1,14 @@
 "use server";
 
 import api from "@/libs/fetch";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 const PATH_POINT = "broker-accounts";
 const NAME = "broker account";
 
 export async function getList(userId: string | undefined) {
   try {
-    const data = await api.get(`/${PATH_POINT}?userId=${userId}`);
+    const data = await api.get(`/${PATH_POINT}?userId=${userId}`, {next: {tags: ["accounts"]}});
     return data;
   } catch (error) {
     console.error(`Error fetching ${PATH_POINT}:`, error);
@@ -29,9 +29,9 @@ export async function getList(userId: string | undefined) {
 
 export async function create(body: any, userId: string) {
   try {
-    revalidatePath("/client/assets-accounts")
     // revalidatePath("/client/dashboard")
     const data = await api.post(`/${PATH_POINT}?userId=${userId}`, body);
+    revalidateTag("accounts");
     return data;
   } catch (error) {
     console.error(`Error creating ${NAME}:`, error);
@@ -54,12 +54,11 @@ export async function create(body: any, userId: string) {
 
 export async function remove(id: string) {
   try {
-    revalidatePath("/client/assets-accounts")
     // revalidatePath("/client/dashboard")
     const data = await api.delete(`/${PATH_POINT}/?id=${id}`);
+    revalidateTag("accounts");
     return data;
   } catch (error) {
-    console.error(`Error deleting ${NAME} with ID ${id}:`, error);
     throw error;
   }
 }

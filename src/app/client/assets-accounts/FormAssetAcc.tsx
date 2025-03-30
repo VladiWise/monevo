@@ -4,8 +4,10 @@ import { FormProvider } from "@/components/FormContext";
 import { Button } from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useNotification } from "@/store/useNotification";
 
+import { getErrorMessage } from "@/utils/getErrorMessage";
+
+import toast from "react-hot-toast";
 export function FormAssetAcc({
   createAcc,
   userId,
@@ -16,14 +18,14 @@ export function FormAssetAcc({
   isIIS?: boolean;
 }) {
   const router = useRouter();
-  const notification = useNotification();
+
   const form = useForm({});
 
   async function handleOnSubmit(data: any) {
     try {
       form.reset();
       await createAcc(data, userId);
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       console.error(`Error creating ${userId}:`, error);
     }
@@ -37,21 +39,27 @@ export function FormAssetAcc({
     >
       <Input name="shortName" type="text" placeholder="Short name" required />
       <Input name="fullName" type="text" placeholder="Full name" required />
-{      isIIS && <Select name="isIIS" required>
-        <option value="false">Not IIS</option>
-        <option value="true">IIS</option>
-      </Select>}
+      {isIIS && (
+        <Select name="isIIS" required>
+          <option value="false">Not IIS</option>
+          <option value="true">IIS</option>
+        </Select>
+      )}
       <Button type="submit">Create</Button>
     </FormProvider>
   );
 
   async function onSubmit(data: any) {
-    notification
-      .promise(handleOnSubmit(data), {
-        loading: "Creating...",
-        success: "Successfully created!",
-        error: "Failed to create.",
-      })
-      .catch(() => {});
+    toast
+      .promise(
+        handleOnSubmit(data).then(() => router.refresh()),
+        {
+          loading: "Creating...",
+          success: "Successfully created!",
+        }
+      )
+      .catch((error) => {
+        toast.error(getErrorMessage(error, "Failed to create."));
+      });
   }
 }

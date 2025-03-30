@@ -45,7 +45,7 @@ const navLinks: NavLink[] = [
     icon: <IoIosBrowsers size={ICON_SIZE} />,
   },
   {
-    href: "/client/dashboard",
+    href: "/client/assets",
     label: "Assets",
     icon: <FaBox size={ICON_SIZE} />,
   },

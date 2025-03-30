@@ -4,7 +4,7 @@ import { FormAssets } from "./FormAssets";
 import { MainContainer } from "@/components/MainContainer";
 import { getLocalDateByISO } from "@/utils/dataFormat";
 import { roundToTwoDecimals } from "@/utils/mathUtils";
-import { CURRENCY } from "@/utils/moexInfo";
+import { CURRENCY } from "@/utils/constants";
 import React, { Suspense } from "react";
 import { TableAssets } from "./TableAssets";
 import { Heading } from "@/components/Heading";
@@ -15,6 +15,7 @@ import { getDataByField } from "@/utils/moexInfo";
 
 import * as depositService from "@/services/DepositService";
 import * as cashFreeService from "@/services/CashFreeService";
+import * as loanService from "@/services/LoanService";
 type Account = {
   _id: string;
   shortName: string;
@@ -113,11 +114,11 @@ const bondColumns = [
 ];
 
 const currencyColumns = [
-  {
-    title: "Created",
-    name: "createdAt",
-    getCellContent: (item: any) => getLocalDateByISO(item.createdAt),
-  },
+  // {
+  //   title: "Created",
+  //   name: "createdAt",
+  //   getCellContent: (item: any) => getLocalDateByISO(item.createdAt),
+  // },
   {
     title: "Updated",
     name: "updatedAt",
@@ -237,7 +238,6 @@ export default async function App() {
           <MainContainer key={account._id}>
             <Heading>{account.shortName}</Heading>
 
-
             <SuspenseLoading>
               <TableAssets
                 userId={user?.id}
@@ -260,7 +260,16 @@ export default async function App() {
               </TableAssets>
             </SuspenseLoading>
 
-           
+            <SuspenseLoading>
+              <TableAssets
+                userId={user?.id}
+                accountId={account._id}
+                columns={currencyColumns}
+                service={loanService}
+              >
+                Loan
+              </TableAssets>
+            </SuspenseLoading>
           </MainContainer>
         );
       })}

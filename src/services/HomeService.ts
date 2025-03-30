@@ -1,37 +1,58 @@
 "use server";
 
 import api from "@/libs/fetch";
-import { revalidatePath } from "next/cache";
-
+import { revalidateTag } from "next/cache";
+import { type Data } from "@/app/client/home/page";
 const PATH_POINT = "home";
 
 
-type Asset = {
-  bonds: number;
-  stocks: number;
-  cashBroker: number;
-};
 
-export async function getAssetsInfoByUserId(userId: string | undefined) {
+export async function getAssetTypesByUserId(userId: string) {
   try {
-    const data = await api.get(`/${PATH_POINT}?userId=${userId}`);
-    return data as Asset;
+    const data = await api.get(`/${PATH_POINT}/asset-type?userId=${userId}`, { next: { tags: ["home"] } });
+    return data as number;
   } catch (error) {
     console.error(`Error fetching main client info with ID ${userId}:`, error);
-    throw error;
+    throw error
   }
 }
 
 
-export async function updateMoexInfoByUserId(userId: string | undefined) {
+export async function getAssetsInfoByUserId(userId: string) {
   try {
-    revalidatePath("/client/home")
-    revalidatePath("/client/dashboard")
-    const data = await api.put(`/${PATH_POINT}?userId=${userId}`);
-    return data;
+    const data = await api.get(`/${PATH_POINT}?userId=${userId}`, { next: { tags: ["home"] } });
+    return data as Data;
   } catch (error) {
     console.error(`Error fetching main client info with ID ${userId}:`, error);
-    throw error;
+    throw error
+  }
+}
+
+export async function getCurrenciesInfoByUserId(userId: string) {
+  try {
+    const data = await api.get(`/${PATH_POINT}/currencies?userId=${userId}`, { next: { tags: ["home"] } });
+    return data
+  } catch (error) {
+    console.error(`Error fetching main client info with ID ${userId}:`, error);
+    throw error
+  }
+}
+
+
+export async function updateMoexInfoByUserId(userId: string) {
+  try {
+    await api.put(`/${PATH_POINT}?userId=${userId}`);
+    revalidateTag("assets");
+    revalidateTag("cash");
+    revalidateTag("home");
+
+
+
+  } catch (error) {
+
+    console.log("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+
+    throw error
   }
 }
 
