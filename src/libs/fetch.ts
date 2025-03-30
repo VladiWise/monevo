@@ -18,9 +18,6 @@ const handleRequest = async (url: string, options: RequestInit) => {
   try {
     const response = await fetch(url, options);
 
-    console.log("response.ok", response.ok);
-
-
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || "Something went wrong")
