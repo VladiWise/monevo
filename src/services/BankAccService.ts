@@ -2,7 +2,7 @@
 
 import api from "@/libs/fetch";
 import { revalidateTag } from "next/cache";
-
+import { getErrorMessage } from "@/utils/getErrorMessage";
 
 const PATH_POINT = "bank-accounts";
 const NAME = "bank account";
@@ -12,8 +12,7 @@ export async function getList(userId: string | undefined) {
     const data = await api.get(`/${PATH_POINT}?userId=${userId}`, { next: { tags: ["accounts"] } });
     return data;
   } catch (error) {
-    console.error(`Error fetching ${PATH_POINT}:`, error);
-    throw error;
+    return { error: getErrorMessage(error) };
   }
 }
 
@@ -35,8 +34,7 @@ export async function create(body: any, userId: string) {
     revalidateTag("accounts");
     return data;
   } catch (error) {
-    console.error(`Error creating ${NAME}:`, error);
-    throw error;
+    return { error: getErrorMessage(error) };
   }
 }
 
@@ -56,11 +54,10 @@ export async function create(body: any, userId: string) {
 export async function remove(id: string) {
   try {
 
-    const data = await api.delete(`/${PATH_POINT}/?id=${id}`);
+    await api.delete(`/${PATH_POINT}/?id=${id}`);
     revalidateTag("accounts");
-    return data;
+
   } catch (error) {
-    console.error(`Error deleting ${NAME} with ID ${id}:`, error);
-    throw error;
+    return { error: getErrorMessage(error) };
   }
 }

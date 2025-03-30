@@ -2,6 +2,7 @@
 
 import { HiOutlineTrash } from "react-icons/hi";
 import { useRouter } from "next/navigation";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 import toast from "react-hot-toast";
 type DelButtonProps = {
   id: string;
@@ -29,8 +30,8 @@ export function DeleteButton({ id, removeItem }: DelButtonProps) {
           success: "Data successfully deleted!",
         }
       )
-      .catch((err) => {
-        toast.error(err?.message || "Failed to delete data.");
+      .catch((error) => {
+        toast.error(getErrorMessage(error, "Failed to delete data."));
       });
   }
 
