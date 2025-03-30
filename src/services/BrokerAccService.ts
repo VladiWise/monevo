@@ -8,7 +8,7 @@ const NAME = "broker account";
 
 export async function getList(userId: string | undefined) {
   try {
-    const data = await api.get(`/${PATH_POINT}?userId=${userId}`, {next: {tags: ["accounts"]}});
+    const data = await api.get(`/${PATH_POINT}?userId=${userId}`, { next: { tags: ["accounts"] } });
     return data;
   } catch (error) {
     console.error(`Error fetching ${PATH_POINT}:`, error);
@@ -59,6 +59,6 @@ export async function remove(id: string) {
     revalidateTag("accounts");
     return data;
   } catch (error) {
-    throw error;
+    throw new Error(`Error deleting ${NAME}.`);
   }
 }
