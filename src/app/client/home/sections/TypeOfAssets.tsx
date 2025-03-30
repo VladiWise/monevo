@@ -23,6 +23,8 @@ export async function TypeOfAssets({
 }) {
   const user = await getCurrentUser();
 
+  if (!user) return null;
+
   const data = (await getAssetsInfoByUserId(user.id));
   const IISTotal = await getAssetTypesByUserId(user.id);
 

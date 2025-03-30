@@ -9,13 +9,8 @@ type User = {
   image: string;
 };
 
-export async function getCurrentUser(): Promise<User> {
+export async function getCurrentUser():Promise<User | undefined> {
   const session = await auth();
 
-
-  if (!session?.user?.id) {
-    throw new Error("User not authenticated");
-  }
-
-  return session.user as User;
+  return session?.user as User;
 }

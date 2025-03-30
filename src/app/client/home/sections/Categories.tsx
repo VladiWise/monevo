@@ -23,8 +23,9 @@ export async function Categories({
 }) {
   const user = await getCurrentUser();
 
+  if (!user) return null;
 
-  const data = (await getAssetsInfoByUserId(user.id!)) as Data;
+  const data = (await getAssetsInfoByUserId(user.id)) as Data;
 
   const totalAssets =
     data?.bonds +
