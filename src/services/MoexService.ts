@@ -4,7 +4,7 @@ export async function fetchBoardid(ticker: string) {
   try {
     const response = await fetch(
       `https://iss.moex.com/iss/securities/${ticker}.json?iss.meta=off&iss.only=boards&boards.columns=secid,is_primary,boardid`, {
-      next: { revalidate: 1 },
+      next: { revalidate: 60 },
     }
     );
 
@@ -25,7 +25,7 @@ export async function fetchStockETFInfo(ticker: string) {
   try {
     const boardid = await fetchBoardid(ticker);
     const response = await fetch(
-      `https://iss.moex.com/iss/engines/stock/markets/shares/boards/${boardid}/securities/${ticker}.json?iss.meta=off`, { next: { revalidate: 1 }, }
+      `https://iss.moex.com/iss/engines/stock/markets/shares/boards/${boardid}/securities/${ticker}.json?iss.meta=off`, { next: { revalidate: 60 }, }
     );
 
     const data = await response.json();
@@ -45,7 +45,7 @@ export async function fetchBondInfo(ticker: string) {
   try {
     const boardid = await fetchBoardid(ticker);
     const response = await fetch(
-      `https://iss.moex.com/iss/engines/stock/markets/bonds/boards/${boardid}/securities/${ticker}.json?iss.meta=off`, { next: { revalidate: 1 }, }
+      `https://iss.moex.com/iss/engines/stock/markets/bonds/boards/${boardid}/securities/${ticker}.json?iss.meta=off`, { next: { revalidate: 60 }, }
     );
 
     const data = await response.json();
