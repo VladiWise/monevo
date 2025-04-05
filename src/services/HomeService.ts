@@ -1,5 +1,5 @@
 "use server";
-
+import { getErrorMessage } from "@/utils/getErrorMessage";
 import api from "@/libs/fetch";
 import { revalidateTag } from "next/cache";
 import { type Data } from "@/app/client/home/page";
@@ -12,8 +12,7 @@ export async function getAssetTypesByUserId(userId: string) {
     const data = await api.get(`/${PATH_POINT}/asset-type?userId=${userId}`, { next: { tags: ["home"] } });
     return data as number;
   } catch (error) {
-    console.error(`Error fetching main client info with ID ${userId}:`, error);
-    throw error
+    return { error: getErrorMessage(error) };
   }
 }
 
@@ -23,8 +22,7 @@ export async function getAssetsInfoByUserId(userId: string) {
     const data = await api.get(`/${PATH_POINT}?userId=${userId}`, { next: { tags: ["home"] } });
     return data as Data;
   } catch (error) {
-    console.error(`Error fetching main client info with ID ${userId}:`, error);
-    throw error
+    return { error: getErrorMessage(error) };
   }
 }
 
@@ -33,8 +31,7 @@ export async function getCurrenciesInfoByUserId(userId: string) {
     const data = await api.get(`/${PATH_POINT}/currencies?userId=${userId}`, { next: { tags: ["home"] } });
     return data
   } catch (error) {
-    console.error(`Error fetching main client info with ID ${userId}:`, error);
-    throw error
+    return { error: getErrorMessage(error) };
   }
 }
 
@@ -50,9 +47,7 @@ export async function updateMoexInfoByUserId(userId: string) {
 
   } catch (error) {
 
-    console.log("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
-
-    throw error
+    return { error: getErrorMessage(error) };
   }
 }
 

@@ -2,7 +2,7 @@
 
 import api from "@/libs/fetch";
 import { revalidateTag } from "next/cache";
-
+import { getErrorMessage } from "@/utils/getErrorMessage";
 const PATH_POINT = "home/total";
 const NAME = "total";
 
@@ -11,8 +11,7 @@ export async function getList(userId: string | undefined) {
     const data = await api.get(`/${PATH_POINT}?userId=${userId}`, { next: { tags: ["total"] } });
     return data;
   } catch (error) {
-    console.error(`Error fetching ${PATH_POINT}:`, error);
-    throw error;
+    return { error: getErrorMessage(error) };
   }
 }
 
@@ -22,8 +21,7 @@ export async function getByUserId(userId: string | undefined) {
     const data = await api.get(`/${PATH_POINT}?userId=${userId}`, { next: { tags: ["total"] } });
     return data;
   } catch (error) {
-    console.error(`Error fetching ${NAME} with ID ${userId}:`, error);
-    throw error;
+    return { error: getErrorMessage(error) };
   }
 }
 
@@ -37,7 +35,6 @@ export async function create(body: any, userId: string | undefined) {
 
     return data;
   } catch (error) {
-    console.error(`Error creating ${NAME}:`, error);
-    throw error;
+    return { error: getErrorMessage(error) };
   }
 }
