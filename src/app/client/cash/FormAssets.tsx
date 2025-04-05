@@ -25,10 +25,12 @@ export function FormAssets({
   userId,
   accounts,
   getCurrencyServerBody,
+  updatePageContent,
 }: {
   userId: string | undefined;
   accounts: Account[];
   getCurrencyServerBody: (data: any) => Promise<any>;
+  updatePageContent: () => Promise<void>;
 }) {
   const router = useRouter();
   const form = useForm({});
@@ -96,7 +98,7 @@ export function FormAssets({
   async function onSubmit(data: any) {
     toast
       .promise(
-        handleOnSubmit(data).then(() => router.refresh()),
+        handleOnSubmit(data).then(() => updatePageContent()),
         {
           loading: "Creating...",
           success: "Successfully created!",

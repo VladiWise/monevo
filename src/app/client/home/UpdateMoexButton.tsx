@@ -14,7 +14,7 @@ export function UpdateMoexButton({
   userId: string | undefined;
   loadPageData: () => Promise<void>;
 }) {
-  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleUpdateMoexInfoByUserId(userId: string) {

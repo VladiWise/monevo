@@ -1,3 +1,7 @@
+"use client";
+import { getErrorMessage } from "@/utils/getErrorMessage";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { Table } from "@/components/Table";
 import { DeleteButton } from "@/components/DeleteButton";
 import Image from "next/image";
@@ -5,22 +9,65 @@ import { Heading } from "@/components/Heading";
 import { Fragment } from "react";
 import { getLocalDateByISO } from "@/utils/dataFormat";
 
-export const TableAssets = async ({
+export const TableAssets = ({
+  trigger,
   userId,
   accountId,
-  columns,
   service,
   children,
+  updatePageContent,
 }: {
+  trigger: boolean;
   userId: string | undefined;
   accountId: string | undefined;
-  columns: any;
   service: any;
   children?: React.ReactNode;
+  updatePageContent: () => Promise<void>;
 }) => {
-  const assets = (await service.getList(userId, accountId)) as any[];
+  const [assets, setAssets] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    fetchTableAssetsData();
+  }, [trigger]);
 
-  console.log("assets", assets);
+  async function fetchTableAssetsData() {
+    try {
+      const assets = (await service.getList(userId, accountId)) as any[];
+
+      setAssets(assets);
+      setIsLoading(false);
+    } catch (error) {
+      console.log("error", error);
+      toast.error(getErrorMessage(error));
+    }
+  }
+
+  const Loading = () => (
+    <div className=" w-full">
+      <div className="flex animate-pulse space-x-4">
+        <div className="flex flex-col gap-4 py-1 w-full">
+          <div className="h-7 rounded bg-darkGray w-28"></div>
+
+          <div className="h-7 rounded bg-darkGray"></div>
+          <div className="space-y-3">
+            <div className="grid grid-cols-3 gap-4">
+              <div className="col-span-1 h-7 rounded bg-darkGray"></div>
+              <div className="col-span-2 h-7 rounded bg-darkGray"></div>
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="col-span-2 h-7 rounded bg-darkGray"></div>
+              <div className="col-span-1 h-7 rounded bg-darkGray"></div>
+            </div>
+            <div className="h-7 rounded bg-darkGray"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     assets.length > 0 && (
@@ -28,7 +75,7 @@ export const TableAssets = async ({
         <Heading>{children}</Heading>
         <section className="overflow-x-auto">
           <section className="min-w-max w-full max-h-96 overflow-auto rounded-xl">
-            {assets.map((asset) => (
+            {assets?.map((asset: any) => (
               <Fragment key={asset._id}>
                 <section className="flex items-center justify-between py-3 gap-3">
                   <div className="flex items-center gap-3">
@@ -54,9 +101,17 @@ export const TableAssets = async ({
                   <div className="flex items-center gap-2">
                     <div className="flex flex-col items-end">
                       <span className="font-bold">{asset.total} ₽</span>
-                      {asset.ticker !== "SUR" && <span className="text-sm">{asset.price}</span>}
+                      {asset.ticker !== "SUR" && (
+                        <span className="text-sm">{asset.price} ₽</span>
+                      )}
                     </div>
-                    <DeleteButton id={asset._id} removeItem={service.remove} />
+                    <DeleteButton
+                      id={asset._id}
+                      removeItem={service.remove}
+                      updatePageContent={async () => {
+                        await updatePageContent();
+                      }}
+                    />
                   </div>
                 </section>
 

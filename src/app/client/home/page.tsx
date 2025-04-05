@@ -60,8 +60,6 @@ export default function App() {
         throw new Error(data.error);
       }
 
-      setAssetData(data);
-
       setTotalAssets(
         data.bonds +
           data.stocks +
@@ -82,6 +80,8 @@ export default function App() {
       )) as CurrenciesType[];
 
       setCurrencyCategories(currencyCategories);
+
+      setAssetData(data);
 
       setIsLoading(false);
     } catch (error) {

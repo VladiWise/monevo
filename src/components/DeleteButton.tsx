@@ -7,9 +7,14 @@ import toast from "react-hot-toast";
 type DelButtonProps = {
   id: string;
   removeItem: (id: string) => Promise<any>;
+  updatePageContent?: () => Promise<void>;
 };
 
-export function DeleteButton({ id, removeItem }: DelButtonProps) {
+export function DeleteButton({
+  id,
+  removeItem,
+  updatePageContent,
+}: DelButtonProps) {
   const router = useRouter();
   async function handleRemove(id: string) {
     const removeAnswer = confirm(`You really wanna delete this item?`);
@@ -24,7 +29,7 @@ export function DeleteButton({ id, removeItem }: DelButtonProps) {
               throw new Error(data.error);
             }
           })
-          .then(() => router.refresh()),
+          .then(() => updatePageContent?.()),
         {
           loading: "Deleting data...",
           success: "Data successfully deleted!",
