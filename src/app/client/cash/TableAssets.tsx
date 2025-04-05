@@ -72,7 +72,9 @@ export const TableAssets = ({
   return (
     assets.length > 0 && (
       <>
-        <Heading>{children}</Heading>
+        <h1 className="text-xl font-bold text-darkMain dark:text-white w-full">
+          {children}
+        </h1>
         <section className="overflow-x-auto">
           <section className="min-w-max w-full  overflow-auto rounded-xl">
             {assets?.map((asset: any) => (

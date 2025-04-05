@@ -68,7 +68,7 @@ export default function App() {
   return (
     <div className="flex flex-col items-center gap-10 w-full ">
       <MainContainer>
-        <Heading className="text-center">Add bank asset</Heading>
+        <Heading className="text-center mb-5">Add bank asset</Heading>
         <FormAssets
           userId={userId}
           accounts={accounts}
@@ -79,7 +79,7 @@ export default function App() {
 
       {accounts?.map((account) => (
         <MainContainer key={account._id}>
-          <Heading className="text-center">{account.shortName}</Heading>
+          <Heading className="text-center mb-5">{account.shortName}</Heading>
 
           <TableAssets
             trigger={trigger}
