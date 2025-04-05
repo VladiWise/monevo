@@ -26,7 +26,6 @@ type Account = {
 };
 
 export default async function App() {
-
   const fundStockColumns = [
     // {
     //   title: "Created",
@@ -158,7 +157,7 @@ export default async function App() {
       accountId: data.accountId,
       ticker: data.ticker,
       amount: data.amount,
-      name: await getDataByField(moexJson, "name"),
+      name: await getDataByField(moexJson, "shortName"),
       currency: await getDataByField(moexJson, "currency"),
       price: await getDataByField(moexJson, "price"),
     };
@@ -170,7 +169,7 @@ export default async function App() {
       accountId: data.accountId,
       ticker: data.ticker,
       amount: data.amount,
-      name: await getDataByField(moexJson, "name"),
+      name: await getDataByField(moexJson, "shortName"),
       currency: await getDataByField(moexJson, "currency"),
       price:
         ((await getDataByField(moexJson, "price")) *
@@ -200,7 +199,7 @@ export default async function App() {
       <div className="flex animate-pulse space-x-4">
         <div className="flex flex-col gap-4 py-1 w-full">
           <div className="h-7 rounded bg-darkGray w-28"></div>
-{/* dfghdfhdfgh */}
+          {/* dfghdfhdfgh */}
           <div className="h-7 rounded bg-darkGray"></div>
           <div className="space-y-3">
             <div className="grid grid-cols-3 gap-4">
@@ -228,7 +227,7 @@ export default async function App() {
   return (
     <div className="flex flex-col items-center gap-10 w-full ">
       <MainContainer>
-        <Heading>Add broker asset</Heading>
+        <Heading className="text-center">Add broker asset</Heading>
         <FormAssets
           userId={user?.id}
           accounts={accounts}
@@ -241,7 +240,7 @@ export default async function App() {
       {accounts.map(async (account) => {
         return (
           <MainContainer key={account._id}>
-            <Heading>{account.shortName}</Heading>
+            <Heading className="text-center">{account.shortName}</Heading>
 
             {/* <Loading /> */}
 
@@ -249,8 +248,8 @@ export default async function App() {
               <TableAssets
                 userId={user?.id}
                 accountId={account._id}
-                columns={currencyColumns}
                 service={currencyService}
+                typeOfAssets="currency"
               >
                 Currency
               </TableAssets>
@@ -260,8 +259,8 @@ export default async function App() {
               <TableAssets
                 userId={user?.id}
                 accountId={account._id}
-                columns={fundStockColumns}
                 service={fundSService}
+                typeOfAssets="etfStocks"
               >
                 ETF stocks
               </TableAssets>
@@ -271,8 +270,8 @@ export default async function App() {
               <TableAssets
                 userId={user?.id}
                 accountId={account._id}
-                columns={fundStockColumns}
                 service={stockService}
+                typeOfAssets="stocks"
               >
                 Stocks
               </TableAssets>
@@ -282,8 +281,8 @@ export default async function App() {
               <TableAssets
                 userId={user?.id}
                 accountId={account._id}
-                columns={fundStockColumns}
                 service={fundBService}
+                typeOfAssets="etfBonds"
               >
                 ETF bonds
               </TableAssets>
@@ -293,8 +292,8 @@ export default async function App() {
               <TableAssets
                 userId={user?.id}
                 accountId={account._id}
-                columns={bondColumns}
                 service={bondService}
+                typeOfAssets="bonds"
               >
                 Bonds
               </TableAssets>
