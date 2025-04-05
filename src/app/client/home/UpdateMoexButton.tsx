@@ -7,7 +7,13 @@ import toast from "react-hot-toast";
 
 import { useRouter } from "next/navigation";
 
-export function UpdateMoexButton({ userId }: { userId: string | undefined }) {
+export function UpdateMoexButton({
+  userId,
+  loadPageData,
+}: {
+  userId: string | undefined;
+  loadPageData: () => Promise<void>;
+}) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -16,7 +22,7 @@ export function UpdateMoexButton({ userId }: { userId: string | undefined }) {
       setIsLoading(true);
 
       await toast.promise(
-        updateMoexInfoByUserId(userId).then(() => router.refresh()),
+        updateMoexInfoByUserId(userId).then(() => loadPageData()),
         {
           loading: "Updating data...",
           success: "Data successfully updated",

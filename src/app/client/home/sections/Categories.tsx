@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import { SingleSection } from "../SingleSection";
 import { MainBlockWrapper } from "../MainBlockWrapper";
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
@@ -16,56 +20,46 @@ export type CurrenciesType = {
   value: number;
 };
 
-export async function Categories({
+export function Categories({
+  assetData,
+  totalAssets,
   isLeftSection,
 }: {
+  assetData: Data;
+  totalAssets: number;
   isLeftSection?: boolean;
 }) {
-  const user = await getCurrentUser();
-
-  if (!user) return null;
-
-  const data = (await getAssetsInfoByUserId(user.id)) as Data;
-
-  const totalAssets =
-    data?.bonds +
-    data?.stocks +
-    data?.cashBroker +
-    data?.deposit +
-    data?.cashFree;
-
-
   return (
-    <MainBlockWrapper title="Categories">
+    <MainBlockWrapper title="Categories" isLeftSection={isLeftSection}>
       <section className=" grid grid-cols-[3fr_3fr_1fr] w-full items-center gap-x-2 gap-1 ">
         <SingleSection
           title="Deposits"
-          value={data?.deposit}
+          value={assetData.deposit}
           totalAssets={totalAssets}
         />
         <SingleSection
           title="Bonds"
-          value={data?.bonds}
+          value={assetData.bonds}
           totalAssets={totalAssets}
         />
         <SingleSection
           title="Stocks"
-          value={data?.stocks}
+          value={assetData.stocks}
           totalAssets={totalAssets}
         />
         <SingleSection
           title="Cash broker"
-          value={data?.cashBroker}
+          value={assetData.cashBroker}
           totalAssets={totalAssets}
         />
         <SingleSection
           title="Cash free"
-          value={data?.cashFree}
+          value={assetData.cashFree}
           totalAssets={totalAssets}
         />
         <SingleSection
           title="Loans"
-          value={data?.loan}
+          value={assetData.loan}
           totalAssets={totalAssets}
         />
       </section>

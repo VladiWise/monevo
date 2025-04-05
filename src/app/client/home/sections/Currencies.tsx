@@ -1,12 +1,7 @@
+"use client";
+
 import { MainBlockWrapper } from "../MainBlockWrapper";
 import { SingleSection } from "../SingleSection";
-import { type Data } from "@/app/client/home/page";
-
-import { getCurrentUser } from "@/auth-actions/getCurrentUser";
-import {
-  getAssetsInfoByUserId,
-  getCurrenciesInfoByUserId,
-} from "@/services/HomeService";
 
 import { CURRENCY } from "@/utils/constants";
 
@@ -16,29 +11,16 @@ export type CurrenciesType = {
   value: number;
 };
 
-export async function Currencies({
+export function Currencies({
   isLeftSection,
+  totalAssets,
+  currencyCategories,
 }: {
   isLeftSection?: boolean;
+  totalAssets: number;
+  currencyCategories: CurrenciesType[];
 }) {
-  const user = await getCurrentUser();
-  
-  if (!user) return null;
 
-  const data = (await getAssetsInfoByUserId(user.id)) as Data;
-  const currencyCategories = (await getCurrenciesInfoByUserId(
-    user.id!
-  )) as CurrenciesType[];
-
-  const totalAssets =
-    data?.bonds +
-    data?.stocks +
-    data?.cashBroker +
-    data?.deposit +
-    data?.cashFree;
-  // data?.loan;
-
-  // await new Promise((resolve) => setTimeout(resolve, 25000));
 
   return (
     <MainBlockWrapper title="Currencies" isLeftSection={isLeftSection}>

@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 
-type User = {
+export type User = {
   id: string;
   name: string;
   email: string;

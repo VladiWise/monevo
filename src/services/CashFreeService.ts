@@ -32,8 +32,10 @@ export async function create(body: any, userId: string | undefined, brokerId: st
 export async function remove(id: string) {
   try {
     const data = await api.delete(`/${PATH_POINT}/?id=${id}`);
+
     revalidateTag("cash");
     revalidateTag("home");
+    
     return data;
   } catch (error) {
     console.error(`Error deleting ${NAME} with ID ${id}:`, error);

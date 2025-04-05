@@ -1,12 +1,9 @@
+"use client";
+
 import { MainBlockWrapper } from "../MainBlockWrapper";
 import { SingleSection } from "../SingleSection";
 import { type Data } from "@/app/client/home/page";
 
-import { getCurrentUser } from "@/auth-actions/getCurrentUser";
-import {
-  getAssetsInfoByUserId,
-  getAssetTypesByUserId,
-} from "@/services/HomeService";
 
 import { CURRENCY } from "@/utils/constants";
 
@@ -16,27 +13,21 @@ export type CurrenciesType = {
   value: number;
 };
 
-export async function TypeOfAssets({
+export function TypeOfAssets({
   isLeftSection,
+  assetData,
+  IISTotal,
 }: {
   isLeftSection?: boolean;
+  assetData: Data;
+  IISTotal: number;
 }) {
-  const user = await getCurrentUser();
-
-  if (!user) return null;
-
-  const data = (await getAssetsInfoByUserId(user.id));
-  const IISTotal = await getAssetTypesByUserId(user.id);
-
   const totalAssets =
-    data?.bonds +
-    data?.stocks +
-    data?.cashBroker +
-    data?.deposit +
-    data?.cashFree;
-  // data?.loan;
-
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
+    assetData?.bonds +
+    assetData?.stocks +
+    assetData?.cashBroker +
+    assetData?.deposit +
+    assetData?.cashFree;
 
   return (
     <MainBlockWrapper title="Type of assets" isLeftSection={isLeftSection}>
@@ -44,7 +35,7 @@ export async function TypeOfAssets({
         <section className=" grid grid-cols-[3fr_3fr_1fr] w-full items-center gap-x-2 gap-1 ">
           <SingleSection
             title="Liquid assets"
-            value={totalAssets - (IISTotal ?? 0)}
+            value={totalAssets - IISTotal}
             totalAssets={totalAssets}
           />
 
