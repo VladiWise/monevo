@@ -2,7 +2,9 @@ export function getLocalDateByISO(isoDateString: Date): string {
   const date = new Date(isoDateString);
 
 
-  return date.toLocaleString();
+  // return date.toLocaleTimeString();
+  return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + ' ' + date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
+
 }
 
 export function calculateYearsAndMonths(targetDate: Date): string {

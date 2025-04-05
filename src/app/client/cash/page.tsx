@@ -225,7 +225,7 @@ export default async function App() {
   return (
     <div className="flex flex-col items-center gap-10 w-full ">
       <MainContainer>
-        <Heading>Add bank asset</Heading>
+        <Heading className="text-center">Add bank asset</Heading>
         <FormAssets
           userId={user?.id}
           accounts={accounts}
@@ -236,7 +236,7 @@ export default async function App() {
       {accounts.map(async (account) => {
         return (
           <MainContainer key={account._id}>
-            <Heading>{account.shortName}</Heading>
+            <Heading className="text-center">{account.shortName}</Heading>
 
             <SuspenseLoading>
               <TableAssets
