@@ -142,8 +142,13 @@ async function updateMoexInfo(assets: any[], fetchMoexInfo: any, Model: any) {
 
 
         const price = await fetchMoexInfo(asset.ticker);
-        await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
-        await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
+        await Model.findByIdAndUpdate(asset._id, {
+          price: roundToTwoDecimals(price),
+          total: roundToTwoDecimals(price * asset.amount)
+        });
+
+
+        // await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
 
 
       } else {
@@ -162,10 +167,16 @@ async function updateMoexInfo(assets: any[], fetchMoexInfo: any, Model: any) {
             100 +
             (await getDataByField(moexJson, "coupon"));
 
-        await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
-        await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
+        await Model.findByIdAndUpdate(asset._id, {
+          price: roundToTwoDecimals(price),
+          total: roundToTwoDecimals(price * asset.amount),
+          name: name
+        });
 
-        await Model.findByIdAndUpdate(asset._id, { name: name });
+
+        // await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
+
+        // await Model.findByIdAndUpdate(asset._id, { name: name });
 
 
       }
