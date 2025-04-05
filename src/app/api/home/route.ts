@@ -139,11 +139,20 @@ async function updateMoexInfo(assets: any[], fetchMoexInfo: any, Model: any) {
   try {
     for (const asset of assets) {
       if (Model === Currency || Model === Deposit || Model === CashFree || Model === Loan) {
+
+
         const price = await fetchMoexInfo(asset.ticker);
         await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
         await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
+
+
       } else {
+
+
         const moexJson = await fetchMoexInfo(asset.ticker);
+
+        const name = await getDataByField(moexJson, "shortName");
+
         const price =
           Model !== Bond
             ? await getDataByField(moexJson, "price")
@@ -155,6 +164,10 @@ async function updateMoexInfo(assets: any[], fetchMoexInfo: any, Model: any) {
 
         await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
         await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
+
+        await Model.findByIdAndUpdate(asset._id, { name: name });
+
+
       }
     }
   } catch (error) {
