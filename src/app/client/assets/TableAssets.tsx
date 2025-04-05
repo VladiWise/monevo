@@ -71,7 +71,7 @@ export const TableAssets = async ({
                       <div className="flex flex-col gap-1">
                         <span>{asset.name}</span>
                         {asset?.bondYield && (
-                          <span className="text-xs text-gray-500">
+                          <span className="text-sm text-gray-500">
                             {asset.bondYield} (
                             {asset.currency == "SUR" ? "RUB" : asset.currency})
                           </span>
@@ -91,7 +91,7 @@ export const TableAssets = async ({
                         </span>
 
                         {asset?.bondYield && (
-                          <span className="text-xs text-gray-500">
+                          <span className="text-sm text-gray-500">
                             {asset.matDate}
                           </span>
                         )}
