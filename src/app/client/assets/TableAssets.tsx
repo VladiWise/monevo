@@ -25,7 +25,7 @@ export const TableAssets = async ({
           {children}
         </h1>
         <section className="overflow-x-auto">
-          <section className="min-w-max w-full max-h-96 overflow-auto rounded-xl">
+          <section className="min-w-max w-full  overflow-auto rounded-xl">
             {assets?.map((asset: any) => {
               let iconSrc = "";
 
@@ -81,7 +81,6 @@ export const TableAssets = async ({
                             {asset.amount} pcs
                           </span>
                         )}
-
                       </div>
                     </div>
 
@@ -92,7 +91,9 @@ export const TableAssets = async ({
                         </span>
 
                         {asset?.bondYield && (
-                          <span className="text-xs text-gray-500">{asset.matDate}</span>
+                          <span className="text-xs text-gray-500">
+                            {asset.matDate}
+                          </span>
                         )}
                         {asset.ticker !== "SUR" && (
                           <span className="text-sm text-gray-500">

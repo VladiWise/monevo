@@ -74,7 +74,7 @@ export const TableAssets = ({
       <>
         <Heading>{children}</Heading>
         <section className="overflow-x-auto">
-          <section className="min-w-max w-full max-h-96 overflow-auto rounded-xl">
+          <section className="min-w-max w-full  overflow-auto rounded-xl">
             {assets?.map((asset: any) => (
               <Fragment key={asset._id}>
                 <section className="flex items-center justify-between py-3 gap-3">

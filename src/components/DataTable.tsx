@@ -1,7 +1,6 @@
 import { Table } from "@/components/Table";
 import { DeleteButton } from "@/components/DeleteButton";
 
-
 import { MainContainer } from "@/components/MainContainer";
 
 import AssetFormSection from "@/components/AssetFormSection";
@@ -33,7 +32,9 @@ export async function DataTable({
 }: DataTableProps) {
   return (
     <MainContainer>
-      <h1 className="text-2xl font-bold text-darkMain dark:text-white w-full">{title}</h1>
+      <h1 className="text-2xl font-bold text-darkMain dark:text-white w-full">
+        {title}
+      </h1>
       <AssetFormSection
         serverItems={serverItems}
         getServerBody={getEtfServerBody}
@@ -42,21 +43,19 @@ export async function DataTable({
         buttonName={buttonName}
       />
 
-
-        {serverItems.length > 0 && (
-          <section className="overflow-x-auto">
-            <section className="min-w-max w-full max-h-96 overflow-auto rounded-xl">
-              <Table
-                data={serverItems}
-                actions={(item) => (
-                  <DeleteButton id={item._id} removeItem={service.remove} />
-                )}
-                columns={columns}
-              />
-            </section>
+      {serverItems.length > 0 && (
+        <section className="overflow-x-auto">
+          <section className="min-w-max w-full  overflow-auto rounded-xl">
+            <Table
+              data={serverItems}
+              actions={(item) => (
+                <DeleteButton id={item._id} removeItem={service.remove} />
+              )}
+              columns={columns}
+            />
           </section>
-        )}
-
+        </section>
+      )}
     </MainContainer>
   );
 }

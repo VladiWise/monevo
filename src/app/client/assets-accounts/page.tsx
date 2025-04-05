@@ -51,7 +51,6 @@ const BankAccountColumns = [
     title: "fullName",
     name: "fullName",
   },
-
 ];
 
 export default async function App() {
@@ -63,11 +62,15 @@ export default async function App() {
     <div className="flex flex-col items-center gap-10 w-full ">
       <MainContainer>
         <Heading>Broker accounts</Heading>
-        <FormAssetAcc createAcc={brokerAccSevice.create} userId={user?.id} isIIS />
+        <FormAssetAcc
+          createAcc={brokerAccSevice.create}
+          userId={user?.id}
+          isIIS
+        />
 
         {brokerAccounts.length > 0 && (
           <section className="overflow-x-auto">
-            <section className="min-w-max w-full max-h-96 overflow-auto rounded-xl">
+            <section className="min-w-max w-full  overflow-auto rounded-xl">
               <Table
                 data={brokerAccounts}
                 actions={(item) => (
@@ -89,7 +92,7 @@ export default async function App() {
 
         {bankAccounts.length > 0 && (
           <section className="overflow-x-auto">
-            <section className="min-w-max w-full max-h-96 overflow-auto rounded-xl">
+            <section className="min-w-max w-full  overflow-auto rounded-xl">
               <Table
                 data={bankAccounts}
                 actions={(item) => (
