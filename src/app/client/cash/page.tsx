@@ -45,6 +45,7 @@ export default function App() {
   }, []);
 
   async function fetchTableAssetsPageData() {
+    // await new Promise((resolve) => setTimeout(resolve, 5000));
     try {
       const user = await getCurrentUser();
       const accounts = (await bankAccService.getList(user?.id)) as Account[];
@@ -61,10 +62,6 @@ export default function App() {
     }
   }
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
     <div className="flex flex-col items-center gap-10 w-full ">
       <MainContainer>
@@ -76,6 +73,8 @@ export default function App() {
           updatePageContent={fetchTableAssetsPageData}
         />
       </MainContainer>
+
+      {/* {isLoading && <Loading />} */}
 
       {accounts?.map((account) => (
         <MainContainer key={account._id}>

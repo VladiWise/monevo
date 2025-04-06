@@ -1,22 +1,54 @@
+"use client";
+
 import { Table } from "@/components/Table";
 import { DeleteButton } from "@/components/DeleteButton";
 import { Fragment } from "react";
 import Image from "next/image";
 import { formatNumberWithSpaces } from "@/utils/mathUtils";
-export const TableAssets = async ({
+import { AssetTableLoading } from "@/components/AssetTableLoading";
+import { getErrorMessage } from "@/utils/getErrorMessage";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+export const TableAssets = ({
+  trigger,
   userId,
   accountId,
   typeOfAssets,
   service,
   children,
+  updatePageContent,
 }: {
+  trigger: boolean;
   userId: string | undefined;
   accountId: string | undefined;
   typeOfAssets: "currency" | "etfStocks" | "stocks" | "etfBonds" | "bonds";
   service: any;
-  children?: React.ReactNode;
+  children?: string;
+  updatePageContent: () => Promise<void>;
 }) => {
-  const assets = (await service.getList(userId, accountId)) as any[];
+  const [assets, setAssets] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    fetchTableAssetsData();
+  }, [trigger]);
+
+  async function fetchTableAssetsData() {
+    setIsLoading(true);
+    // await new Promise((resolve) => setTimeout(resolve, 10000));
+    try {
+      const assets = (await service.getList(userId, accountId)) as any[];
+
+      setAssets(assets);
+      setIsLoading(false);
+    } catch (error) {
+      console.log("error", error);
+      toast.error(getErrorMessage(error));
+    }
+  }
+
+  if (isLoading) {
+    return <AssetTableLoading title={children} />;
+  }
 
   return (
     assets.length > 0 && (
@@ -104,7 +136,7 @@ export const TableAssets = async ({
                       <DeleteButton
                         id={asset._id}
                         removeItem={service.remove}
-                        // updatePageContent={updatePageContent}
+                        updatePageContent={updatePageContent}
                       />
                     </div>
                   </section>

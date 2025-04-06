@@ -1,7 +1,7 @@
 "use server";
 
 import api from "@/libs/fetch";
-import { revalidateTag } from "next/cache";
+
 import { getErrorMessage } from "@/utils/getErrorMessage";
 const PATH_POINT = "home/total";
 const NAME = "total";
@@ -30,8 +30,6 @@ export async function create(body: any, userId: string | undefined) {
   try {
     const data = await api.post(`/${PATH_POINT}?userId=${userId}`, body);
 
-    revalidateTag("total");
-    revalidateTag("home");
 
     return data;
   } catch (error) {

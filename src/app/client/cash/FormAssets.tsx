@@ -64,7 +64,7 @@ export function FormAssets({
       className="flex flex-col sm:flex-row gap-3"
     >
       <Select name="brokerId" required>
-        {accounts.map((account) => (
+        {accounts?.map((account) => (
           <option key={account._id} value={account._id}>
             {account.shortName}
           </option>

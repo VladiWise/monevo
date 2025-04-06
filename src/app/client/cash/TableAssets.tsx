@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Heading } from "@/components/Heading";
 import { Fragment } from "react";
 import { getLocalDateByISO } from "@/utils/dataFormat";
+import { AssetTableLoading } from "@/components/AssetTableLoading";
 
 export const TableAssets = ({
   trigger,
@@ -21,7 +22,7 @@ export const TableAssets = ({
   userId: string | undefined;
   accountId: string | undefined;
   service: any;
-  children?: React.ReactNode;
+  children?: string;
   updatePageContent: () => Promise<void>;
 }) => {
   const [assets, setAssets] = useState<any>([]);
@@ -31,6 +32,8 @@ export const TableAssets = ({
   }, [trigger]);
 
   async function fetchTableAssetsData() {
+    setIsLoading(true);
+    // await new Promise((resolve) => setTimeout(resolve, 10000));
     try {
       const assets = (await service.getList(userId, accountId)) as any[];
 
@@ -42,31 +45,8 @@ export const TableAssets = ({
     }
   }
 
-  const Loading = () => (
-    <div className=" w-full">
-      <div className="flex animate-pulse space-x-4">
-        <div className="flex flex-col gap-4 py-1 w-full">
-          <div className="h-7 rounded bg-darkGray w-28"></div>
-
-          <div className="h-7 rounded bg-darkGray"></div>
-          <div className="space-y-3">
-            <div className="grid grid-cols-3 gap-4">
-              <div className="col-span-1 h-7 rounded bg-darkGray"></div>
-              <div className="col-span-2 h-7 rounded bg-darkGray"></div>
-            </div>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="col-span-2 h-7 rounded bg-darkGray"></div>
-              <div className="col-span-1 h-7 rounded bg-darkGray"></div>
-            </div>
-            <div className="h-7 rounded bg-darkGray"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
   if (isLoading) {
-    return <Loading />;
+    return <AssetTableLoading title={children} />;
   }
 
   return (
@@ -103,7 +83,7 @@ export const TableAssets = ({
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <div className="flex flex-col items-end">
+                    <div className="flex flex-col items-end gap-1">
                       <span className="font-bold">{asset.total} ₽</span>
                       {asset.ticker !== "SUR" && (
                         <span className="text-sm text-gray-500">

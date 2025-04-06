@@ -1,7 +1,7 @@
 "use server";
 
 import api from "@/libs/fetch";
-import { revalidateTag } from "next/cache";
+
 import { getErrorMessage } from "@/utils/getErrorMessage";
 
 const PATH_POINT = "broker-accounts";
@@ -29,32 +29,20 @@ export async function getList(userId: string | undefined) {
 
 export async function create(body: any, userId: string) {
   try {
-    // revalidatePath("/client/dashboard")
     const data = await api.post(`/${PATH_POINT}?userId=${userId}`, body);
-    revalidateTag("accounts");
+
     return data;
   } catch (error) {
     return { error: getErrorMessage(error) };
   }
 }
 
-// export async function update(id: string, body: any) {
-//   try {
-// revalidatePath("/client/home")
-// revalidatePath("/client/dashboard")
-//     const data = await api.put(`/${PATH_POINT}?id=${id}`, body);
-//     return data;
-//   } catch (error) {
-//     console.error(`Error updating ${NAME} with ID ${id}:`, error);
-//     throw error;
-//   }
-// }
 
 
 export async function remove(id: string) {
   try {
     await api.delete(`/${PATH_POINT}/?id=${id}`);
-    revalidateTag("accounts");
+
   } catch (error) {
     return { error: getErrorMessage(error) };
   }

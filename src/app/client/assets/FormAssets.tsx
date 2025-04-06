@@ -33,12 +33,14 @@ export function FormAssets({
   getFundEtfServerBody,
   getBondServerBody,
   getCurrencyServerBody,
+  updatePageContent,
 }: {
   userId: string | undefined;
   accounts: Account[];
   getFundEtfServerBody: (data: any, moexJson: any) => Promise<any>;
   getBondServerBody: (data: any, moexJson: any) => Promise<any>;
   getCurrencyServerBody: (data: any) => Promise<any>;
+  updatePageContent: () => Promise<void>;
 }) {
   const router = useRouter();
   const form = useForm({});
@@ -116,7 +118,7 @@ export function FormAssets({
       className="flex flex-col sm:flex-row gap-3"
     >
       <Select name="brokerId" required>
-        {accounts.map((account) => (
+        {accounts?.map((account) => (
           <option key={account._id} value={account._id}>
             {account.shortName}
           </option>
@@ -154,7 +156,7 @@ export function FormAssets({
   async function onSubmit(data: any) {
     toast
       .promise(
-        handleOnSubmit(data).then(() => router.refresh()),
+        handleOnSubmit(data).then(() => updatePageContent()),
         {
           loading: "Creating...",
           success: "Successfully created!",

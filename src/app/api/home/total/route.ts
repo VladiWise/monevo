@@ -9,7 +9,7 @@ import Total from "@/models/main-total";
 import { NextResponse, NextRequest } from "next/server";
 import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
 import { roundToTwoDecimals } from "@/utils/mathUtils";
-import { getDataByField } from "@/utils/moexInfo";
+import { getDataByField } from "@/utils/getDataByField";
 import { fetchStockETFInfo, fetchBondInfo } from "@/services/MoexService";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 export async function GET(request: NextRequest) {

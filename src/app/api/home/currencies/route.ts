@@ -16,7 +16,7 @@ import { CURRENCY } from "@/utils/constants";
 import { NextResponse, NextRequest } from "next/server";
 // import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
 import { roundToTwoDecimals } from "@/utils/mathUtils";
-// import { getDataByField } from "@/utils/moexInfo";
+// import { getDataByField } from "@/utils/getDataByField";
 // import { fetchStockETFInfo, fetchBondInfo } from "@/services/MoexService";
 
 
