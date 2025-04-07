@@ -42,7 +42,7 @@ const api = {
         "x-api-key": API_KEY,
       },
 
-      cache: "force-cache",
+      // cache: "force-cache",
       ...customOptions, // Custom options override defaults
     };
 
