@@ -76,9 +76,9 @@ export const TableAssets = ({
                           {asset.amount} pcs
                         </span>
                       )}
-                      {/* <span className="text-xs">
+                      <span className="text-xs">
                         {getLocalDateByISO(asset.updatedAt)}
-                      </span> */}
+                      </span>
                     </div>
                   </div>
 

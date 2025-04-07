@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import * as brokerAccSevice from "@/services/BrokerAccService";
 import * as bankAccService from "@/services/BankAccService";
 
@@ -8,6 +11,8 @@ import { Table } from "@/components/Table";
 import { DeleteButton } from "@/components/DeleteButton";
 import { getLocalDateByISO } from "@/utils/dataFormat";
 import { Heading } from "@/components/Heading";
+import toast from "react-hot-toast";
+
 type Account = {
   _id: string;
   shortName: string;
@@ -53,10 +58,43 @@ const BankAccountColumns = [
   },
 ];
 
-export default async function App() {
-  const user = await getCurrentUser();
-  const brokerAccounts = (await brokerAccSevice.getList(user?.id)) as Account[];
-  const bankAccounts = (await bankAccService.getList(user?.id)) as Account[];
+export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [userId, setUserId] = useState<string>("");
+
+  const [brokerAccounts, setBrokerAccounts] = useState<Account[]>([]);
+  const [bankAccounts, setBankAccounts] = useState<Account[]>([]);
+
+  const [trigger, setTrigger] = useState(false);
+
+  useEffect(() => {
+    fetchTableAccountPageData();
+  }, []);
+
+  async function fetchTableAccountPageData() {
+    // await new Promise((resolve) => setTimeout(resolve, 5000));
+    try {
+      const user = await getCurrentUser();
+      const brokerAccounts = (await brokerAccSevice.getList(
+        user?.id
+      )) as Account[];
+      const bankAccounts = (await bankAccService.getList(
+        user?.id
+      )) as Account[];
+
+      if (!user) throw new Error("User not found");
+
+      setBrokerAccounts(brokerAccounts);
+      setBankAccounts(bankAccounts);
+
+      setUserId(user.id);
+      setIsLoading(false);
+
+      setTrigger((prev) => !prev);
+    } catch (error) {
+      toast.error("Failed to fetch data.");
+    }
+  }
 
   return (
     <div className="flex flex-col items-center gap-10 w-full ">
@@ -64,7 +102,7 @@ export default async function App() {
         <Heading>Broker accounts</Heading>
         <FormAssetAcc
           createAcc={brokerAccSevice.create}
-          userId={user?.id}
+          userId={userId}
           isIIS
         />
 
@@ -88,7 +126,7 @@ export default async function App() {
 
       <MainContainer>
         <Heading>Bank accounts</Heading>
-        <FormAssetAcc createAcc={bankAccService.create} userId={user?.id} />
+        <FormAssetAcc createAcc={bankAccService.create} userId={userId} />
 
         {bankAccounts.length > 0 && (
           <section className="overflow-x-auto">

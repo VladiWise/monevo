@@ -9,6 +9,7 @@ import { AssetTableLoading } from "@/components/AssetTableLoading";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { getLocalDateByISO } from "@/utils/dataFormat";
 export const TableAssets = ({
   trigger,
   userId,
@@ -113,6 +114,10 @@ export const TableAssets = ({
                             {asset.amount} pcs
                           </span>
                         )}
+
+                        <span className="text-xs">
+                          {getLocalDateByISO(asset.updatedAt)}
+                        </span>
                       </div>
                     </div>
 
