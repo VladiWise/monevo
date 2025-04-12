@@ -27,16 +27,19 @@ export async function NetCapital({
   if (!user) return null;
 
   const data = await getAssetsInfoByUserId(userId!);
+
+  if (!data || "error" in data) return null;
+
   const totalPrev = await totalService.getByUserId(userId);
   const USD = await fetchCurrencyValue("USD");
 
   const currentSum =
-    +data?.bonds +
-    +data?.stocks +
-    +data?.cashBroker +
-    +data?.deposit +
-    +data?.cashFree -
-    +data?.loan;
+    +data.bonds +
+    +data.stocks +
+    +data.cashBroker +
+    +data.deposit +
+    +data.cashFree -
+    +data.loan;
   const prevSum =
     +totalPrev?.total?.assets?.bonds +
     +totalPrev?.total?.assets?.stocks +
