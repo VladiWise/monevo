@@ -17,6 +17,14 @@ export function AssetInfoCard({
   const [imgSrc, setImgSrc] = useState(iconSrc);
 
   const touchTriggered = useRef(false);
+
+  // Начальные координаты касания
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
+
+  // Порог, при котором считается, что касание было сдвигом
+  const MOVE_THRESHOLD = 10;
+
   const handleError = () => {
     if (imgSrc !== altIconSrc) {
       setImgSrc(altIconSrc);
@@ -24,24 +32,52 @@ export function AssetInfoCard({
   };
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    // if (touchTriggered.current) {
-    //   touchTriggered.current = false; // сбрасываем флаг на будущее
-    //   return;
-    // }
+    // Если срабатывание инициировано тачем, игнорируем click
+    if (touchTriggered.current) {
+      touchTriggered.current = false;
+      return;
+    }
     setIsOpen((prev) => !prev);
   };
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0];
+    touchStartX.current = touch.clientX;
+    touchStartY.current = touch.clientY;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    // Можно добавить логику, если хотите отменять событие при больших перемещениях
+  };
+
   const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    // e.preventDefault();
-    // touchTriggered.current = true;
+    const touch = e.changedTouches[0];
+    const deltaX = Math.abs(touch.clientX - touchStartX.current);
+    const deltaY = Math.abs(touch.clientY - touchStartY.current);
+
+    // Если перемещение больше порогового значения — считаем, что это скролл, а не тап
+    if (deltaX > MOVE_THRESHOLD || deltaY > MOVE_THRESHOLD) {
+      return;
+    }
+
+    // Если перемещение минимально, обрабатываем как тап
+    e.preventDefault();
+    touchTriggered.current = true;
     setIsOpen((prev) => !prev);
+
+    // Сбрасываем флаг через небольшой промежуток, чтобы избежать конфликта
+    setTimeout(() => {
+      touchTriggered.current = false;
+    }, 500);
   };
 
   return (
     <>
       <section
         className="flex items-center justify-between py-3 px-1 gap-3 cursor-pointer hover:bg-darkMain/20"
-        onDoubleClick={handleClick}
+        onClick={handleClick}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
         <div className="flex items-center gap-3">
