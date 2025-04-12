@@ -25,7 +25,12 @@ export async function Currencies({
   
   if (!user) return null;
 
-  const data = (await getAssetsInfoByUserId(user.id)) as Data;
+  const data = (await getAssetsInfoByUserId(user.id));
+
+  if (!data || "error" in data) return null;
+
+
+
   const currencyCategories = (await getCurrenciesInfoByUserId(
     user.id!
   )) as CurrenciesType[];

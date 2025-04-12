@@ -25,7 +25,8 @@ export async function Categories({
 
   if (!user) return null;
 
-  const data = (await getAssetsInfoByUserId(user.id)) as Data;
+  const data = await getAssetsInfoByUserId(user.id);
+  if (!data || "error" in data) return null;
 
   const totalAssets =
     data?.bonds +
@@ -33,7 +34,6 @@ export async function Categories({
     data?.cashBroker +
     data?.deposit +
     data?.cashFree;
-
 
   return (
     <MainBlockWrapper title="Categories">
