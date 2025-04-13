@@ -69,7 +69,7 @@ export const TableAssets = async ({
         break;
 
       case "bonds":
-        iconSrc = asset.ticker.startsWith("SU") && "bonds/SU_RMFS";
+        iconSrc = asset.ticker.startsWith("SU") ? "bonds/SU_RMFS" : "bonds";
         altIconSrc = "bonds";
         break;
 
