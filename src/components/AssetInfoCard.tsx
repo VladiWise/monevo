@@ -74,7 +74,7 @@ export function AssetInfoCard({
             )}
             {asset.ticker !== "SUR" && (
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                {asset.price} ₽
+                {formatNumberWithSpaces(asset.price, 2)} ₽
               </span>
             )}
           </div>

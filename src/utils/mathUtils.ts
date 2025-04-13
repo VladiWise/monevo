@@ -3,7 +3,7 @@ export function roundToTwoDecimals(value: number): number {
 }
 
 
-export function formatNumberWithSpaces(number: number) {
-  const roundedNumber = Math.round(number);
+export function formatNumberWithSpaces(number: number, precision: number = 0) {
+  const roundedNumber = Math.round(number * 10 ** precision) / 10 ** precision;
   return roundedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
