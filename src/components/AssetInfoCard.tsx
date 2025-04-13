@@ -48,13 +48,15 @@ export function AssetInfoCard({
           <div className="flex flex-col gap-1">
             <span>{asset.name}</span>
             {asset?.bondYield && (
-              <span className="text-xs text-gray-500">
+              <span className="text-sm text-gray-400 dark:text-gray-500">
                 {asset.bondYield} (
                 {asset.currency == "SUR" ? "RUB" : asset.currency})
               </span>
             )}
             {asset.ticker !== "SUR" && (
-              <span className="text-sm text-gray-500">{asset.amount} pcs</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                {asset.amount} pcs
+              </span>
             )}
           </div>
         </div>
@@ -66,10 +68,14 @@ export function AssetInfoCard({
             </span>
 
             {asset?.bondYield && (
-              <span className="text-xs text-gray-500">{asset.matDate}</span>
+              <span className="text-sm text-gray-400 dark:text-gray-500">
+                {asset.matDate}
+              </span>
             )}
             {asset.ticker !== "SUR" && (
-              <span className="text-sm text-gray-500">{asset.price} ₽</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                {asset.price} ₽
+              </span>
             )}
           </div>
         </div>
