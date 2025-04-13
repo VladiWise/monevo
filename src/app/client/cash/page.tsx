@@ -9,6 +9,7 @@ import React, { Suspense } from "react";
 import { TableAssets } from "./TableAssets";
 import { Heading } from "@/components/Heading";
 import { AssetTableLoading } from "@/components/AssetTableLoading";
+import { AccountLayout } from "@/components/AccountLayout";
 
 import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
 import { type MoexJson } from "@/utils/moexInfo";
@@ -26,11 +27,6 @@ type Account = {
 };
 
 const currencyColumns = [
-  // {
-  //   title: "Created",
-  //   name: "createdAt",
-  //   getCellContent: (item: any) => getLocalDateByISO(item.createdAt),
-  // },
   {
     title: "Updated",
     name: "updatedAt",
@@ -90,10 +86,15 @@ export default async function App() {
       </MainContainer>
 
       {accounts.map(async (account) => {
-        return (
-          <MainContainer key={account._id}>
-            <Heading className="text-center">{account.shortName}</Heading>
 
+        const accSum = await bankAccService.getTotal(account._id);
+
+        return (
+          <AccountLayout
+            key={account._id}
+            header={account.shortName}
+            sum={accSum}
+          >
             <SuspenseLoading>
               <TableAssets
                 userId={user?.id}
@@ -126,7 +127,7 @@ export default async function App() {
                 Loan
               </TableAssets>
             </SuspenseLoading>
-          </MainContainer>
+          </AccountLayout>
         );
       })}
     </div>

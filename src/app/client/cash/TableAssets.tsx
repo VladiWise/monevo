@@ -1,6 +1,4 @@
-
-import { Heading } from "@/components/Heading";
-
+import { AssetLayout } from "@/components/AssetLayout";
 import { AssetInfoCard } from "@/components/AssetInfoCard";
 
 export const TableAssets = async ({
@@ -14,7 +12,7 @@ export const TableAssets = async ({
   accountId: string | undefined;
   columns: any;
   service: any;
-  children?: React.ReactNode;
+  children: string;
 }) => {
   const assets = (await service.getList(userId, accountId)) as any[];
 
@@ -22,21 +20,16 @@ export const TableAssets = async ({
 
   return (
     assets.length > 0 && (
-      <>
-        <Heading>{children}</Heading>
-        <section className="overflow-x-auto">
-          <section className="min-w-max w-full overflow-auto rounded-xl">
-            {assets.map((asset) => (
-              <AssetInfoCard
-                key={asset._id}
-                asset={asset}
-                iconSrc={asset.ticker}
-                altIconSrc={asset.ticker}
-              />
-            ))}
-          </section>
-        </section>
-      </>
+      <AssetLayout header={children}>
+        {assets.map((asset) => (
+          <AssetInfoCard
+            key={asset._id}
+            asset={asset}
+            iconSrc={asset.ticker}
+            altIconSrc={asset.ticker}
+          />
+        ))}
+      </AssetLayout>
     )
   );
 };

@@ -9,6 +9,7 @@ import React, { Suspense } from "react";
 import { TableAssets } from "./TableAssets";
 import { Heading } from "@/components/Heading";
 import { AssetTableLoading } from "@/components/AssetTableLoading";
+import { AccountLayout } from "@/components/AccountLayout";
 
 import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
 import { type MoexJson } from "@/utils/moexInfo";
@@ -91,11 +92,15 @@ export default async function App() {
       </MainContainer>
 
       {accounts.map(async (account) => {
-        return (
-          <MainContainer key={account._id}>
-            <Heading className="text-center">{account.shortName}</Heading>
+        const accSum = await brokerAccSevice.getTotal(account._id);
 
-            {/* <Loading /> */}
+        return (
+          <AccountLayout
+            key={account._id}
+            header={account.shortName}
+            sum={accSum}
+          >
+          
 
             <SuspenseLoading>
               <TableAssets
@@ -151,7 +156,7 @@ export default async function App() {
                 Bonds
               </TableAssets>
             </SuspenseLoading>
-          </MainContainer>
+          </AccountLayout>
         );
       })}
     </div>

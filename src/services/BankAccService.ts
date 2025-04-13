@@ -7,6 +7,15 @@ import { getErrorMessage } from "@/utils/getErrorMessage";
 const PATH_POINT = "bank-accounts";
 const NAME = "bank account";
 
+
+export async function getTotal(bankId: string | undefined) {
+  try {
+    const data = await api.get(`/${PATH_POINT}/total?bankId=${bankId}`, { next: { tags: ["accounts"] } });
+    return data;
+  } catch (error) {
+    return { error: getErrorMessage(error) };
+  }
+}
 export async function getList(userId: string | undefined) {
   try {
     const data = await api.get(`/${PATH_POINT}?userId=${userId}`, { next: { tags: ["accounts"] } });
@@ -17,15 +26,6 @@ export async function getList(userId: string | undefined) {
 }
 
 
-// export async function getById(id: string) {
-//   try {
-//     const data = await api.get(`/${PATH_POINT}?id=${id}`);
-//     return data;
-//   } catch (error) {
-//     console.error(`Error fetching ${NAME} with ID ${id}:`, error);
-//      throw error;
-//   }
-// }
 
 export async function create(body: any, userId: string) {
   try {
@@ -38,17 +38,6 @@ export async function create(body: any, userId: string) {
   }
 }
 
-// export async function update(id: string, body: any) {
-//   try {
-// revalidatePath("/client/home")
-// revalidatePath("/client/dashboard")
-//     const data = await api.put(`/${PATH_POINT}?id=${id}`, body);
-//     return data;
-//   } catch (error) {
-//     console.error(`Error updating ${NAME} with ID ${id}:`, error);
-//      throw error;
-//   }
-// }
 
 
 export async function remove(id: string) {

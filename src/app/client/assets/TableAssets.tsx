@@ -1,5 +1,5 @@
 import { AssetInfoCard } from "@/components/AssetInfoCard";
-import { Heading } from "@/components/Heading";
+import { AssetLayout } from "@/components/AssetLayout";
 
 export const TableAssets = async ({
   userId,
@@ -11,33 +11,28 @@ export const TableAssets = async ({
   userId: string | undefined;
   accountId: string | undefined;
   service: any;
-  children?: React.ReactNode;
+  children: string;
   typeOfAssets: "currency" | "etfStocks" | "stocks" | "etfBonds" | "bonds";
 }) => {
-  await new Promise((resolve) => setTimeout(resolve, 10000));
+  // await new Promise((resolve) => setTimeout(resolve, 10000));
   const assets = (await service.getList(userId, accountId)) as any[];
 
   return (
     assets.length > 0 && (
-      <>
-        <Heading>{children}</Heading>
-        <section className="overflow-x-auto">
-          <section className="min-w-max w-full overflow-auto rounded-xl">
-            {assets?.map((asset: any) => {
-              const { iconSrc, altIconSrc } = getIconsSrc(asset, typeOfAssets);
+      <AssetLayout header={children}>
+        {assets?.map((asset: any) => {
+          const { iconSrc, altIconSrc } = getIconsSrc(asset, typeOfAssets);
 
-              return (
-                <AssetInfoCard
-                  key={asset._id}
-                  asset={asset}
-                  iconSrc={iconSrc}
-                  altIconSrc={altIconSrc}
-                />
-              );
-            })}
-          </section>
-        </section>
-      </>
+          return (
+            <AssetInfoCard
+              key={asset._id}
+              asset={asset}
+              iconSrc={iconSrc}
+              altIconSrc={altIconSrc}
+            />
+          );
+        })}
+      </AssetLayout>
     )
   );
 
