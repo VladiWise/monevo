@@ -30,7 +30,7 @@ export function AssetInfoCard({
   return (
     <>
       <section
-        className="flex items-center justify-between py-3 px-1 gap-3 cursor-pointer hover:bg-darkGray/10 hover-none:active:bg-darkGray/20 active:bg-darkGray/20 dark:hover:bg-darkMain/40 dark:hover-none:active:bg-darkMain/80 dark:active:bg-darkMain/80 transition-colors duration-300 ease-in-out"
+        className="flex items-center justify-between py-3 px-1 gap-3 cursor-pointer hover:bg-darkGray/10 hover-none:active:bg-darkGray/20 active:bg-darkGray/20 dark:hover:bg-darkMain/40 dark:hover-none:active:bg-darkMain/80 dark:active:bg-darkMain/80"
         onClick={handleClick}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
