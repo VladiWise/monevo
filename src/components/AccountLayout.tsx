@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { MainContainer } from "@/components/MainContainer";
 import { formatNumberWithSpaces } from "@/utils/mathUtils";
 
@@ -13,11 +13,24 @@ export function AccountLayout({
   header: string;
   sum: number;
 }) {
-  // Состояние для отслеживания, открыт ли список
-  const [isOpen, setIsOpen] = useState(false);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState("0px");
   // Функция для переключения состояния
   const toggleDropdown = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      if (isOpen) {
+        // Устанавливаем высоту равной полной высоте содержимого
+        setHeight(`${contentRef.current.scrollHeight}px`);
+      } else {
+        // Высота 0px, чтобы скрыть содержимое
+        setHeight("0px");
+      }
+    }
+  }, [isOpen]);
 
   return (
     <MainContainer className="gap-10">
@@ -49,7 +62,14 @@ export function AccountLayout({
         </svg>
       </section>
 
-      {isOpen && <section>{children}</section>}
+      <section
+        className="overflow-hidden transition-[height] duration-700 ease-in-out"
+        style={{ height }}
+      >
+        <div ref={contentRef}>{children}</div>
+      </section>
+
+      {/* <section ref={contentRef}>{children}</section> */}
     </MainContainer>
   );
 }
