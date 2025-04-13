@@ -28,7 +28,7 @@ export const AssetTableLoading = ({ title }: { title?: string }) => (
               <span className="h-6 rounded bg-darkGray/50 w-14"></span>
             </div>
 
-            <span className="h-6 rounded bg-darkGray/50 w-6"></span>
+            {/* <span className="h-6 rounded bg-darkGray/50 w-6"></span> */}
           </div>
         </section>
 
@@ -54,7 +54,7 @@ export const AssetTableLoading = ({ title }: { title?: string }) => (
               <span className="h-6 rounded bg-darkGray/50 w-14"></span>
             </div>
 
-            <span className="h-6 rounded bg-darkGray/50 w-6"></span>
+            {/* <span className="h-6 rounded bg-darkGray/50 w-6"></span> */}
           </div>
         </section>
 
