@@ -1,9 +1,5 @@
-import { Table } from "@/components/Table";
-import { DeleteButton } from "@/components/DeleteButton";
-import { Fragment } from "react";
-import Image from "next/image";
-import { formatNumberWithSpaces } from "@/utils/mathUtils";
 import { AssetInfoCard } from "@/components/AssetInfoCard";
+import { Heading } from "@/components/Heading";
 
 export const TableAssets = async ({
   userId,
@@ -18,15 +14,13 @@ export const TableAssets = async ({
   children?: React.ReactNode;
   typeOfAssets: "currency" | "etfStocks" | "stocks" | "etfBonds" | "bonds";
 }) => {
-  // await new Promise((resolve) => setTimeout(resolve, 10000));
+  await new Promise((resolve) => setTimeout(resolve, 10000));
   const assets = (await service.getList(userId, accountId)) as any[];
 
   return (
     assets.length > 0 && (
       <>
-        <h1 className="text-xl font-bold text-darkMain dark:text-white w-full">
-          {children}
-        </h1>
+        <Heading>{children}</Heading>
         <section className="overflow-x-auto">
           <section className="min-w-max w-full overflow-auto rounded-xl">
             {assets?.map((asset: any) => {

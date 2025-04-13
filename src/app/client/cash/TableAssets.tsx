@@ -1,9 +1,6 @@
-import { Table } from "@/components/Table";
-import { DeleteButton } from "@/components/DeleteButton";
-import Image from "next/image";
+
 import { Heading } from "@/components/Heading";
-import { Fragment } from "react";
-import { getLocalDateByISO } from "@/utils/dataFormat";
+
 import { AssetInfoCard } from "@/components/AssetInfoCard";
 
 export const TableAssets = async ({
