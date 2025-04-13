@@ -28,7 +28,7 @@ export const TableAssets = async ({
       <>
         <Heading>{children}</Heading>
         <section className="overflow-x-auto">
-          <section className="min-w-max w-full max-h-96 overflow-auto rounded-xl">
+          <section className="min-w-max w-full overflow-auto rounded-xl">
             {assets.map((asset) => (
               <AssetInfoCard
                 key={asset._id}

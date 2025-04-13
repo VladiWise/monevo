@@ -18,6 +18,7 @@ export const TableAssets = async ({
   children?: React.ReactNode;
   typeOfAssets: "currency" | "etfStocks" | "stocks" | "etfBonds" | "bonds";
 }) => {
+  // await new Promise((resolve) => setTimeout(resolve, 10000));
   const assets = (await service.getList(userId, accountId)) as any[];
 
   return (
@@ -27,7 +28,7 @@ export const TableAssets = async ({
           {children}
         </h1>
         <section className="overflow-x-auto">
-          <section className="min-w-max w-full max-h-96 overflow-auto rounded-xl">
+          <section className="min-w-max w-full overflow-auto rounded-xl">
             {assets?.map((asset: any) => {
               const { iconSrc, altIconSrc } = getIconsSrc(asset, typeOfAssets);
 
