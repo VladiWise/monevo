@@ -13,7 +13,7 @@ export async function Header() {
   const user = await getCurrentUser();
 
   return (
-    <header className="fixed top-0 left-0 w-full h-16 items-center justify-between z-50 p-2 md:px-[8rem]  lg:px-[12rem]  flex bg-white  dark:bg-darkMainGray border-b border-gray-200 dark:border-[#2F3441] ">
+    <header className="fixed top-0 left-0 w-full h-16 items-center justify-between z-40 p-2 md:px-[8rem]  lg:px-[12rem]  flex bg-white  dark:bg-darkMainGray border-b border-gray-200 dark:border-[#2F3441] ">
       <section className="flex items-center gap-14 w-full sm:w-auto">
         <section className="flex items-center gap-2 w-full justify-center sm:w-auto sm:justify-normal">
           <LogoIcon size={39} />

@@ -19,7 +19,14 @@ export async function GET(request: NextRequest) {
     const bankAccounts = await BrokerAccount.find({ userId });
 
     return NextResponse.json(bankAccounts, { status: 200 });
-  } else {
+  } else if (request.nextUrl.searchParams.get("id")) {
+    const id = request.nextUrl.searchParams.get("id");
+
+    const bankAccount = await BrokerAccount.findById(id);
+
+    return NextResponse.json(bankAccount, { status: 200 });
+  }
+  else {
     return NextResponse.json({ message: "User ID not provided" }, { status: 400 });
   }
 

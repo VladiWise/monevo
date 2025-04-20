@@ -6,7 +6,7 @@ export const AssetTableLoading = ({ title }: { title?: string }) => (
       </h1>
     )} */}
 
-    <span className="h-6 rounded bg-darkGray/50 w-20"></span>
+    <span className="h-7 rounded bg-darkGray/50 w-20 animate-pulse"></span>
 
     <section className="overflow-x-auto animate-pulse">
       <section className="min-w-max w-full  overflow-auto rounded-xl">
@@ -17,18 +17,16 @@ export const AssetTableLoading = ({ title }: { title?: string }) => (
             <div className="flex flex-col gap-1">
               <span className="h-6 rounded bg-darkGray/50 w-32"></span>
 
-              <span className="h-6 rounded bg-darkGray/50 w-14"></span>
+              <span className="h-5 rounded bg-darkGray/50 w-14"></span>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="flex flex-col items-end gap-1">
+            <div className="flex flex-col gap-1 items-end">
               <span className="h-6 rounded bg-darkGray/50 w-20"></span>
 
-              <span className="h-6 rounded bg-darkGray/50 w-14"></span>
+              <span className="h-5 rounded bg-darkGray/50 w-14"></span>
             </div>
-
-            {/* <span className="h-6 rounded bg-darkGray/50 w-6"></span> */}
           </div>
         </section>
 
@@ -43,15 +41,15 @@ export const AssetTableLoading = ({ title }: { title?: string }) => (
             <div className="flex flex-col gap-1">
               <span className="h-6 rounded bg-darkGray/50 w-32"></span>
 
-              <span className="h-6 rounded bg-darkGray/50 w-14"></span>
+              <span className="h-5 rounded bg-darkGray/50 w-14"></span>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="flex flex-col items-end gap-1">
+            <div className="flex flex-col gap-1 items-end">
               <span className="h-6 rounded bg-darkGray/50 w-20"></span>
 
-              <span className="h-6 rounded bg-darkGray/50 w-14"></span>
+              <span className="h-5 rounded bg-darkGray/50 w-14"></span>
             </div>
 
             {/* <span className="h-6 rounded bg-darkGray/50 w-6"></span> */}

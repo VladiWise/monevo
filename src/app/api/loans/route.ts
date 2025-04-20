@@ -8,12 +8,12 @@ const MODEL = Loan
 
 export async function GET(request: NextRequest) {
   await connectMongoDB();
-  const userId = request.nextUrl.searchParams.get("userId");
+
   const brokerId = request.nextUrl.searchParams.get("brokerId");
 
-  if (userId && brokerId) {
+  if ( brokerId) {
 
-    const items = await MODEL.find({ userId, brokerId });
+    const items = await MODEL.find({  brokerId });
 
     return NextResponse.json(items, { status: 200 });
   } else if (request.nextUrl.searchParams.get("id")) {

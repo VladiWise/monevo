@@ -7,6 +7,14 @@ import { getErrorMessage } from "@/utils/getErrorMessage";
 const PATH_POINT = "bank-accounts";
 const NAME = "bank account";
 
+export async function getOneById(id: string) {
+  try {
+    const data = await api.get(`/${PATH_POINT}?id=${id}`, { next: { tags: ["accounts"] } });
+    return data;
+  } catch (error) {
+    return { error: getErrorMessage(error) };
+  }
+}
 
 export async function getTotal(bankId: string | undefined) {
   try {

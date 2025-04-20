@@ -96,67 +96,13 @@ export default async function App() {
 
         return (
           <AccountLayout
+            type="assets"
+            accountId={account._id}
             key={account._id}
             header={account.shortName}
             sum={accSum}
-          >
-          
-
-            <SuspenseLoading>
-              <TableAssets
-                userId={user?.id}
-                accountId={account._id}
-                service={currencyService}
-                typeOfAssets="currency"
-              >
-                Currency
-              </TableAssets>
-            </SuspenseLoading>
-
-            <SuspenseLoading>
-              <TableAssets
-                userId={user?.id}
-                accountId={account._id}
-                service={fundSService}
-                typeOfAssets="etfStocks"
-              >
-                ETF stocks
-              </TableAssets>
-            </SuspenseLoading>
-
-            <SuspenseLoading>
-              <TableAssets
-                userId={user?.id}
-                accountId={account._id}
-                service={stockService}
-                typeOfAssets="stocks"
-              >
-                Stocks
-              </TableAssets>
-            </SuspenseLoading>
-
-            <SuspenseLoading>
-              <TableAssets
-                userId={user?.id}
-                accountId={account._id}
-                service={fundBService}
-                typeOfAssets="etfBonds"
-              >
-                ETF bonds
-              </TableAssets>
-            </SuspenseLoading>
-
-            <SuspenseLoading>
-              <TableAssets
-                userId={user?.id}
-                accountId={account._id}
-                service={bondService}
-                typeOfAssets="bonds"
-              >
-                Bonds
-              </TableAssets>
-            </SuspenseLoading>
-          </AccountLayout>
+          />
+ 
         );
       })}
     </div>

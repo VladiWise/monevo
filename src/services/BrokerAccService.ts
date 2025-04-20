@@ -25,6 +25,15 @@ export async function getList(userId: string | undefined) {
   }
 }
 
+export async function getOneById(id: string) {
+  try {
+    const data = await api.get(`/${PATH_POINT}?id=${id}`, { next: { tags: ["accounts"] } });
+    return data;
+  } catch (error) {
+    return { error: getErrorMessage(error) };
+  }
+}
+
 
 export async function create(body: any, userId: string) {
   try {

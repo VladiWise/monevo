@@ -6,9 +6,9 @@ import { revalidateTag } from "next/cache";
 const PATH_POINT = "bonds";
 const NAME = "bond";
 
-export async function getList(userId: string | undefined, brokerId: string | undefined) {
+export async function getList( brokerId: string | undefined) {
   try {
-    const data = await api.get(`/${PATH_POINT}?userId=${userId}&brokerId=${brokerId}`, { next: { tags: ["assets"] } });
+    const data = await api.get(`/${PATH_POINT}?brokerId=${brokerId}`, { next: { tags: ["assets"] } });
     return data;
   } catch (error) {
     console.error(`Error fetching ${PATH_POINT}:`, error);
