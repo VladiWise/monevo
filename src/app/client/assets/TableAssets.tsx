@@ -12,7 +12,15 @@ export const TableAssets = async ({
   accountId: string | undefined;
   service: any;
   children: string;
-  typeOfAssets: "currency" | "etfStocks" | "stocks" | "etfBonds" | "bonds";
+  typeOfAssets:
+    | "funds-b"
+    | "funds-s"
+    | "bonds"
+    | "stocks"
+    | "currency"
+    | "deposits"
+    | "cash-free"
+    | "loans";
 }) => {
   // await new Promise((resolve) => setTimeout(resolve, 10000));
   const assets = (await service.getList(userId, accountId)) as any[];
@@ -25,6 +33,7 @@ export const TableAssets = async ({
 
           return (
             <AssetInfoCard
+              typeOfAssets={typeOfAssets}
               key={asset._id}
               asset={asset}
               iconSrc={iconSrc}
@@ -38,7 +47,9 @@ export const TableAssets = async ({
 
   function getIconsSrc(
     asset: any,
-    typeOfAssets: "currency" | "etfStocks" | "stocks" | "etfBonds" | "bonds"
+    typeOfAssets: "funds-b" | "funds-s" | "bonds"
+  | "stocks" | "currency" | "deposits"
+  | "cash-free" | "loans"
   ) {
     let iconSrc = "";
     let altIconSrc = "";
@@ -48,12 +59,12 @@ export const TableAssets = async ({
         iconSrc = asset.ticker;
         break;
 
-      case "etfStocks":
+      case "funds-s":
         iconSrc = "shares/" + asset.ticker;
         altIconSrc = "etfStocks";
         break;
 
-      case "etfBonds":
+      case "funds-b":
         iconSrc = "shares/" + asset.ticker;
         altIconSrc = "etfBonds";
         break;

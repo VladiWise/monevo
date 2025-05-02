@@ -27,6 +27,7 @@ export const TableAssets = async ({
             asset={asset}
             iconSrc={asset.ticker}
             altIconSrc={asset.ticker}
+            typeOfAssets="currency"
           />
         ))}
       </AssetLayout>
