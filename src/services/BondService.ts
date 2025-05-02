@@ -37,8 +37,6 @@ export async function remove(id: string) {
     revalidateTag("assets");
     revalidateTag("home");
 
-
-
     return data;
   } catch (error) {
     console.error(`Error deleting ${NAME} with ID ${id}:`, error);

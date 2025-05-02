@@ -63,6 +63,15 @@ export default async function Page({
         (await getDataByField(moexJson, "coupon")),
       bondYield: await getDataByField(moexJson, "bondYield"),
       matDate: await getDataByField(moexJson, "matDate"),
+
+      fullname: await getDataByField(moexJson, "fullname"),
+      nominal: await getDataByField(moexJson, "nominal"),
+      coupon: await getDataByField(moexJson, "coupon"),
+      nextCoupon: await getDataByField(moexJson, "nextCoupon"),
+      couponPerion: await getDataByField(moexJson, "couponPerion"),
+
+      couponValue: await getDataByField(moexJson, "couponValue"),
+      
     };
   };
 
@@ -128,7 +137,7 @@ export default async function Page({
           <TableAssets
             accountId={id}
             service={fundSService}
-            typeOfAssets="etfStocks"
+            typeOfAssets="funds-s"
           >
             ETF stocks
           </TableAssets>
@@ -148,7 +157,7 @@ export default async function Page({
           <TableAssets
             accountId={id}
             service={fundBService}
-            typeOfAssets="etfBonds"
+            typeOfAssets="funds-b"
           >
             ETF bonds
           </TableAssets>

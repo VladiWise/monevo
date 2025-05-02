@@ -1,3 +1,5 @@
+import next from "next";
+
 interface MoexField {
   title: string;
   id?: string;
@@ -16,6 +18,7 @@ export const MOEX_INFO_NAME: Record<string, MoexField> = {
   createdAd: { title: "Created" },
   updatedAd: { title: "Updated" },
 
+  fullname: { title: "Full name", id: "securities", name: "SECNAME" },
   shortName: { title: "Short name", id: "securities", name: "SHORTNAME" },
   name: { title: "Name", id: "securities", name: "SECNAME" },
   ticker: { title: "Ticker", id: "securities", name: "TICKER" },
@@ -24,8 +27,15 @@ export const MOEX_INFO_NAME: Record<string, MoexField> = {
   prevPrice: { title: "Prev Price", id: "securities", name: "PREVPRICE" },
   nominal: { title: "Nominal", id: "securities", name: "LOTVALUE" },
   coupon: { title: "Coupon", id: "securities", name: "ACCRUEDINT" },
+  couponValue: { title: "Coupon Value", id: "securities", name: "COUPONVALUE" },
+  nextCoupon: { title: "Next Coupon", id: "securities", name: "NEXTCOUPON" },
+  couponPerion: { title: "Coupon Perion", id: "securities", name: "COUPONPERIOD" },
+
   bondYield: { title: "Yield", id: "marketdata_yields", name: "EFFECTIVEYIELD" },
   matDate: { title: "Mat date", id: "securities", name: "MATDATE" },
+
+
+
 };
 
 export interface MoexJson {

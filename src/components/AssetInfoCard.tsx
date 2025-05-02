@@ -1,24 +1,25 @@
 "use client";
 import { useState } from "react";
-import { useClickTouch } from "@/hooks/useClickTouch";
 import Image from "next/image";
 import { formatNumberWithSpaces } from "@/utils/mathUtils";
-
+import { DeleteButton } from "./DeleteButton";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { calculateYearsAndMonths } from "@/utils/dataFormat";
 export function AssetInfoCard({
   asset,
   iconSrc,
   altIconSrc,
+  typeOfAssets,
 }: {
   asset: any;
   iconSrc: string;
   altIconSrc: string;
+  typeOfAssets: "funds-b" | "funds-s" | "bonds"
+  | "stocks" | "currency" | "deposits"
+  | "cash-free" | "loans"
 }) {
-  const setIsOpenCallback = () => setIsOpen((prev) => !prev);
-
-  const [handleClick, handleTouchStart, handleTouchEnd] =
-    useClickTouch(setIsOpenCallback);
-
-  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
   const [imgSrc, setImgSrc] = useState(iconSrc);
 
   const handleError = () => {
@@ -28,13 +29,8 @@ export function AssetInfoCard({
   };
 
   return (
-    <>
-      <section
-        className="flex items-center justify-between py-3 px-1 gap-3 cursor-pointer hover:bg-darkGray/10 hover-none:active:bg-darkGray/20 active:bg-darkGray/20 dark:hover:bg-darkMain/40 dark:hover-none:active:bg-darkMain/80 dark:active:bg-darkMain/80"
-        onClick={handleClick}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      >
+    <Link href={`${pathname}/${typeOfAssets}/${asset._id}`}>
+      <section className="flex items-center justify-between py-3 px-1 gap-3 cursor-pointer hover:bg-darkGray/10 hover-none:active:bg-darkGray/20 active:bg-darkGray/20 dark:hover:bg-darkMain/40 dark:hover-none:active:bg-darkMain/80 dark:active:bg-darkMain/80">
         <div className="flex items-center gap-3">
           <Image
             src={`/asset-icons/${imgSrc}.png`}
@@ -69,7 +65,7 @@ export function AssetInfoCard({
 
             {asset?.bondYield && (
               <span className="text-sm text-gray-400 dark:text-gray-500">
-                {asset.matDate}
+                {calculateYearsAndMonths(asset.matDate)}
               </span>
             )}
             {asset.ticker !== "SUR" && (
@@ -82,16 +78,6 @@ export function AssetInfoCard({
       </section>
 
       <div className="flex-grow border-t border-gray-200 dark:border-darkMain"></div>
-
-      {isOpen && (
-        <div
-          className={
-            "p-4 text-center transition-colors duration-1000 cursor-pointer bg-blue-500"
-          }
-        >
-          Активирован
-        </div>
-      )}
-    </>
+    </Link>
   );
 }

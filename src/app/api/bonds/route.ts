@@ -22,8 +22,15 @@ export async function GET(request: NextRequest) {
     const item = await MODEL.findById(id);
 
     return NextResponse.json(item, { status: 200 });
-  } else {
-    return NextResponse.json({ message: "User ID not provided or ID not provided" }, { status: 400 });
+  } else if (request.nextUrl.searchParams.get("assetId")) {
+    const assetId = request.nextUrl.searchParams.get("assetId");
+
+    const item = await MODEL.findById(assetId);
+
+    return NextResponse.json(item, { status: 200 });
+  }
+  else {
+    return NextResponse.json({ message: "Account ID not provided" }, { status: 400 });
   }
 
 
@@ -43,6 +50,14 @@ export async function POST(request: NextRequest) {
       price,
       bondYield,
       matDate,
+
+      fullname,
+      nominal,
+      coupon,
+      nextCoupon,
+      couponPerion,
+      couponValue,
+
     } = await request.json();
 
     await connectMongoDB();
@@ -69,10 +84,17 @@ export async function POST(request: NextRequest) {
       ticker,
       currency,
       price: roundToTwoDecimals(price),
-      bondYield: roundToTwoDecimals(bondYield) + "%",
-      matDate: calculateYearsAndMonths(matDate),
+      bondYield: roundToTwoDecimals(bondYield),
+      matDate,
       total: roundToTwoDecimals(price * amount),
       amount,
+
+      fullname,
+      nominal,
+      coupon,
+      nextCoupon,
+      couponPerion,
+      couponValue,
     });
 
     return NextResponse.json(

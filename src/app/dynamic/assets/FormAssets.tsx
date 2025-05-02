@@ -9,14 +9,12 @@ import { FormProvider } from "@/components/FormContext";
 import { Button } from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import * as fundSService from "@/services/FundSService";
-import * as stockService from "@/services/StockService";
-import * as fundBService from "@/services/FundBService";
-import * as bondService from "@/services/BondService";
-import * as currencyService from "@/services/CurrencyService";
+
 import { CURRENCY } from "@/utils/constants";
 
 import { getErrorMessage } from "@/utils/getErrorMessage";
+
+import * as assetService from "@/services/AssetService";
 
 type AssType = "stock" | "bond" | "ETFstock" | "ETFbond" | "currency";
 
@@ -55,13 +53,13 @@ export function FormAssets({
             formattedData,
             moexStockJson
           );
-          await stockService.create(stockBody, userId, data.brokerId);
+          await assetService.create("stocks", stockBody, userId, data.brokerId);
           break;
 
         case "bond":
           const moexBondJson = await fetchBondInfo(formattedData.ticker);
           const bondBody = await getBondServerBody(formattedData, moexBondJson);
-          await bondService.create(bondBody, userId, data.brokerId);
+          await assetService.create("bonds", bondBody, userId, data.brokerId);
           break;
 
         case "ETFstock":
@@ -73,7 +71,12 @@ export function FormAssets({
             formattedData,
             moexETFStockJson
           );
-          await fundSService.create(ETFStockBody, userId, data.brokerId);
+          await assetService.create(
+            "funds-s",
+            ETFStockBody,
+            userId,
+            data.brokerId
+          );
           break;
 
         case "ETFbond":
@@ -82,20 +85,29 @@ export function FormAssets({
             formattedData,
             moexETFBondJson
           );
-          await fundBService.create(ETFBondBody, userId, data.brokerId);
+          await assetService.create(
+            "funds-b",
+            ETFBondBody,
+            userId,
+            data.brokerId
+          );
           break;
 
         case "currency":
           const currencyBody = await getCurrencyServerBody(data);
 
-          await currencyService.create(currencyBody, userId, data.brokerId);
+          await assetService.create(
+            "currency",
+            currencyBody,
+            userId,
+            data.brokerId
+          );
 
           break;
 
         default:
           break;
       }
-
     } catch (error) {
       throw error;
     }
@@ -107,8 +119,6 @@ export function FormAssets({
       onSubmit={onSubmit}
       className="flex flex-col sm:flex-row gap-3"
     >
-
-
       <Select name="type" required>
         <option value="">Select option</option>
 
@@ -140,7 +150,7 @@ export function FormAssets({
   async function onSubmit(data: any) {
     toast
       .promise(
-        handleOnSubmit({...data, brokerId}).then(() => router.refresh()),
+        handleOnSubmit({ ...data, brokerId }).then(() => router.refresh()),
         {
           loading: "Creating...",
           success: "Successfully created!",
