@@ -42,24 +42,10 @@ export async function POST(request: NextRequest) {
 
     const existingItem = await MODEL.findOne({ userId, brokerId, ticker });
 
-    if (existingItem) {
-      if (existingItem.amount + amount < 0) {
-        return NextResponse.json(
-          { message: "Amount must be positive" },
-          { status: 400 }
-        );
-      } else if (existingItem.amount + amount === 0) {
-        await existingItem.deleteOne();
-        return NextResponse.json(
-          { message: "Deleted successfully" },
-          { status: 200 }
-        );
-      }
-    }
 
     if (existingItem) {
-      existingItem.amount += amount;
-      existingItem.total += roundToTwoDecimals(price * amount);
+      existingItem.amount = amount;
+      existingItem.total = roundToTwoDecimals(price * amount);
       await existingItem.save();
       return NextResponse.json(
         { message: "Updated successfully" },

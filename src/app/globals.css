@@ -4,6 +4,14 @@
 
 
 @layer utilities {
+
+  .bg-btn {
+    background-image: url('/Timber.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+
+
   .bg-dark-svg {
     background-image: url('/background.svg');
     background-size: cover;

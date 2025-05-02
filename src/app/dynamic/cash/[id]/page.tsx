@@ -1,6 +1,10 @@
 import { TableAssets } from "@/components/TableAssets";
 import { AssetTableLoading } from "@/components/AssetTableLoading";
 import { Suspense } from "react";
+import { Heading } from "@/components/Heading";
+import { FormAssets } from "@/app/dynamic/cash/FormAssets";
+import { getCurrentUser } from "@/auth-actions/getCurrentUser";
+
 import * as depositService from "@/services/DepositService";
 import * as cashFreeService from "@/services/CashFreeService";
 import * as loanService from "@/services/LoanService";
@@ -12,15 +16,30 @@ import { MainContainer } from "@/components/MainContainer";
 
 import { FaArrowLeft } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
+import { CURRENCY } from "@/utils/constants";
+
+import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
+
+
 export default async function Page({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-
   const account = await bankAccService.getOneById(id);
 
+  const user = await getCurrentUser();
+
+  const getCurrencyServerBody = async (data: any) => {
+    "use server";
+    return {
+      ticker: data.currency,
+      amount: +data.amount,
+      name: CURRENCY[data.currency as keyof typeof CURRENCY],
+      price: await fetchCurrencyValue(data.currency),
+    };
+  };
   const SuspenseLoading = ({ children }: { children: React.ReactNode }) => (
     <Suspense
       fallback={
@@ -48,6 +67,15 @@ export default async function Page({
       </div>
 
       <div className="flex flex-col gap-4 p-4">
+        <MainContainer>
+          <Heading className="text-center">Update bank asset</Heading>
+          <FormAssets
+            userId={user?.id}
+            brokerId={account._id}
+            getCurrencyServerBody={getCurrencyServerBody}
+          />
+        </MainContainer>
+
         <SuspenseLoading>
           <TableAssets
             accountId={account._id}

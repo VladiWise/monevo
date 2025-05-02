@@ -19,6 +19,7 @@ const fontSize = "font-medium";
 
 const variants = {
   custom: "",
+  prim: "text-white shadow-md shadow-red-900",
   primary:
     "bg-primary hover:bg-primary/80 active:bg-primary hover-none:active:bg-primary/70 text-white",
   darkMain:
@@ -45,7 +46,7 @@ export function Button({
         "flex justify-center items-center min-w-fit rounded-xl",
         variant === "link" || variant === "whiteLink"
           ? ""
-          : "gap-x-2 p-3 hover:shadow-md active:shadow-none hover-none:active:scale-95 transition-all duration-200",
+          : "gap-x-2 p-3 hover:shadow-md active:shadow-none hover-none:active:scale-95 transition-all duration-500",
 
         variants[variant],
         fontSize,

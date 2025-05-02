@@ -11,9 +11,9 @@ export async function GET(request: NextRequest) {
   await connectMongoDB();
   const brokerId = request.nextUrl.searchParams.get("brokerId");
 
-  if ( brokerId) {
+  if (brokerId) {
 
-    const items = await MODEL.find({  brokerId });
+    const items = await MODEL.find({ brokerId });
 
     return NextResponse.json(items, { status: 200 });
   } else if (request.nextUrl.searchParams.get("id")) {
@@ -50,24 +50,10 @@ export async function POST(request: NextRequest) {
 
     const existingItem = await MODEL.findOne({ userId, brokerId, ticker });
 
-    if (existingItem) {
-      if (existingItem.amount + amount < 0) {
-        return NextResponse.json(
-          { message: "Amount must be positive" },
-          { status: 400 }
-        );
-      } else if (existingItem.amount + amount === 0) {
-        await existingItem.deleteOne();
-        return NextResponse.json(
-          { message: "Deleted successfully" },
-          { status: 200 }
-        );
-      }
-    }
 
     if (existingItem) {
-      existingItem.amount += amount;
-      existingItem.total += roundToTwoDecimals(price * amount);
+      existingItem.amount = amount;
+      existingItem.total = roundToTwoDecimals(price * amount);
       await existingItem.save();
       return NextResponse.json(
         { message: "Updated successfully" },

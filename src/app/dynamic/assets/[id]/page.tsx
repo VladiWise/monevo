@@ -1,6 +1,12 @@
 import { TableAssets } from "@/components/TableAssets";
 import { AssetTableLoading } from "@/components/AssetTableLoading";
 import { Suspense } from "react";
+import { Heading } from "@/components/Heading";
+import { FormAssets } from "@/app/dynamic/assets/FormAssets";
+import { getCurrentUser } from "@/auth-actions/getCurrentUser";
+
+import { CURRENCY } from "@/utils/constants";
+
 import * as fundSService from "@/services/FundSService";
 import * as stockService from "@/services/StockService";
 import * as fundBService from "@/services/FundBService";
@@ -12,6 +18,10 @@ import * as brokerAccSevice from "@/services/BrokerAccService";
 import Link from "next/link";
 import { MainContainer } from "@/components/MainContainer";
 
+import { fetchCurrencyValue } from "@/services/ExternalCurrencyService";
+import { type MoexJson } from "@/utils/moexInfo";
+import { getDataByField } from "@/utils/moexInfo";
+
 import { FaArrowLeft } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
 export default async function Page({
@@ -20,11 +30,62 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-
+  const user = await getCurrentUser();
   const account = await brokerAccSevice.getOneById(id);
 
+  const getFundEtfServerBody = async (data: any, moexJson: MoexJson) => {
+    "use server";
+    return {
+      accountId: data.accountId,
+      ticker: data.ticker,
+      amount: data.amount,
+      name: await getDataByField(moexJson, "shortName"),
+      currency: await getDataByField(moexJson, "currency"),
+      price: await getDataByField(moexJson, "price"),
+    };
+  };
+
+  const getBondServerBody = async (data: any, moexJson: MoexJson) => {
+    "use server";
+    return {
+      accountId: data.accountId,
+      ticker: data.ticker,
+      amount: data.amount,
+      name: await getDataByField(moexJson, "shortName"),
+      currency: await getDataByField(moexJson, "currency"),
+      price:
+        ((await getDataByField(moexJson, "price")) *
+          (await getDataByField(moexJson, "nominal")) *
+          (await fetchCurrencyValue(
+            await getDataByField(moexJson, "currency")
+          ))) /
+          100 +
+        (await getDataByField(moexJson, "coupon")),
+      bondYield: await getDataByField(moexJson, "bondYield"),
+      matDate: await getDataByField(moexJson, "matDate"),
+    };
+  };
+
+  const getCurrencyServerBody = async (data: any) => {
+    "use server";
+    return {
+      ticker: data.currency,
+      amount: +data.amount,
+      name: CURRENCY[data.currency as keyof typeof CURRENCY],
+      price: await fetchCurrencyValue(data.currency),
+    };
+  };
+
   const SuspenseLoading = ({ children }: { children: React.ReactNode }) => (
-    <Suspense fallback={<MainContainer><AssetTableLoading /></MainContainer>}>{children}</Suspense>
+    <Suspense
+      fallback={
+        <MainContainer>
+          <AssetTableLoading />
+        </MainContainer>
+      }
+    >
+      {children}
+    </Suspense>
   );
   return (
     <div className="flex flex-col gap-4 ">
@@ -42,7 +103,17 @@ export default async function Page({
       </div>
 
       <div className="flex flex-col gap-4 p-4">
-        
+        <MainContainer>
+          <Heading className="text-center">Add broker asset</Heading>
+          <FormAssets
+            userId={user?.id}
+            brokerId={id}
+            getFundEtfServerBody={getFundEtfServerBody}
+            getBondServerBody={getBondServerBody}
+            getCurrencyServerBody={getCurrencyServerBody}
+          />
+        </MainContainer>
+
         <SuspenseLoading>
           <TableAssets
             accountId={id}
