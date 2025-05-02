@@ -52,7 +52,7 @@ export default async function Page({
     </Suspense>
   );
   return (
-    <div className="flex flex-col gap-4 ">
+    <div className="flex flex-col">
       <div className="flex items-center p-4 justify-between sticky top-0 z-40 backdrop-blur-2xl">
         <Link href="/client/cash">
           <FaArrowLeft size={24} />

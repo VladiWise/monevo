@@ -59,7 +59,7 @@ export default async function App() {
   const bankAccounts = (await bankAccService.getList(user?.id)) as Account[];
 
   return (
-    <div className="flex flex-col items-center gap-10 w-full ">
+    <div className="flex flex-col items-center gap-4 w-full ">
       <MainContainer>
         <Heading>Broker accounts</Heading>
         <FormAssetAcc

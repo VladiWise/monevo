@@ -32,7 +32,7 @@ export default async function App() {
   if (!user) return null;
 
   return (
-    <div className="flex flex-col items-center w-full gap-10 md:grid md:grid-cols-2  ">
+    <div className="flex flex-col items-center w-full gap-4 md:grid md:grid-cols-2  ">
       <Suspense
         fallback={
           <SuspenseMainBlockWrapper title="Net capital" isLeftSection />

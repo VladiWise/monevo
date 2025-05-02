@@ -35,7 +35,7 @@ export default async function App() {
   const accounts = (await bankAccService.getList(user?.id)) as Account[];
 
   return (
-    <div className="flex flex-col items-center gap-10 w-full ">
+    <div className="flex flex-col items-center gap-4 w-full ">
       {accounts.map(async (account) => {
         const accSum = await bankAccService.getTotal(account._id);
 
