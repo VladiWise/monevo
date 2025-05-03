@@ -6,6 +6,7 @@ import * as assetService from "@/services/AssetService";
 import { Button } from "@/components/Button";
 import { getIconsSrc } from "@/utils/dataFormat";
 import { AssetInfoOwnCard } from "@/components/AssetInfoOwnCard";
+import { DeleteButton2 } from "@/components/DeleteButton2";
 
 export default async function Page({
   params,
@@ -54,13 +55,17 @@ export default async function Page({
         typeOfAssets={assetType}
       />
 
-      <div className="flex items-center p-4 justify-between sticky bottom-0 z-40 gap-4 backdrop-blur-2xl">
-        <Button variant="simple" className="w-full">
+      <div className="flex items-center p-4 justify-center sticky bottom-0 z-40 gap-4 backdrop-blur-2xl">
+        {/* <Button variant="simple" className="w-full">
           Change
-        </Button>
-        <Button variant="primary" className="w-full">
+        </Button> */}
+        <DeleteButton2
+          id={assetId}
+          assetType={assetType}
+          removeItem={assetService.remove}
+        >
           Delete
-        </Button>
+        </DeleteButton2>
       </div>
     </div>
   );

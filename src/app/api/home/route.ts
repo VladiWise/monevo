@@ -165,6 +165,10 @@ async function updateMoexInfo(assets: any[], fetchMoexInfo: any, Model: any) {
         await Model.findByIdAndUpdate(asset._id, { bondYield: roundToTwoDecimals(await getDataByField(moexJson, "bondYield")) });
 
         await Model.findByIdAndUpdate(asset._id, { matDate: await getDataByField(moexJson, "matDate") });
+        await Model.findByIdAndUpdate(asset._id, { securityType: await getDataByField(moexJson, "securityType") });
+
+        await Model.findByIdAndUpdate(asset._id, { ISINCode: await getDataByField(moexJson, "ISINCode") });
+        await Model.findByIdAndUpdate(asset._id, { percentPrice: await getDataByField(moexJson, "price") });
 
 
       } else {
@@ -174,7 +178,14 @@ async function updateMoexInfo(assets: any[], fetchMoexInfo: any, Model: any) {
 
         await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
         await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
+        await Model.findByIdAndUpdate(asset._id, { fullname: await getDataByField(moexJson, "fullname") });
+        await Model.findByIdAndUpdate(asset._id, { securityType: await getDataByField(moexJson, "securityType") });
+        await Model.findByIdAndUpdate(asset._id, { ISINCode: await getDataByField(moexJson, "ISINCode") });
+
       }
+
+      await new Promise((resolve) => setTimeout(resolve, 250));
+
     }
   } catch (error) {
     throw new Error("Error updating Moex info");

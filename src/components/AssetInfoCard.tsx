@@ -45,13 +45,13 @@ export function AssetInfoCard({
             <span>{asset.name}</span>
             {asset?.bondYield && (
               <span className="text-sm text-gray-400 dark:text-gray-500">
-                {asset.bondYield} (
+                {asset.bondYield}% (
                 {asset.currency == "SUR" ? "RUB" : asset.currency})
               </span>
             )}
             {asset.ticker !== "SUR" && (
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                {asset.amount} pcs
+                {formatNumberWithSpaces(asset.amount)} pcs
               </span>
             )}
           </div>

@@ -2,30 +2,77 @@ import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
 import * as bankAccService from "@/services/BankAccService";
+import * as assetService from "@/services/AssetService";
+import { Button } from "@/components/Button";
+import { getIconsSrc } from "@/utils/dataFormat";
+import { AssetInfoOwnCard } from "@/components/AssetInfoOwnCard";
+import { DeleteButton2 } from "@/components/DeleteButton2";
 export default async function Page({
   params,
 }: {
-  params: Promise<{ assetId: string; id: string }>;
+  params: Promise<{
+    assetId: string;
+    id: string;
+    assetType:
+      | "funds-b"
+      | "funds-s"
+      | "bonds"
+      | "stocks"
+      | "currency"
+      | "deposits"
+      | "cash-free"
+      | "loans";
+  }>;
 }) {
-  const { assetId, id } = await params;
+  const { assetType, assetId, id } = await params;
   const account = await bankAccService.getOneById(id);
+  const asset = await assetService.getOne(assetType, assetId);
+
+  const { iconSrc, altIconSrc } = getIconsSrc(asset?.ticker, assetType);
+
+  const isTypeOfCash =
+    assetType === "deposits" ||
+    assetType === "cash-free" ||
+    assetType === "loans";
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full">
       <div className="flex items-center p-4 justify-between sticky top-0 z-40 backdrop-blur-2xl">
-        <Link href={`/dynamic/cash/${id}`}>
+        <Link
+          href={isTypeOfCash ? `/dynamic/cash/${id}` : `/dynamic/assets/${id}`}
+        >
           <FaArrowLeft size={24} />
         </Link>
 
-        <div className="flex flex-col items-center ">
-          <span>{assetId}</span>
-          <span className="text-sm text-gray-500 dark:text-gray-400">{account.shortName}</span>
+        <div className="flex flex-col items-center">
+          <span>{asset.name}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            {account.shortName}
+          </span>
         </div>
 
         <FaClock size={24} />
       </div>
 
-      <div className="flex flex-col gap-4 p-4">
-        
+      <AssetInfoOwnCard
+        asset={asset}
+        iconSrc={iconSrc}
+        altIconSrc={altIconSrc}
+        typeOfAssets={assetType}
+      />
+
+      <div className="flex items-center p-4 justify-center sticky bottom-0 z-40 gap-4 backdrop-blur-2xl">
+        {/* <Button variant="simple" className="w-full">
+          Change
+        </Button> */}
+
+        <DeleteButton2
+          id={assetId}
+          assetType={assetType}
+          removeItem={assetService.remove}
+        >
+          Delete
+        </DeleteButton2>
       </div>
     </div>
   );

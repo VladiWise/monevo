@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { Heading } from "@/components/Heading";
 import { FormAssets } from "@/app/dynamic/assets/FormAssets";
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
+import { roundToTwoDecimals } from "@/utils/mathUtils";
 
 import { CURRENCY } from "@/utils/constants";
 
@@ -61,7 +62,7 @@ export default async function Page({
           ))) /
           100 +
         (await getDataByField(moexJson, "coupon")),
-      bondYield: await getDataByField(moexJson, "bondYield"),
+      bondYield: roundToTwoDecimals(await getDataByField(moexJson, "bondYield")),
       matDate: await getDataByField(moexJson, "matDate"),
 
       fullname: await getDataByField(moexJson, "fullname"),
@@ -71,7 +72,8 @@ export default async function Page({
       couponPerion: await getDataByField(moexJson, "couponPerion"),
 
       couponValue: await getDataByField(moexJson, "couponValue"),
-      
+      securityType: await getDataByField(moexJson, "securityType"),
+      percentPrice: await getDataByField(moexJson, "price"),
     };
   };
 

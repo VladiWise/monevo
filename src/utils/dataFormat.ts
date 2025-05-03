@@ -47,6 +47,10 @@ export function getIconsSrc(
 
   switch (typeOfAssets) {
     case "currency":
+    case "loans":
+    case "cash-free":
+    case "deposits":
+
       iconSrc = ticker;
       break;
 

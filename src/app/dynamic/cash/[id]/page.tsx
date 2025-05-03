@@ -80,7 +80,7 @@ export default async function Page({
           <TableAssets
             accountId={account._id}
             service={depositService}
-            typeOfAssets="currency"
+            typeOfAssets="deposits"
           >
             Deposits
           </TableAssets>
@@ -90,7 +90,7 @@ export default async function Page({
           <TableAssets
             accountId={account._id}
             service={cashFreeService}
-            typeOfAssets="currency"
+            typeOfAssets="cash-free"
           >
             Cash
           </TableAssets>
@@ -100,7 +100,7 @@ export default async function Page({
           <TableAssets
             accountId={account._id}
             service={loanService}
-            typeOfAssets="currency"
+            typeOfAssets="loans"
           >
             Loan
           </TableAssets>

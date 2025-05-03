@@ -3,6 +3,8 @@ import mongoose, { Schema } from "mongoose";
 const loanSchema = new Schema(
   {
     name: { type: String, required: true },
+    fullname: { type: String, required: false },
+
     ticker: { type: String, required: true },
     brokerId: { type: String, required: true },
     price: { type: String, required: true },

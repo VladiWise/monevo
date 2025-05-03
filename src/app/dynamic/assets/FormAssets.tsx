@@ -143,7 +143,7 @@ export function FormAssets({
 
       <Input name="amount" type="number" placeholder="Amount" required />
 
-      <Button type="submit">Add</Button>
+      <Button type="submit">Update</Button>
     </FormProvider>
   );
 

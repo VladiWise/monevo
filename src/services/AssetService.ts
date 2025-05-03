@@ -4,7 +4,7 @@ import api from "@/libs/fetch";
 import { revalidateTag } from "next/cache";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 
-type PathName = "funds-b" | "funds-s" | "bonds"
+export type PathName = "funds-b" | "funds-s" | "bonds"
   | "stocks" | "currency" | "deposits"
   | "cash-free" | "loans"
 

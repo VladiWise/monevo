@@ -19,6 +19,11 @@ export const MOEX_INFO_NAME: Record<string, MoexField> = {
   updatedAd: { title: "Updated" },
 
   fullname: { title: "Full name", id: "securities", name: "SECNAME" },
+  latfullname: { title: "Full name", id: "securities", name: "LATNAME" },
+
+  securityType: { title: "Security type", id: "securities", name: "BOARDNAME" },
+  ISINCode: { title: "ISIN Code", id: "securities", name: "ISIN" },
+
   shortName: { title: "Short name", id: "securities", name: "SHORTNAME" },
   name: { title: "Name", id: "securities", name: "SECNAME" },
   ticker: { title: "Ticker", id: "securities", name: "TICKER" },
