@@ -84,6 +84,11 @@ export async function PUT(request: NextRequest) {
       const cashFree = await CashFree.find({ userId });
       const loans = await Loan.find({ userId });
 
+      console.log("TOTAL: ", fundsS.length + fundsB.length + stocks.length + bonds.length + currency.length + deposit.length + cashFree.length + loans.length);
+
+
+
+
       await updateMoexInfo(fundsS, fetchStockETFInfo, Fund);
       await updateMoexInfo(fundsB, fetchStockETFInfo, FundB);
       await updateMoexInfo(stocks, fetchStockETFInfo, Stock);
@@ -140,8 +145,14 @@ async function updateMoexInfo(assets: any[], fetchMoexInfo: any, Model: any) {
     for (const asset of assets) {
       if (Model === Currency || Model === Deposit || Model === CashFree || Model === Loan) {
         const price = await fetchMoexInfo(asset.ticker);
-        await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
-        await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
+
+        console.log("price Currency", price);
+
+        await Model.findByIdAndUpdate(asset._id, {
+          price: roundToTwoDecimals(price),
+          total: roundToTwoDecimals(price * asset.amount)
+        });
+
       } else if (Model === Bond) {
 
         const moexJson = await fetchMoexInfo(asset.ticker);
@@ -152,39 +163,43 @@ async function updateMoexInfo(assets: any[], fetchMoexInfo: any, Model: any) {
           100 +
           (await getDataByField(moexJson, "coupon"));
 
-        await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
-        await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
+        console.log("price Bond", price);
 
-        await Model.findByIdAndUpdate(asset._id, { fullname: await getDataByField(moexJson, "fullname") });
-        await Model.findByIdAndUpdate(asset._id, { nominal: await getDataByField(moexJson, "nominal") });
-        await Model.findByIdAndUpdate(asset._id, { coupon: await getDataByField(moexJson, "coupon") });
-        await Model.findByIdAndUpdate(asset._id, { couponValue: await getDataByField(moexJson, "couponValue") });
 
-        await Model.findByIdAndUpdate(asset._id, { nextCoupon: await getDataByField(moexJson, "nextCoupon") });
-        await Model.findByIdAndUpdate(asset._id, { couponPerion: await getDataByField(moexJson, "couponPerion") });
-        await Model.findByIdAndUpdate(asset._id, { bondYield: roundToTwoDecimals(await getDataByField(moexJson, "bondYield")) });
-
-        await Model.findByIdAndUpdate(asset._id, { matDate: await getDataByField(moexJson, "matDate") });
-        await Model.findByIdAndUpdate(asset._id, { securityType: await getDataByField(moexJson, "securityType") });
-
-        await Model.findByIdAndUpdate(asset._id, { ISINCode: await getDataByField(moexJson, "ISINCode") });
-        await Model.findByIdAndUpdate(asset._id, { percentPrice: await getDataByField(moexJson, "price") });
-
+        await Model.findByIdAndUpdate(asset._id, {
+          price: roundToTwoDecimals(price),
+          total: roundToTwoDecimals(price * asset.amount),
+          fullname: await getDataByField(moexJson, "fullname"),
+          nominal: await getDataByField(moexJson, "nominal"),
+          coupon: await getDataByField(moexJson, "coupon"),
+          couponValue: await getDataByField(moexJson, "couponValue"),
+          nextCoupon: await getDataByField(moexJson, "nextCoupon"),
+          couponPerion: await getDataByField(moexJson, "couponPerion"),
+          bondYield: roundToTwoDecimals(await getDataByField(moexJson, "bondYield")),
+          matDate: await getDataByField(moexJson, "matDate"),
+          securityType: await getDataByField(moexJson, "securityType"),
+          ISINCode: await getDataByField(moexJson, "ISINCode"),
+          percentPrice: await getDataByField(moexJson, "price")
+        });
 
       } else {
 
         const moexJson = await fetchMoexInfo(asset.ticker);
         const price = await getDataByField(moexJson, "price")
 
-        await Model.findByIdAndUpdate(asset._id, { price: roundToTwoDecimals(price) });
-        await Model.findByIdAndUpdate(asset._id, { total: roundToTwoDecimals(price * asset.amount) });
-        await Model.findByIdAndUpdate(asset._id, { fullname: await getDataByField(moexJson, "fullname") });
-        await Model.findByIdAndUpdate(asset._id, { securityType: await getDataByField(moexJson, "securityType") });
-        await Model.findByIdAndUpdate(asset._id, { ISINCode: await getDataByField(moexJson, "ISINCode") });
+        console.log("price Stock", price);
+
+
+        await Model.findByIdAndUpdate(asset._id, {
+          price: roundToTwoDecimals(price),
+          total: roundToTwoDecimals(price * asset.amount),
+          fullname: await getDataByField(moexJson, "fullname"),
+          securityType: await getDataByField(moexJson, "securityType"),
+          ISINCode: await getDataByField(moexJson, "ISINCode")
+
+        });
 
       }
-
-      await new Promise((resolve) => setTimeout(resolve, 250));
 
     }
   } catch (error) {

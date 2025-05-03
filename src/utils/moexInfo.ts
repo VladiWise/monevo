@@ -36,7 +36,7 @@ export const MOEX_INFO_NAME: Record<string, MoexField> = {
   nextCoupon: { title: "Next Coupon", id: "securities", name: "NEXTCOUPON" },
   couponPerion: { title: "Coupon Perion", id: "securities", name: "COUPONPERIOD" },
 
-  bondYield: { title: "Yield", id: "marketdata_yields", name: "EFFECTIVEYIELD" },
+  bondYield: { title: "Yield", id: "marketdata", name: "YIELD" },
   matDate: { title: "Mat date", id: "securities", name: "MATDATE" },
 
 
@@ -54,12 +54,16 @@ export interface MoexJson {
 
 export async function getDataByField(moexJson: MoexJson, fieldKey: keyof typeof MOEX_INFO_NAME) {
   "use server";
+
   try {
     const field = MOEX_INFO_NAME[fieldKey];
+
+
+
+
     if (!field.id || !field.name) {
       throw new Error(`Field ${fieldKey} is missing id or name`);
     }
-
 
     const index = moexJson[field.id]?.columns?.indexOf(field.name);
 
@@ -77,7 +81,10 @@ export async function getDataByField(moexJson: MoexJson, fieldKey: keyof typeof 
         return moexJson[field.id].data[0][index]
       }
     }
-    return moexJson[field.id].data[0][index];
+
+
+    await new Promise((resolve) => setTimeout(resolve, 250));
+    return moexJson[field.id].data[0]?.[index];
   } catch (error) {
     console.error(error);
     throw error
