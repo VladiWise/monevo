@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { Providers } from "./providers";
 import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
@@ -21,11 +22,9 @@ export default async function RootLayout({
       <body
         className={`${inter.className} antialiased bg-lightMain dark:bg-darkMain text-darkMain dark:text-white`}
       >
-        <Providers>
-          <Toaster position="top-right" reverseOrder={false} />
-
-          {children}
-        </Providers>
+        <ConfirmDialog />
+        <Toaster position="top-right" reverseOrder={false} />
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

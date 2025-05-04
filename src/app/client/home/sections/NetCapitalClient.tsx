@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
+import { useConfirm } from "@/hooks/useConfirm";
+
 import { UpdateMoexButton } from "../UpdateMoexButton";
 import { Button } from "@/components/Button";
 import { CgArrowsExchangeV } from "react-icons/cg";
@@ -34,6 +36,7 @@ export function NetCapitalClient({
   const [currency, setCurrency] = useState<string>("RUB");
 
   const router = useRouter();
+  const confirm = useConfirm();
 
   function sumAssets(currency: string) {
     const diff = currentSum - prevSum;
@@ -86,9 +89,10 @@ export function NetCapitalClient({
       </section>
       <Button
         variant="link"
-        onClick={() => {
-          if (!confirm("You really want to record data?")) return;
-          toast
+        onClick={async () => {
+          if (!(await confirm("You really want to record data?"))) return;
+
+          await toast
             .promise(
               totalService.create(data, userId).then(() => router.refresh()),
               {
