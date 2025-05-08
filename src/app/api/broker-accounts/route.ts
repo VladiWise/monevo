@@ -36,16 +36,16 @@ export async function POST(request: NextRequest) {
   try {
     const userId = request.nextUrl.searchParams.get("userId");
 
-    const { shortName, fullName, isIIS, creatingDate } = await request.json();
+    const requestBody = await request.json();
 
     await connectMongoDB();
 
     await BrokerAccount.create({
-      shortName,
-      fullName,
-      isIIS,
-      creatingDate,
-      userId
+      ...requestBody,
+      userId,
+      endDate: requestBody.creatingDate ? new Date(requestBody.creatingDate).setFullYear(
+        new Date(requestBody.creatingDate).getFullYear() + 5
+      ) : null
     });
 
     return NextResponse.json(

@@ -5,6 +5,8 @@ const BrokerAccountSchema = new Schema({
   fullName: { type: String, required: true },
   isIIS: { type: Boolean, required: true },
   creatingDate: { type: Date, require: false },
+  termInYears: { type: Number, require: false },
+  endDate: { type: Date, require: false },
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",

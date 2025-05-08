@@ -100,6 +100,11 @@ export default async function Page({
       {children}
     </Suspense>
   );
+
+  const getDate = ({ account }: { account: any }) => {
+    return calculateYearsMonthsDays(account.endDate, true);
+  };
+
   return (
     <div className="flex flex-col">
       <div className="flex items-center p-4 justify-between sticky top-0 z-40 backdrop-blur-2xl">
@@ -119,8 +124,15 @@ export default async function Page({
         {account.creatingDate && (
           <MainContainer>
             <p>
+              Term: <strong>{account.termInYears} years</strong>
+            </p>
+            <p>
               Account age:{" "}
               <strong>{calculateYearsMonthsDays(account.creatingDate)}</strong>
+            </p>
+
+            <p>
+              Remaining: <strong>{getDate({ account })}</strong>
             </p>
           </MainContainer>
         )}

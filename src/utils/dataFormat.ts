@@ -11,10 +11,17 @@ export function getLocalDateByISO(isoDateString: Date): string {
 
 export function calculateYearsMonthsDays(
   targetDate: Date,
-  today: Date = new Date()
+  isStrict?: boolean
 ): string {
+  const today = new Date();
   const target = new Date(targetDate);
   const now = new Date(today);
+
+
+
+  if (isStrict && target <= now) {
+    return '0d';
+  }
 
   // Определяем направление: в будущем или в прошлом
   let start: Date;
@@ -26,6 +33,7 @@ export function calculateYearsMonthsDays(
     start = new Date(target);
     end = now;
   }
+
 
   // Вычисляем разницу в годах и месяцах
   let years = end.getFullYear() - start.getFullYear();

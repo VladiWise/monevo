@@ -48,7 +48,15 @@ export function FormAssetAcc({
             <option value="true">IIS</option>
           </Select>
           {isIISForm == "true" && (
-            <Input name="creatingDate" type="date" required />
+            <>
+              <Input name="creatingDate" type="date" required />
+              <Input
+                name="termInYears"
+                type="number"
+                placeholder="Term in years"
+                required
+              />
+            </>
           )}
         </>
       )}
