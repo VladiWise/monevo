@@ -2,7 +2,7 @@ import { AssetInfoString } from "./AssetInfoString";
 import Image from "next/image";
 import { MainContainer } from "@/components/MainContainer";
 import { formatNumberWithSpaces } from "@/utils/mathUtils";
-import { calculateYearsAndMonths } from "@/utils/dataFormat";
+import { calculateYearsMonthsDays } from "@/utils/dataFormat";
 
 export function AssetInfoBondCard({
   asset,
@@ -96,7 +96,7 @@ export function AssetInfoBondCard({
           </AssetInfoString>
 
           <AssetInfoString title="Time to maturity">
-            {calculateYearsAndMonths(asset.matDate)}
+            {calculateYearsMonthsDays(asset.matDate)}
           </AssetInfoString>
 
           <AssetInfoString title="Full name">{asset.fullname}</AssetInfoString>

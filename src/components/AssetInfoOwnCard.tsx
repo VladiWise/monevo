@@ -5,7 +5,7 @@ import { formatNumberWithSpaces } from "@/utils/mathUtils";
 import { DeleteButton } from "./DeleteButton";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { calculateYearsAndMonths } from "@/utils/dataFormat";
+import { calculateYearsMonthsDays } from "@/utils/dataFormat";
 import { MainContainer } from "@/components/MainContainer";
 import { AssetInfoString } from "./AssetInfoString";
 

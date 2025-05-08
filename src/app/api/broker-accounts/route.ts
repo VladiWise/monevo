@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
   try {
     const userId = request.nextUrl.searchParams.get("userId");
 
-    const { shortName, fullName, isIIS } = await request.json();
+    const { shortName, fullName, isIIS, creatingDate } = await request.json();
 
     await connectMongoDB();
 
@@ -44,6 +44,7 @@ export async function POST(request: NextRequest) {
       shortName,
       fullName,
       isIIS,
+      creatingDate,
       userId
     });
 

@@ -5,7 +5,7 @@ import { Heading } from "@/components/Heading";
 import { FormAssets } from "@/app/dynamic/assets/FormAssets";
 import { getCurrentUser } from "@/auth-actions/getCurrentUser";
 import { roundToTwoDecimals } from "@/utils/mathUtils";
-
+import { calculateYearsMonthsDays } from "@/utils/dataFormat";
 import { CURRENCY } from "@/utils/constants";
 
 import * as fundSService from "@/services/FundSService";
@@ -62,7 +62,9 @@ export default async function Page({
           ))) /
           100 +
         (await getDataByField(moexJson, "coupon")),
-      bondYield: roundToTwoDecimals(await getDataByField(moexJson, "bondYield")),
+      bondYield: roundToTwoDecimals(
+        await getDataByField(moexJson, "bondYield")
+      ),
       matDate: await getDataByField(moexJson, "matDate"),
 
       fullname: await getDataByField(moexJson, "fullname"),
@@ -114,6 +116,14 @@ export default async function Page({
       </div>
 
       <div className="flex flex-col gap-4 p-4">
+        {account.creatingDate && (
+          <MainContainer>
+            <p>
+              Account age:{" "}
+              <strong>{calculateYearsMonthsDays(account.creatingDate)}</strong>
+            </p>
+          </MainContainer>
+        )}
         <MainContainer>
           <Heading className="text-center">Add broker asset</Heading>
           <FormAssets

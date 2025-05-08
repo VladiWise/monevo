@@ -21,6 +21,8 @@ export function FormAssetAcc({
 
   const form = useForm({});
 
+  const isIISForm = form.watch("isIIS");
+
   async function handleOnSubmit(data: any) {
     try {
       form.reset();
@@ -40,10 +42,15 @@ export function FormAssetAcc({
       <Input name="shortName" type="text" placeholder="Short name" required />
       <Input name="fullName" type="text" placeholder="Full name" required />
       {isIIS && (
-        <Select name="isIIS" required>
-          <option value="false">Not IIS</option>
-          <option value="true">IIS</option>
-        </Select>
+        <>
+          <Select name="isIIS" required>
+            <option value="false">Not IIS</option>
+            <option value="true">IIS</option>
+          </Select>
+          {isIISForm == "true" && (
+            <Input name="creatingDate" type="date" required />
+          )}
+        </>
       )}
       <Button type="submit">Create</Button>
     </FormProvider>

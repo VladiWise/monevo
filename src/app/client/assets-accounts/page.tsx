@@ -18,7 +18,7 @@ type Account = {
 
 const BrokerAccountColumns = [
   {
-    title: "Created",
+    title: "Added",
     name: "createdAt",
     getCellContent: (item: any) => getLocalDateByISO(item.createdAt),
   },
@@ -34,6 +34,12 @@ const BrokerAccountColumns = [
     title: "Is this IIS",
     name: "isIIS",
     getCellContent: (item: any) => item.isIIS.toString(),
+  },
+
+  {
+    title: "Created",
+    name: "createdAt",
+    getCellContent: (item: any) => getLocalDateByISO(item.creatingDate),
   },
 ];
 

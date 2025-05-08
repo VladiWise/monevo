@@ -2,7 +2,7 @@ import { AssetInfoString } from "./AssetInfoString";
 import Image from "next/image";
 import { MainContainer } from "@/components/MainContainer";
 import { formatNumberWithSpaces } from "@/utils/mathUtils";
-import { calculateYearsAndMonths } from "@/utils/dataFormat";
+import { calculateYearsMonthsDays } from "@/utils/dataFormat";
 
 export function AssetInfoStockCard({
   asset,

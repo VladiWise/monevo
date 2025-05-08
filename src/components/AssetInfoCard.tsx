@@ -5,7 +5,7 @@ import { formatNumberWithSpaces } from "@/utils/mathUtils";
 import { DeleteButton } from "./DeleteButton";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { calculateYearsAndMonths } from "@/utils/dataFormat";
+import { calculateYearsMonthsDays } from "@/utils/dataFormat";
 export function AssetInfoCard({
   asset,
   iconSrc,
@@ -15,9 +15,15 @@ export function AssetInfoCard({
   asset: any;
   iconSrc: string;
   altIconSrc: string;
-  typeOfAssets: "funds-b" | "funds-s" | "bonds"
-  | "stocks" | "currency" | "deposits"
-  | "cash-free" | "loans"
+  typeOfAssets:
+    | "funds-b"
+    | "funds-s"
+    | "bonds"
+    | "stocks"
+    | "currency"
+    | "deposits"
+    | "cash-free"
+    | "loans";
 }) {
   const pathname = usePathname();
   const [imgSrc, setImgSrc] = useState(iconSrc);
@@ -65,7 +71,7 @@ export function AssetInfoCard({
 
             {asset?.bondYield && (
               <span className="text-sm text-gray-400 dark:text-gray-500">
-                {calculateYearsAndMonths(asset.matDate)}
+                {calculateYearsMonthsDays(asset.matDate)}
               </span>
             )}
             {asset.ticker !== "SUR" && (
