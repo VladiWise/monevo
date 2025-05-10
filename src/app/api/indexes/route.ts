@@ -23,6 +23,11 @@ export async function GET(request: NextRequest) {
 
       const INDEX = mongoose.models[SECID] || mongoose.model(SECID, indexMOEXSchema);
 
+      const start = await INDEX.countDocuments({}) || 0;
+
+      if (!start) return NextResponse.json({ message: "No data found" }, { status: 404 });
+
+
 
       const every = INDEX.find({}).sort({ date: -1 }).cursor()
 
@@ -39,6 +44,7 @@ export async function GET(request: NextRequest) {
       }
 
       return NextResponse.json(result, { status: 200 });
+
 
     } else {
       return NextResponse.json({ message: "SECID not provided" }, { status: 400 });
