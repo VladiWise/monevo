@@ -26,6 +26,10 @@ ChartJS.register(
 );
 
 export function TimeSeriesChart({ docs, title }) {
+  if (docs?.error) {
+    return <div>{docs.error}</div>;
+  }
+
   const data = {
     datasets: [
       {
