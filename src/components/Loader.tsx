@@ -1,10 +1,9 @@
 import clsx from "clsx";
 import Image from "next/image";
 
-
 export function Loader({ size = 100 }: { size?: number }) {
   return (
-    <Image src="/spinner.svg" width={100} height={100} alt="Loading…" />
+    <Image src="/spinner.svg" width={size} height={size} alt="Loading…" />
 
     // <div className="flex flex-row gap-2">
     //   <div

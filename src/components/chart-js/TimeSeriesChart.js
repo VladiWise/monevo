@@ -74,7 +74,7 @@ export function TimeSeriesChart({ docs, title }) {
   };
 
   return (
-    <section className="w-full h-full">
+    <section className="w-full h-40 sm:h-48 md:h-64 xl:h-[36rem]">
       <Line data={data} options={options} />
     </section>
   );

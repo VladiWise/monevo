@@ -1,26 +1,11 @@
-import { getDBIndexValues, updateIndex } from "@/services/IndexMOEXService";
-import { TimeSeriesChart } from "@/components/chart-js/TimeSeriesChart";
-import { MainContainer } from "@/components/MainContainer";
-import { Heading } from "@/components/Heading";
-import { Button } from "@/components/Button";
-import { UpdateButton } from "./UpdateButton";
+import { ChartSection } from "./ChartSection";
 
 export default async function ChartsPage() {
-  const data = await getDBIndexValues("IMOEX");
-
   return (
-    <>
-      <UpdateButton SECID="IMOEX">Update</UpdateButton>
+    <div className="flex flex-col items-center gap-4 w-full ">
+      <ChartSection SECID="IMOEX" />
 
-      <MainContainer className="w-full h-full items-center">
-        <Heading className="text-center">IMOEX</Heading>
-
-        <TimeSeriesChart docs={data} title={"IMOEX"} />
-      </MainContainer>
-
-      <MainContainer className="w-full h-full">
-        <TimeSeriesChart docs={data} title={"IMOEX"} />
-      </MainContainer>
-    </>
+      <ChartSection SECID="RUSFAR" />
+    </div>
   );
 }

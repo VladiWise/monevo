@@ -5,7 +5,7 @@ import api from "@/libs/fetch";
 
 export async function updateIndex(SECID: string) {
   try {
-    const data = await api.post(`/indexes?SECID=${SECID}`, { next: { tags: ["home"] } });
+    const data = await api.post(`/indexes?SECID=${SECID}`, { next: { tags: ["charts"] }, cache: "no-cache" });
     return data;
   } catch (error) {
     return { error: getErrorMessage(error) };
@@ -14,7 +14,9 @@ export async function updateIndex(SECID: string) {
 
 export async function getDBIndexValues(SECID: string) {
   try {
-    const data = await api.get(`/indexes?SECID=${SECID}`, { next: { tags: ["home"] } });
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    const data = await api.get(`/indexes?SECID=${SECID}`, { next: { tags: ["charts"] }, cache: "no-cache" });
     return data;
   } catch (error) {
     return { error: getErrorMessage(error) };
@@ -27,9 +29,7 @@ export async function getIndexValues(SECID: string, start: number) {
   try {
 
     const response = await fetch(
-      `https://iss.moex.com/iss/history/engines/stock/markets/index/securities/${SECID}.json?start=${start}`, {
-      next: { revalidate: 1 },
-    }
+      `https://iss.moex.com/iss/history/engines/stock/markets/index/securities/${SECID}.json?start=${start}`
     );
 
     const data = await response.json();
