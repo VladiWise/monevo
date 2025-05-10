@@ -1,0 +1,67 @@
+"use server";
+import { getErrorMessage } from "@/utils/getErrorMessage";
+import { revalidateTag } from "next/cache";
+import api from "@/libs/fetch";
+
+export async function getDBIndexValues(SECID: string) {
+
+  const data = await api.get(`/indexes?SECID=${SECID}`, { next: { tags: ["home"] } });
+  return data;
+
+}
+
+
+export async function getIndexValues(SECID: string, start: number) {
+  try {
+
+    const response = await fetch(
+      `https://iss.moex.com/iss/history/engines/stock/markets/index/securities/${SECID}.json?start=${start}`, {
+      next: { revalidate: 1 },
+    }
+    );
+
+    const data = await response.json();
+
+    if (!data) {
+      return { error: getErrorMessage("Invalid data returned from Moex") };
+    }
+
+    let columns = data.history.columns
+
+    return {
+      data: data.history.data.map((oneLine: any[]) => {
+
+        let index = 0;
+        let obj = {}
+
+        for (let col of columns) {
+          obj = {
+            ...obj,
+            [col]: oneLine[index]
+          }
+          index++
+        }
+        return obj
+      }),
+      cursor: { ...getProperFormat(data, "history.cursor") }
+
+    }
+
+  } catch (error) {
+    return { error: getErrorMessage(error) };
+  }
+}
+
+function getProperFormat(data: any, field: string, index: number = 0) {
+
+  const hc = data[field];
+
+  const row = hc.data[index];
+  const result = hc.columns.reduce((acc: any, colName: string, idx: number) => {
+    acc[colName] = row[idx];
+    return acc;
+  }, {});
+
+  return result
+
+}
