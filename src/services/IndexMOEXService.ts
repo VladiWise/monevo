@@ -5,7 +5,7 @@ import api from "@/libs/fetch";
 
 export async function updateIndex(SECID: string) {
   try {
-    const data = await api.get(`/indexes?SECID=${SECID}`, { next: { tags: ["home"] } });
+    const data = await api.post(`/indexes?SECID=${SECID}`, { next: { tags: ["home"] } });
     return data;
   } catch (error) {
     return { error: getErrorMessage(error) };
