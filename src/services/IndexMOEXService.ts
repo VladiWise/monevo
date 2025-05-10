@@ -4,9 +4,12 @@ import { revalidateTag } from "next/cache";
 import api from "@/libs/fetch";
 
 export async function getDBIndexValues(SECID: string) {
-
-  const data = await api.get(`/indexes?SECID=${SECID}`, { next: { tags: ["home"] } });
-  return data;
+  try {
+    const data = await api.get(`/indexes?SECID=${SECID}`, { next: { tags: ["home"] } });
+    return data;
+  } catch (error) {
+    return { error: getErrorMessage(error) };
+  }
 
 }
 
