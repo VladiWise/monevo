@@ -13,13 +13,17 @@ export async function ChartSection({ SECID }: { SECID: string }) {
   );
 
   return (
-    <MainContainer className="w-full h-full items-center">
-      <UpdateButton SECID={SECID}>Update</UpdateButton>
-      <Heading className="text-center">{SECID}</Heading>
+    <>
+      <MainContainer className="w-full h-full items-center">
+        <UpdateButton SECID={SECID}>Update</UpdateButton>
+        <Heading className="text-center">{SECID}</Heading>
 
-      <Suspense fallback={<SuspenseLoading />}>
-        <ChartServerFetch SECID={SECID} />
-      </Suspense>
-    </MainContainer>
+        <Suspense fallback={<SuspenseLoading />}>
+          <ChartServerFetch SECID={SECID} />
+        </Suspense>
+      </MainContainer>
+
+      <MainContainer>fhgfhg</MainContainer>
+    </>
   );
 }

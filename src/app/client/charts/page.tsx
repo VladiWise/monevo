@@ -4,8 +4,13 @@ export default async function ChartsPage() {
   return (
     <div className="flex flex-col items-center gap-4 w-full ">
       <ChartSection SECID="IMOEX" />
+      <ChartSection SECID="MCFTR" />
 
       <ChartSection SECID="RUSFAR" />
+
+      <ChartSection SECID="RVI" />
+
+      <ChartSection SECID="MREDC" />
     </div>
   );
 }

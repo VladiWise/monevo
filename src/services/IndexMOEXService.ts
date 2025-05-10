@@ -15,7 +15,7 @@ export async function updateIndex(SECID: string) {
 export async function getDBIndexValues(SECID: string) {
   try {
 
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    // await new Promise((resolve) => setTimeout(resolve, 5000));
     const data = await api.get(`/indexes?SECID=${SECID}`, { next: { tags: ["charts"] }, cache: "no-cache" });
     return data;
   } catch (error) {

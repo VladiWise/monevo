@@ -25,22 +25,21 @@ ChartJS.register(
   Legend
 );
 
-export function TimeSeriesChart({ docs, title }) {
-  if (docs?.error) {
-    return <div>{docs.error}</div>;
+export function TimeSeriesChart({ YData, title }) {
+  if (YData?.error) {
+    return <div>{YData.error}</div>;
   }
 
   const data = {
     datasets: [
       {
         label: title,
-        data: docs.map((d) => ({ x: new Date(d.date), y: d.value })),
+        data: YData.map((d) => ({ x: new Date(d.date), y: d.value })),
         borderColor: "#EF3226",
         backgroundColor: "#EF3226",
-        // borderWidth: 2,
         pointRadius: 0,
-        tension: 0.4, // ← плавность: 0 (прямые), до 1 (макс. изгиб) :contentReference[oaicite:0]{index=0}
-        cubicInterpolationMode: "monotone", // ← сохраняет локальную монотонность (опционально) :contentReference[oaicite:1]{index=1}
+        tension: 0.4,
+        cubicInterpolationMode: "monotone",
         fill: false,
       },
     ],
