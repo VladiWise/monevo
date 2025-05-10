@@ -67,8 +67,8 @@ export async function POST(request: NextRequest) {
       const result = await getIndexValues(SECID!, start);
 
       let index = result.cursor.INDEX
-      let total = result.cursor.TOTAL
-      let pageSize = result.cursor.PAGESIZE
+      const total = result.cursor.TOTAL
+      const pageSize = result.cursor.PAGESIZE
       let countAdded = 0
 
       while (index < total) {
