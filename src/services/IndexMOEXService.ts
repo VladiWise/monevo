@@ -26,7 +26,7 @@ export async function getIndexValues(SECID: string, start: number) {
       return { error: getErrorMessage("Invalid data returned from Moex") };
     }
 
-    let columns = data.history.columns
+    const columns = data.history.columns
 
     return {
       data: data.history.data.map((oneLine: any[]) => {
@@ -34,7 +34,7 @@ export async function getIndexValues(SECID: string, start: number) {
         let index = 0;
         let obj = {}
 
-        for (let col of columns) {
+        for (const col of columns) {
           obj = {
             ...obj,
             [col]: oneLine[index]
