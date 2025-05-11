@@ -14,6 +14,13 @@ import {
   Legend,
 } from "chart.js";
 
+import {
+  type ChartDataset,
+  type ChartData,
+  type ChartOptions,
+  type ScriptableContext,
+} from "chart.js";
+
 ChartJS.register(
   TimeScale,
   CategoryScale,
@@ -24,25 +31,33 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+export type YPoint = { x: Date; y: number };
 
-export function TimeSeriesChart({ YData, title }) {
-  const data = {
-    datasets: [
-      {
-        label: title,
-        data: YData,
-        borderColor: "#EF3226",
-        backgroundColor: "#EF3226",
-        pointRadius: 0,
-        tension: 0.4,
-        cubicInterpolationMode: "monotone",
-        fill: false,
-      },
+export type YDataArr = { title: string; data: YPoint[] };
 
-    ],
-  };
+export function TimeSeriesChartCB({
+  YDataArr,
+  title,
+}: {
+  YDataArr: YDataArr[];
+  title: string;
+}) {
+  const datasets: ChartDataset<"line", YPoint[]>[] = YDataArr.map(
+    (dataset) => ({
+      label: dataset.title,
+      data: dataset.data,
+      borderColor: "#EF3226",
+      backgroundColor: "#EF3226",
+      pointRadius: 0,
+      tension: 0.4,
+      cubicInterpolationMode: "monotone",
+      fill: false,
+    })
+  );
 
-  const options = {
+  const data: ChartData<"line", YPoint[], unknown> = { datasets };
+
+  const options: ChartOptions<"line"> = {
     scales: {
       x: {
         type: "time",
@@ -52,7 +67,7 @@ export function TimeSeriesChart({ YData, title }) {
         title: { display: false, text: "Date" },
       },
       y: {
-        title: { display: false, text: "Value" },
+        title: { display: true, text: "%" },
       },
     },
     elements: {
@@ -62,8 +77,11 @@ export function TimeSeriesChart({ YData, title }) {
       },
     },
     plugins: {
-      legend: { display: false },
-      tooltip: { mode: "index", intersect: false },
+      legend: { display: true },
+      tooltip: {
+        mode: "index",
+        intersect: false,
+      },
     },
     responsive: true,
     maintainAspectRatio: false,

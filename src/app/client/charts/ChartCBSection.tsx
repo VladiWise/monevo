@@ -1,16 +1,18 @@
 import { MainContainer } from "@/components/MainContainer";
 import { Heading } from "@/components/Heading";
-import { UpdateButton } from "./UpdateButton";
-import { ChartServerFetch } from "./ChartServerFetch";
+import { UpdateCBButton } from "./UpdateCBButton";
+import { ChartCBServerFetch } from "./ChartCBServerFetch";
 import { Suspense } from "react";
 import { Loader } from "@/components/Loader";
 
-export async function ChartSection({
+import { IndexCBType } from "@/types";
+
+export async function ChartCBSection({
   SECID,
   chartData,
 }: {
   SECID: string;
-  chartData: "value" | "yield" | "avgYield";
+  chartData: IndexCBType;
 }) {
   const SuspenseLoading = () => (
     <section className="w-full h-40 sm:h-48 md:h-64 xl:h-[36rem] flex items-center justify-center">
@@ -21,11 +23,11 @@ export async function ChartSection({
   return (
     <>
       <MainContainer className="w-full h-full items-center">
-        <UpdateButton SECID={SECID}>Update</UpdateButton>
+        <UpdateCBButton type={chartData}>Update</UpdateCBButton>
         <Heading className="text-center">{SECID}</Heading>
 
         <Suspense fallback={<SuspenseLoading />}>
-          <ChartServerFetch SECID={SECID} chartData={chartData} />
+          <ChartCBServerFetch SECID={SECID} chartData={chartData} />
         </Suspense>
       </MainContainer>
     </>
