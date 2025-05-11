@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
 
 
 
-      const every = INDEX.find({}).sort({ date: -1 }).cursor()
+      const every =  INDEX.find({}).sort({ date: -1 }).cursor()
 
 
       const result = [];
@@ -79,8 +79,8 @@ export async function POST(request: NextRequest) {
       while (index < total) {
 
         const result = await getIndexValues(SECID!, index);
-        result.data.map((item: any) => {
-          INDEX.create({
+        result.data.map(async (item: any) => {
+          await INDEX.create({
             name: item.NAME,
             ticker: item.SECID,
             value: item.CLOSE,

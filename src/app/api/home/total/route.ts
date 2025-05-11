@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
       const userId = request.nextUrl.searchParams.get("userId");
 
-      Total.create({ userId, assets: data });
+      await Total.create({ userId, assets: data });
 
       return NextResponse.json({ message: "Data created successfully" }, { status: 200 });
 
