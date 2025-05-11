@@ -24,6 +24,10 @@ export function UpdateButton({
             if (data?.error) {
               throw new Error(data.error);
             }
+
+            if (data?.message) {
+              toast.success(data.message);
+            }
           })
           .then(() => router.refresh()),
         {
