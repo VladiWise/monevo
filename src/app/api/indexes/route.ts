@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
 
       const interval = Math.ceil(start / 500);
 
-      if (!start) return NextResponse.json({ message: "No data found" }, { status: 404 });
+      if (!start) return NextResponse.json({ error: "No data found" }, { status: 404 });
 
 
 
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
 
     return NextResponse.json(
-      { message: getErrorMessage(error) }
+      { error: getErrorMessage(error) }
       , { status: 500 });
 
   }
@@ -82,16 +82,35 @@ export async function POST(request: NextRequest) {
       while (index < total) {
         const page = await getIndexValues(SECID!, index);
 
-        for (const item of page.data) {
-          await INDEX.create({
+        const properData = page.data.map((item: any) => {
+
+
+          countAdded++;
+
+
+          return {
             name: item.NAME,
             ticker: item.SECID,
             value: item.CLOSE,
             date: item.TRADEDATE,
             yield: item?.YIELD ?? null,
-          });
-          countAdded++;
-        }
+          };
+
+        })
+
+        await INDEX.insertMany(properData);
+
+
+        // for (const item of page.data) {
+        //   await INDEX.create({
+        //     name: item.NAME,
+        //     ticker: item.SECID,
+        //     value: item.CLOSE,
+        //     date: item.TRADEDATE,
+        //     yield: item?.YIELD ?? null,
+        //   });
+        //   countAdded++;
+        // }
 
         index += pageSize;
       }
@@ -105,7 +124,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
 
     return NextResponse.json(
-      { message: getErrorMessage(error) }
+      { error: getErrorMessage(error) }
       , { status: 500 });
 
   }

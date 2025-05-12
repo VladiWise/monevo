@@ -1,22 +1,26 @@
-import { ChartSection } from "./ChartSection";
+import { ChartMESection } from "./ChartMESection";
 import { ChartCBSection } from "./ChartCBSection";
 
 export default async function ChartsPage() {
   return (
     <div className="flex flex-col items-center gap-4 w-full ">
-      <ChartCBSection SECID="deposit" chartData="deposit" />
+      <ChartCBSection title="deposit" chartData="deposit" />
 
-      <ChartSection SECID="RUCBTR2B3B" chartData="avgYield" />
-      <ChartSection SECID="IMOEX" chartData="value" />
+      <ChartCBSection title="credit" chartData="credit" />
 
-      <ChartSection SECID="MCFTR" chartData="value" />
+      <ChartMESection SECID="RUCBTR2B3B" chartData="avgYield" />
+      <ChartMESection SECID="RGBITR" chartData="avgYield" />
 
-      <ChartSection SECID="RUSFAR" chartData="value" />
-      <ChartSection SECID="RUSFAR3M" chartData="value" />
+      <ChartMESection SECID="IMOEX" chartData="value" />
 
-      <ChartSection SECID="RVI" chartData="value" />
+      <ChartMESection SECID="MCFTR" chartData="value" />
 
-      <ChartSection SECID="MREDC" chartData="value" />
+      <ChartMESection SECID="RUSFAR" chartData="value" />
+      <ChartMESection SECID="RUSFAR3M" chartData="value" />
+
+      <ChartMESection SECID="RVI" chartData="value" />
+
+      <ChartMESection SECID="MREDC" chartData="value" />
     </div>
   );
 }

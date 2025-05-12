@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import { useRouter } from "next/navigation";
 import { IndexCBType } from "@/types";
+import { useTransition } from "react";
 
 import { Button } from "@/components/Button";
 
@@ -15,29 +16,33 @@ export function UpdateCBButton({
   type: IndexCBType;
 }) {
   const router = useRouter();
-  return <Button onClick={handleUpdate}>{children}</Button>;
+  const [isPending, startTransition] = useTransition();
+
+  return (
+    <Button
+      disabled={isPending}
+      onClick={() =>
+        startTransition(() => {
+          handleUpdate();
+        })
+      }
+    >
+      {isPending ? "Updating…" : children}
+    </Button>
+  );
 
   async function handleUpdate() {
-    toast
-      .promise(
-        updateIndexCB(type)
-          .then((data) => {
-            if (data?.error) {
-              throw new Error(data.error);
-            }
+    try {
+      const result = await updateIndexCB(type);
 
-            if (data?.message) {
-              toast.success(data.message);
-            }
-          })
-          .then(() => router.refresh()),
-        {
-          loading: "Updating data...",
-          success: "Data successfully updated!",
-        }
-      )
-      .catch((error) => {
-        toast.error(getErrorMessage(error, "Failed to delete data."));
-      });
+      if (result?.error) {
+        return toast.error(result.error);
+      }
+
+      router.refresh();
+      toast.success(result.message || "Data successfully updated");
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    }
   }
 }

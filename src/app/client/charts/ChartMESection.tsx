@@ -5,7 +5,7 @@ import { ChartServerFetch } from "./ChartServerFetch";
 import { Suspense } from "react";
 import { Loader } from "@/components/Loader";
 
-export async function ChartSection({
+export async function ChartMESection({
   SECID,
   chartData,
 }: {
@@ -13,7 +13,7 @@ export async function ChartSection({
   chartData: "value" | "yield" | "avgYield";
 }) {
   const SuspenseLoading = () => (
-    <section className="w-full h-40 sm:h-48 md:h-64 xl:h-[36rem] flex items-center justify-center">
+    <section className="w-full h-52 sm:h-64 md:h-80 xl:h-[36rem] flex items-center justify-center">
       <Loader size={100} />
     </section>
   );

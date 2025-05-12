@@ -2,11 +2,11 @@ import connectMongoDB from "@/libs/mongodb";
 import { NextResponse, NextRequest } from "next/server";
 import mongoose, { Schema } from "mongoose";
 
-import { getIndexCBDeposit } from "@/services/IndexCBService";
+import { getIndexCBDeposit, getIndexCBCreadit } from "@/services/IndexCBService";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 
 import { IndexCBType } from "@/types";
-import { DB_IndexCBDeposit_Model } from "@/models/IndexCB";
+import { DB_IndexCBDeposit_Model, DB_IndexCBCredit_Model } from "@/models/IndexCB";
 
 
 
@@ -17,27 +17,30 @@ export async function GET(request: NextRequest) {
 
     if (!type) {
       return NextResponse.json(
-        { message: "Type not provided" }
+        { error: "Type not provided" }
         , { status: 400 });
     }
 
     switch (type) {
       case "deposit":
-        const result = await DB_IndexCBDeposit_Model.find({}).sort({ date: -1 });
-        if (result.length === 0) return NextResponse.json({ message: "No data found" }, { status: 404 });
-        return NextResponse.json(result, { status: 200 });
+        const deposits = await DB_IndexCBDeposit_Model.find({}).sort({ date: -1 });
+        if (deposits.length === 0) return NextResponse.json({ error: "No data found" }, { status: 404 });
+        return NextResponse.json(deposits, { status: 200 });
+      case "credit":
+        const credits = await DB_IndexCBCredit_Model.find({}).sort({ date: -1 });
+        if (credits.length === 0) return NextResponse.json({ error: "No data found" }, { status: 404 });
+        return NextResponse.json(credits, { status: 200 });
       default:
-        break;
+        break
     }
 
-
-    return NextResponse.json("gfdfgdfgdfdfg", { status: 200 });
+    return NextResponse.json({ error: "Invalid type" }, { status: 400 });
 
 
   } catch (error) {
 
     return NextResponse.json(
-      { message: getErrorMessage(error) }
+      { error: getErrorMessage(error) }
       , { status: 500 });
 
   }
@@ -48,31 +51,27 @@ export async function POST(request: NextRequest) {
   try {
     await connectMongoDB();
 
-
     const type = request.nextUrl.searchParams.get("type");
 
 
     if (!type) {
       return NextResponse.json(
-        { message: "Type not provided" }
+        { error: "Type not provided" }
         , { status: 400 });
 
     }
 
     switch (type) {
       case "deposit":
-        const result = await getIndexCBDeposit();
+        const deposits = await getIndexCBDeposit();
 
-        if ("error" in result) {
+        if ("error" in deposits) {
           return NextResponse.json(
-            { message: result.error }
+            { error: deposits.error }
             , { status: 500 });
         }
 
-        // await DB_IndexCBDeposit_Model.insertMany(result);
-
-
-        const ops = result.map(record => ({
+        const depOps = deposits.map(record => ({
           updateOne: {
             filter: { date: record.date },
             update: { $setOnInsert: record },
@@ -80,24 +79,47 @@ export async function POST(request: NextRequest) {
           }
         }));
 
-        const res = await DB_IndexCBDeposit_Model.bulkWrite(ops);
+        const depRes = await DB_IndexCBDeposit_Model.bulkWrite(depOps);
 
         return NextResponse.json(
-          `Inserted: ${res.upsertedCount}, Modified: ${res.modifiedCount}`
+          { message: `Inserted: ${depRes.upsertedCount}, Modified: ${depRes.modifiedCount}` }
+          , { status: 200 });
+
+      case "credit":
+        const credits = await getIndexCBCreadit();
+
+        if ("error" in credits) {
+          return NextResponse.json(
+            { error: credits.error }
+            , { status: 500 });
+        }
+
+        const credOps = credits.map(record => ({
+          updateOne: {
+            filter: { date: record.date },
+            update: { $setOnInsert: record },
+            upsert: true,
+          }
+        }));
+
+        const credRes = await DB_IndexCBCredit_Model.bulkWrite(credOps);
+
+        return NextResponse.json(
+          { message: `Inserted: ${credRes.upsertedCount}, Modified: ${credRes.modifiedCount}` }
           , { status: 200 });
 
       default:
-        break;
+        break
     }
 
-
+    return NextResponse.json({ error: "Invalid type" }, { status: 400 });
 
 
 
   } catch (error) {
 
     return NextResponse.json(
-      { message: getErrorMessage(error) }
+      { error: getErrorMessage(error) }
       , { status: 500 });
 
   }

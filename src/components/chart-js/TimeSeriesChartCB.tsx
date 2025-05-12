@@ -33,21 +33,15 @@ ChartJS.register(
 );
 export type YPoint = { x: Date; y: number };
 
-export type YDataArr = { title: string; data: YPoint[] };
+export type YDataArr = { title: string; color: string; data: YPoint[] };
 
-export function TimeSeriesChartCB({
-  YDataArr,
-  title,
-}: {
-  YDataArr: YDataArr[];
-  title: string;
-}) {
+export function TimeSeriesChartCB({ YDataArr }: { YDataArr: YDataArr[] }) {
   const datasets: ChartDataset<"line", YPoint[]>[] = YDataArr.map(
     (dataset) => ({
       label: dataset.title,
       data: dataset.data,
-      borderColor: "#EF3226",
-      backgroundColor: "#EF3226",
+      borderColor: dataset.color,
+      backgroundColor: dataset.color,
       pointRadius: 0,
       tension: 0.4,
       cubicInterpolationMode: "monotone",
@@ -67,7 +61,7 @@ export function TimeSeriesChartCB({
         title: { display: false, text: "Date" },
       },
       y: {
-        title: { display: true, text: "%" },
+        title: { display: false, text: "%" },
       },
     },
     elements: {
@@ -77,7 +71,7 @@ export function TimeSeriesChartCB({
       },
     },
     plugins: {
-      legend: { display: true },
+      legend: { display: true, position: "top" },
       tooltip: {
         mode: "index",
         intersect: false,
@@ -88,7 +82,7 @@ export function TimeSeriesChartCB({
   };
 
   return (
-    <section className="w-full h-40 sm:h-48 md:h-64 xl:h-[36rem]">
+    <section className="w-full h-52 sm:h-64 md:h-80 xl:h-[36rem]">
       <Line data={data} options={options} />
     </section>
   );

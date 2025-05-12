@@ -6,16 +6,17 @@ import { Suspense } from "react";
 import { Loader } from "@/components/Loader";
 
 import { IndexCBType } from "@/types";
+import { title } from "process";
 
 export async function ChartCBSection({
-  SECID,
+  title,
   chartData,
 }: {
-  SECID: string;
+  title: string;
   chartData: IndexCBType;
 }) {
   const SuspenseLoading = () => (
-    <section className="w-full h-40 sm:h-48 md:h-64 xl:h-[36rem] flex items-center justify-center">
+    <section className="w-full h-52 sm:h-64 md:h-80 xl:h-[36rem] flex items-center justify-center">
       <Loader size={100} />
     </section>
   );
@@ -23,12 +24,12 @@ export async function ChartCBSection({
   return (
     <>
       <MainContainer className="w-full h-full items-center">
-        <UpdateCBButton type={chartData}>Update</UpdateCBButton>
-        <Heading className="text-center">{SECID}</Heading>
+        <Heading className="text-center">{title}</Heading>
 
         <Suspense fallback={<SuspenseLoading />}>
-          <ChartCBServerFetch SECID={SECID} chartData={chartData} />
+          <ChartCBServerFetch chartData={chartData} />
         </Suspense>
+        <UpdateCBButton type={chartData}>Update</UpdateCBButton>
       </MainContainer>
     </>
   );
