@@ -9,7 +9,9 @@ export async function ChartCBServerFetch({
 }: {
   chartData: "deposit" | "credit";
 }) {
-  const data = (await getDBIndexCB(chartData)) as DB_IndexCBDeposit[];
+  const data = (await getDBIndexCB(chartData)) as
+    | DB_IndexCBDeposit[]
+    | { error: string };
 
   if ("error" in data) {
     return <div>{getErrorMessage(data.error)}</div>;

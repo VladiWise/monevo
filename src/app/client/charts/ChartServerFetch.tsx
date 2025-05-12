@@ -11,7 +11,9 @@ export async function ChartServerFetch({
   SECID: string;
   chartData: "value" | "yield" | "avgYield";
 }) {
-  const data = (await getDBIndexValues(SECID)) as IndexMoex[];
+  const data = (await getDBIndexValues(SECID)) as
+    | IndexMoex[]
+    | { error: string };
 
   if ("error" in data) {
     return <div>{getErrorMessage(data.error)}</div>;
