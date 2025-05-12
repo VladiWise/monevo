@@ -15,7 +15,7 @@ export async function ChartServerFetch({
     | IndexMoex[]
     | { error: string };
 
-  if ("error" in data) {
+  if (!Array.isArray(data) && "error" in data) {
     return <div>{getErrorMessage(data.error)}</div>;
   }
 
