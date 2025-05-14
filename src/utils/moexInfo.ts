@@ -83,7 +83,7 @@ export async function getDataByField(moexJson: MoexJson, fieldKey: keyof typeof 
     }
 
 
-    await new Promise((resolve) => setTimeout(resolve, 250));
+    await new Promise((resolve) => setTimeout(resolve, 50));
     return moexJson[field.id].data[0]?.[index];
   } catch (error) {
     console.error(error);
