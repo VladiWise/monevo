@@ -4,38 +4,38 @@ import { Button } from "@/components/Button";
 import { updateMoexInfoByUserId } from "@/services/HomeService";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import toast from "react-hot-toast";
+import { useTransition } from "react";
 
 import { useRouter } from "next/navigation";
 
 export function UpdateMoexButton({ userId }: { userId: string | undefined }) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  async function handleUpdateMoexInfoByUserId(userId: string) {
+  async function handleUpdate(userId: string): Promise<void> {
     try {
-      setIsLoading(true);
+      const result = await updateMoexInfoByUserId(userId);
 
-      await toast.promise(
-        updateMoexInfoByUserId(userId).then(() => router.refresh()),
-        {
-          loading: "Updating data...",
-          success: "Data successfully updated",
-        }
-      );
+      if (result?.error) {
+        toast.error(result.error);
+        return;
+      }
+
+      router.refresh();
+
+      toast.success(result?.message || "Data successfully updated");
     } catch (error) {
-      toast.error(getErrorMessage(error, "Failed to update data."));
-    } finally {
-      setIsLoading(false);
+      toast.error(getErrorMessage(error));
     }
   }
 
   return (
     <Button
       variant="link"
-      disabled={isLoading}
-      onClick={() => handleUpdateMoexInfoByUserId(userId!)}
+      disabled={isPending}
+      onClick={() => startTransition(() => handleUpdate(userId!))}
     >
-      Refresh
+      {isPending ? "Refreshing..." : "Refresh"}
     </Button>
   );
 }

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { useTransition } from "react";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 
 import { useConfirm } from "@/hooks/useConfirm";
 
@@ -36,6 +38,8 @@ export function NetCapitalClient({
   const [currency, setCurrency] = useState<string>("RUB");
 
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
   const confirm = useConfirm();
 
   function sumAssets(currency: string) {
@@ -88,32 +92,38 @@ export function NetCapitalClient({
         </Button>
       </section>
       <Button
+        disabled={isPending}
         variant="link"
         onClick={async () => {
           if (!(await confirm("You really want to record data?"))) return;
 
-          await toast
-            .promise(
-              totalService.create(data, userId).then(() => router.refresh()),
-              {
-                loading: "Updating data...",
-                success: "Data successfully updated",
-                error: "Failed to update data.",
-              }
-            )
-
-            .catch((error) => {
-              toast.error(error?.message || "Failed to update data.");
-            });
+          startTransition(() => {
+            handleUpdate(data, userId);
+          });
         }}
       >
-        Record data
+        {isPending ? "Recording..." : "Record data"}
       </Button>
     </MainBlockWrapper>
   );
 
-  function formatNumberWithSpaces(number: number) {
-    const roundedNumber = Math.round(number);
-    return roundedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  async function handleUpdate(data: any, userId: string | undefined) {
+    try {
+      const result = await totalService.create(data, userId);
+
+      if (result?.error) {
+        return toast.error(result.error);
+      }
+
+      router.refresh();
+      toast.success(result.message || "Data successfully updated");
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    }
   }
+}
+
+function formatNumberWithSpaces(number: number) {
+  const roundedNumber = Math.round(number);
+  return roundedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }

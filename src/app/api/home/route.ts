@@ -88,15 +88,26 @@ export async function PUT(request: NextRequest) {
 
 
 
+      Promise.all([
+        updateMoexInfo(fundsS, fetchStockETFInfo, Fund),
+        updateMoexInfo(fundsB, fetchStockETFInfo, FundB),
+        updateMoexInfo(stocks, fetchStockETFInfo, Stock),
+        updateMoexInfo(bonds, fetchBondInfo, Bond),
+        updateMoexInfo(currency, fetchCurrencyValue, Currency),
+        updateMoexInfo(deposit, fetchCurrencyValue, Deposit),
+        updateMoexInfo(cashFree, fetchCurrencyValue, CashFree),
+        updateMoexInfo(loans, fetchCurrencyValue, Loan),
+      ])
 
-      await updateMoexInfo(fundsS, fetchStockETFInfo, Fund);
-      await updateMoexInfo(fundsB, fetchStockETFInfo, FundB);
-      await updateMoexInfo(stocks, fetchStockETFInfo, Stock);
-      await updateMoexInfo(bonds, fetchBondInfo, Bond);
-      await updateMoexInfo(currency, fetchCurrencyValue, Currency);
-      await updateMoexInfo(deposit, fetchCurrencyValue, Deposit);
-      await updateMoexInfo(cashFree, fetchCurrencyValue, CashFree);
-      await updateMoexInfo(loans, fetchCurrencyValue, Loan);
+
+      // await updateMoexInfo(fundsS, fetchStockETFInfo, Fund);
+      // await updateMoexInfo(fundsB, fetchStockETFInfo, FundB);
+      // await updateMoexInfo(stocks, fetchStockETFInfo, Stock);
+      // await updateMoexInfo(bonds, fetchBondInfo, Bond);
+      // await updateMoexInfo(currency, fetchCurrencyValue, Currency);
+      // await updateMoexInfo(deposit, fetchCurrencyValue, Deposit);
+      // await updateMoexInfo(cashFree, fetchCurrencyValue, CashFree);
+      // await updateMoexInfo(loans, fetchCurrencyValue, Loan);
 
       return NextResponse.json({ message: "Data updated successfully" }, { status: 200 });
 
