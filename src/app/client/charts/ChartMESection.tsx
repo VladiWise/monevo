@@ -34,7 +34,7 @@ export async function ChartMESection({
 
         <DataSourceLink
           href="https://www.moex.com/ru/indices"
-          label="Data source: Moscow Exchange indices"
+          label="Data source: Moscow Exchange"
         />
       </MainContainer>
     </>

@@ -37,8 +37,8 @@ export async function getIndexCBCreadit() {
 
     const { RawData: data } = await response.json();
 
-    if (!data) {
-      return { error: getErrorMessage("Invalid data returned from CB") };
+    if (!response.ok) {
+      throw new Error
     }
 
     const result = pivotByRowId(data, [
@@ -52,7 +52,7 @@ export async function getIndexCBCreadit() {
     return result
 
   } catch (error) {
-    return { error: getErrorMessage(error) };
+    throw new Error("Invalid data returned from API")
   }
 }
 
@@ -66,7 +66,7 @@ export async function getIndexCBDeposit() {
     const { RawData: data } = await response.json();
 
     if (!response.ok) {
-      return { error: getErrorMessage("Invalid data returned from CB") };
+      throw new Error
     }
 
     const result = pivotByRowId(data, [
@@ -79,7 +79,7 @@ export async function getIndexCBDeposit() {
     return result
 
   } catch (error) {
-    return { error: getErrorMessage(error) };
+    throw new Error("Invalid data returned from API")
   }
 }
 
@@ -94,7 +94,7 @@ export async function getIndexCBLoanVolume() {
     const { RawData: data } = await response.json();
 
     if (!response.ok) {
-      return { error: getErrorMessage("Invalid data returned from CB") };
+      throw new Error
     }
 
     const result = pivotByRowId(data, [
@@ -104,7 +104,7 @@ export async function getIndexCBLoanVolume() {
     return result
 
   } catch (error) {
-    return { error: getErrorMessage(error) };
+    throw new Error("Invalid data returned from API")
   }
 }
 

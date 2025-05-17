@@ -27,7 +27,7 @@ export function UpdateButton({
       }
     >
       {isPending ? (
-        <RxUpdate  className="text-black dark:text-white animate-spin text-xl" />
+        <RxUpdate  className="text-black dark:text-white animate-spin text-2xl" />
       ) : (
         <RxUpdate  className="text-black dark:text-white text-2xl" />
       )}

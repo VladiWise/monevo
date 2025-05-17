@@ -34,8 +34,8 @@ export async function getIndexValues(SECID: string, start: number) {
 
     const data = await response.json();
 
-    if (!data) {
-      return { error: getErrorMessage("Invalid data returned from Moex") };
+    if (!response.ok) {
+      throw new Error;
     }
 
     const columns = data.history.columns
@@ -60,7 +60,7 @@ export async function getIndexValues(SECID: string, start: number) {
     }
 
   } catch (error) {
-    return { error: getErrorMessage(error) };
+    throw new Error("Invalid data returned from API")
   }
 }
 

@@ -70,12 +70,6 @@ export async function POST(request: NextRequest) {
       case "deposit":
         const deposits = await getIndexCBDeposit();
 
-        if ("error" in deposits) {
-          return NextResponse.json(
-            { error: deposits.error }
-            , { status: 500 });
-        }
-
         const depOps = deposits.map(record => ({
           updateOne: {
             filter: { date: record.date },
@@ -93,11 +87,6 @@ export async function POST(request: NextRequest) {
       case "credit":
         const credits = await getIndexCBCreadit();
 
-        if ("error" in credits) {
-          return NextResponse.json(
-            { error: credits.error }
-            , { status: 500 });
-        }
 
         const credOps = credits.map(record => ({
           updateOne: {
@@ -117,12 +106,6 @@ export async function POST(request: NextRequest) {
 
       case "loan":
         const loans = await getIndexCBLoanVolume();
-
-        if ("error" in loans) {
-          return NextResponse.json(
-            { error: loans.error }
-            , { status: 500 });
-        }
 
 
         const loanOps = loans.map(record => ({

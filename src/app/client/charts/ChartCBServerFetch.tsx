@@ -25,14 +25,14 @@ export async function ChartCBServerFetch({
       }
 
       YDataArr = [
-        {
-          title: "91d-180d",
-          color: "#EF3226",
-          data: deposits.map((d) => ({
-            x: new Date(d.date),
-            y: d.value_91d_180d,
-          })),
-        },
+        // {
+        //   title: "91d-180d",
+        //   color: "#EF3226",
+        //   data: deposits.map((d) => ({
+        //     x: new Date(d.date),
+        //     y: d.value_91d_180d,
+        //   })),
+        // },
         {
           title: "181d-1y",
           color: "#ab26ef",
@@ -50,14 +50,14 @@ export async function ChartCBServerFetch({
           })),
         },
 
-        {
-          title: "over 3y",
-          color: "#26ef7b",
-          data: deposits.map((d) => ({
-            x: new Date(d.date),
-            y: d.value_over_3y,
-          })),
-        },
+        // {
+        //   title: "over 3y",
+        //   color: "#26ef7b",
+        //   data: deposits.map((d) => ({
+        //     x: new Date(d.date),
+        //     y: d.value_over_3y,
+        //   })),
+        // },
       ];
 
       break;

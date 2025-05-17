@@ -20,6 +20,8 @@ const handleRequest = async (url: string, options: RequestInit) => {
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.log(errorData);
+      
       throw new Error(errorData.error || "Something went wrong (fetch)")
     }
 
@@ -27,6 +29,8 @@ const handleRequest = async (url: string, options: RequestInit) => {
     return data;
 
   } catch (error) {
+    console.error(error);
+
     throw new Error(getErrorMessage(error));
   }
 
@@ -36,12 +40,12 @@ const api = {
   get: async (endpoint: string, customOptions: RequestInit = {}, url = "") => {
     url = `${API_URL}${endpoint}`;
     const options: RequestInit = {
-      method: "GET", 
+      method: "GET",
       headers: {
         "x-api-key": API_KEY,
       },
 
-      ...customOptions, 
+      ...customOptions,
     };
 
     return handleRequest(url, options);
