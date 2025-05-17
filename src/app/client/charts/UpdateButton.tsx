@@ -1,11 +1,11 @@
 "use client";
-import { getDBIndexValues, updateIndex } from "@/services/IndexMOEXService";
+import {  updateIndex } from "@/services/IndexMOEXService";
 import toast from "react-hot-toast";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import { RxUpdate } from "react-icons/rx";
 
-import { Button } from "@/components/Button";
 
 export function UpdateButton({
   children,
@@ -18,16 +18,20 @@ export function UpdateButton({
   const [isPending, startTransition] = useTransition();
 
   return (
-    <Button
-      disabled={isPending}
+    <div
+      className="absolute top-2 right-2 p-2"
       onClick={() =>
         startTransition(() => {
           handleUpdate();
         })
       }
     >
-      {isPending ? "Updating…" : children}
-    </Button>
+      {isPending ? (
+        <RxUpdate  className="text-black dark:text-white animate-spin text-xl" />
+      ) : (
+        <RxUpdate  className="text-black dark:text-white text-2xl" />
+      )}
+    </div>
   );
 
   async function handleUpdate() {

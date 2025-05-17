@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { IndexCBType } from "@/types";
 import { useTransition } from "react";
 import { RxUpdate } from "react-icons/rx";
-import { Button } from "@/components/Button";
 
 export function UpdateCBButton({
   children,
@@ -19,9 +18,8 @@ export function UpdateCBButton({
   const [isPending, startTransition] = useTransition();
 
   return (
-    <Button
-      className="absolute top-2 right-2"
-      variant="prim"
+    <div
+      className="absolute top-2 right-2 p-2"
       onClick={() =>
         startTransition(() => {
           handleUpdate();
@@ -29,11 +27,11 @@ export function UpdateCBButton({
       }
     >
       {isPending ? (
-        <RxUpdate className="text-black dark:text-white animate-spin" />
+        <RxUpdate className="text-black dark:text-white animate-spin text-xl" />
       ) : (
-        <RxUpdate className="text-black dark:text-white" />
+        <RxUpdate className="text-black dark:text-white text-2xl" />
       )}
-    </Button>
+    </div>
   );
 
   async function handleUpdate() {

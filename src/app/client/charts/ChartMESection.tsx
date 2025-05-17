@@ -5,6 +5,7 @@ import { ChartServerFetch } from "./ChartServerFetch";
 import { Suspense } from "react";
 import { Loader } from "@/components/Loader";
 import Link from "next/link";
+import { DataSourceLink } from "@/components/DataSourceLink";
 
 export async function ChartMESection({
   title,
@@ -23,21 +24,18 @@ export async function ChartMESection({
 
   return (
     <>
-      <MainContainer className="w-full h-full items-center ">
+      <MainContainer className="w-full h-full items-center relative">
         <UpdateButton SECID={SECID}>Update</UpdateButton>
-        <Heading className="text-center">{title}</Heading>
-
+        <Heading className="text-center max-w-60 sm:max-w-72 lg:max-w-full">{title}</Heading>
 
         <Suspense fallback={<SuspenseLoading />}>
           <ChartServerFetch SECID={SECID} chartData={chartData} />
         </Suspense>
-        <Link
-          target="_blank"
-          href={"https://www.moex.com/ru/indices"}
-          className="hover:underline underline-offset-2 text-darkMain/50 dark:text-white/50 hover:text-darkMain/80 dark:hover:text-white/80 active:text-black"
-        >
-          Data source: Moscow Exchange indices
-        </Link>
+
+        <DataSourceLink
+          href="https://www.moex.com/ru/indices"
+          label="Data source: Moscow Exchange indices"
+        />
       </MainContainer>
     </>
   );

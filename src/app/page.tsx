@@ -6,7 +6,7 @@ import { CommonMainLayout } from "@/components/CommonMainLayout";
 import Image from "next/image";
 
 export default async function MainPage() {
-  // const user = await getCurrentUser();
+
 
   return (
     <>
@@ -14,7 +14,7 @@ export default async function MainPage() {
 
       <CommonMainLayout className="dark:bg-dark-svg bg-light-svg">
         <div className="flex flex-col items-center gap-14 max-w-3xl h-[calc(100vh-4rem)] pt-11">
-          <h1 className="text-3xl sm:text-5xl font-bold dark:text-white text-center">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold dark:text-white text-center">
             The investment tracker you have been waiting for
           </h1>
 
