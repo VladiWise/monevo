@@ -56,7 +56,7 @@ export function TimeSeriesChartCB({ YDataArr }: { YDataArr: YDataArr[] }) {
       x: {
         type: "time",
         time: {
-          tooltipFormat: "yyyy-MM-dd",
+          tooltipFormat: "yyyy-MM",
         },
         title: { display: false, text: "Date" },
       },
@@ -71,7 +71,7 @@ export function TimeSeriesChartCB({ YDataArr }: { YDataArr: YDataArr[] }) {
       },
     },
     plugins: {
-      legend: { display: true, position: "top" },
+      legend: { display: false, position: "top" },
       tooltip: {
         mode: "index",
         intersect: false,

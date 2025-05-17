@@ -43,8 +43,6 @@ export async function updateMoexInfoByUserId(userId: string) {
     revalidateTag("cash");
     revalidateTag("home");
 
-    return { message: "Data successfully updated" };
-
   } catch (error) {
 
     return { error: getErrorMessage(error) };

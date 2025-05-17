@@ -5,7 +5,7 @@ import { getErrorMessage } from "@/utils/getErrorMessage";
 import { useRouter } from "next/navigation";
 import { IndexCBType } from "@/types";
 import { useTransition } from "react";
-
+import { RxUpdate } from "react-icons/rx";
 import { Button } from "@/components/Button";
 
 export function UpdateCBButton({
@@ -20,14 +20,19 @@ export function UpdateCBButton({
 
   return (
     <Button
-      disabled={isPending}
+      className="absolute top-2 right-2"
+      variant="prim"
       onClick={() =>
         startTransition(() => {
           handleUpdate();
         })
       }
     >
-      {isPending ? "Updating…" : children}
+      {isPending ? (
+        <RxUpdate className="text-black dark:text-white animate-spin" />
+      ) : (
+        <RxUpdate className="text-black dark:text-white" />
+      )}
     </Button>
   );
 
@@ -35,7 +40,7 @@ export function UpdateCBButton({
     try {
       const result = await updateIndexCB(type);
 
-      if (result?.error) {
+      if ("error" in result) {
         return toast.error(result.error);
       }
 

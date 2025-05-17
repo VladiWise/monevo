@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
       const start = await INDEX.countDocuments({}) || 0;
 
-      const interval = Math.ceil(start / 500);
+      const interval = Math.ceil(start / 300);
 
       if (!start) return NextResponse.json({ error: "No data found" }, { status: 404 });
 
@@ -100,17 +100,6 @@ export async function POST(request: NextRequest) {
 
         await INDEX.insertMany(properData);
 
-
-        // for (const item of page.data) {
-        //   await INDEX.create({
-        //     name: item.NAME,
-        //     ticker: item.SECID,
-        //     value: item.CLOSE,
-        //     date: item.TRADEDATE,
-        //     yield: item?.YIELD ?? null,
-        //   });
-        //   countAdded++;
-        // }
 
         index += pageSize;
       }

@@ -2,7 +2,7 @@
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import { revalidateTag } from "next/cache";
 import api from "@/libs/fetch";
-import { type API_IndexCB, type DB_IndexCBDeposit, type IndexCBType } from "@/types";
+import { type API_IndexCB, type IndexCBType, type DB_IndexCBDeposit } from "@/types";
 
 
 export async function updateIndexCB(type: IndexCBType) {
@@ -16,9 +16,9 @@ export async function updateIndexCB(type: IndexCBType) {
 
 
 
-export async function getDBIndexCB(type: IndexCBType) {
+export async function getDBIndexCB<T>(type: IndexCBType): Promise<T[] | { error: string }> {
   try {
-    const data = await api.get(`/indexes-cb?type=${type}`, { next: { tags: ["charts"] }, cache: "no-cache" });
+    const data = await api.get(`/indexes-cb?type=${type}`, { next: { tags: ["charts"] }, cache: "no-cache" }) as T[];
     return data;
   } catch (error) {
     return { error: getErrorMessage(error) };
@@ -38,7 +38,7 @@ export async function getIndexCBCreadit() {
     const { RawData: data } = await response.json();
 
     if (!data) {
-      return { error: getErrorMessage("Invalid data returned from Moex") };
+      return { error: getErrorMessage("Invalid data returned from CB") };
     }
 
     const result = pivotByRowId(data, [
@@ -65,8 +65,8 @@ export async function getIndexCBDeposit() {
 
     const { RawData: data } = await response.json();
 
-    if (!data) {
-      return { error: getErrorMessage("Invalid data returned from Moex") };
+    if (!response.ok) {
+      return { error: getErrorMessage("Invalid data returned from CB") };
     }
 
     const result = pivotByRowId(data, [
@@ -74,6 +74,31 @@ export async function getIndexCBDeposit() {
       { colId: 6, prop: "value_181d_1y" },
       { colId: 9, prop: "value_1y_3y" },
       { colId: 10, prop: "value_over_3y" },
+    ])
+
+    return result
+
+  } catch (error) {
+    return { error: getErrorMessage(error) };
+  }
+}
+
+export async function getIndexCBLoanVolume() {
+  try {
+
+    const response = await fetch(
+      `https://www.cbr.ru/dataservice/data?y1=2019&y2=${new Date().getFullYear()}&publicationId=20&datasetId=42&measureId=22`
+    );
+
+
+    const { RawData: data } = await response.json();
+
+    if (!response.ok) {
+      return { error: getErrorMessage("Invalid data returned from CB") };
+    }
+
+    const result = pivotByRowId(data, [
+      { colId: 35, prop: "value" },
     ])
 
     return result

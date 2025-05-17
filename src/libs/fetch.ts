@@ -35,15 +35,13 @@ const handleRequest = async (url: string, options: RequestInit) => {
 const api = {
   get: async (endpoint: string, customOptions: RequestInit = {}, url = "") => {
     url = `${API_URL}${endpoint}`;
-    // Merge custom options with default options
     const options: RequestInit = {
-      method: "GET", // Default method
+      method: "GET", 
       headers: {
         "x-api-key": API_KEY,
       },
 
-      // cache: "force-cache",
-      ...customOptions, // Custom options override defaults
+      ...customOptions, 
     };
 
     return handleRequest(url, options);

@@ -4,11 +4,14 @@ import { UpdateButton } from "./UpdateButton";
 import { ChartServerFetch } from "./ChartServerFetch";
 import { Suspense } from "react";
 import { Loader } from "@/components/Loader";
+import Link from "next/link";
 
 export async function ChartMESection({
+  title,
   SECID,
   chartData,
 }: {
+  title: string;
   SECID: string;
   chartData: "value" | "yield" | "avgYield";
 }) {
@@ -20,13 +23,21 @@ export async function ChartMESection({
 
   return (
     <>
-      <MainContainer className="w-full h-full items-center">
+      <MainContainer className="w-full h-full items-center ">
         <UpdateButton SECID={SECID}>Update</UpdateButton>
-        <Heading className="text-center">{SECID}</Heading>
+        <Heading className="text-center">{title}</Heading>
+
 
         <Suspense fallback={<SuspenseLoading />}>
           <ChartServerFetch SECID={SECID} chartData={chartData} />
         </Suspense>
+        <Link
+          target="_blank"
+          href={"https://www.moex.com/ru/indices"}
+          className="hover:underline underline-offset-2 text-darkMain/50 dark:text-white/50 hover:text-darkMain/80 dark:hover:text-white/80 active:text-black"
+        >
+          Data source: Moscow Exchange indices
+        </Link>
       </MainContainer>
     </>
   );

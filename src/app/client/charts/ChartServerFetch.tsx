@@ -36,7 +36,7 @@ export async function ChartServerFetch({
 
   return (
     <>
-      <TimeSeriesChart YData={YData} title={SECID} />
+      <TimeSeriesChart YData={YData} title={""} />
     </>
   );
 

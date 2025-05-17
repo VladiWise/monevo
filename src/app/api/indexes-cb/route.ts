@@ -2,11 +2,11 @@ import connectMongoDB from "@/libs/mongodb";
 import { NextResponse, NextRequest } from "next/server";
 import mongoose, { Schema } from "mongoose";
 
-import { getIndexCBDeposit, getIndexCBCreadit } from "@/services/IndexCBService";
+import { getIndexCBDeposit, getIndexCBCreadit, getIndexCBLoanVolume } from "@/services/IndexCBService";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 
 import { IndexCBType } from "@/types";
-import { DB_IndexCBDeposit_Model, DB_IndexCBCredit_Model } from "@/models/IndexCB";
+import { DB_IndexCBDeposit_Model, DB_IndexCBCredit_Model, DB_IndexCBLoanVolume_Model } from "@/models/IndexCB";
 
 
 
@@ -30,6 +30,11 @@ export async function GET(request: NextRequest) {
         const credits = await DB_IndexCBCredit_Model.find({}).sort({ date: -1 });
         if (credits.length === 0) return NextResponse.json({ error: "No data found" }, { status: 404 });
         return NextResponse.json(credits, { status: 200 });
+
+      case "loan":
+        const loans = await DB_IndexCBLoanVolume_Model.find({}).sort({ date: -1 });
+        if (loans.length === 0) return NextResponse.json({ error: "No data found" }, { status: 404 });
+        return NextResponse.json(loans, { status: 200 });
       default:
         break
     }
@@ -51,7 +56,7 @@ export async function POST(request: NextRequest) {
   try {
     await connectMongoDB();
 
-    const type = request.nextUrl.searchParams.get("type");
+    const type = request.nextUrl.searchParams.get("type") as IndexCBType;
 
 
     if (!type) {
@@ -108,13 +113,37 @@ export async function POST(request: NextRequest) {
           { message: `Inserted: ${credRes.upsertedCount}, Modified: ${credRes.modifiedCount}` }
           , { status: 200 });
 
+
+
+      case "loan":
+        const loans = await getIndexCBLoanVolume();
+
+        if ("error" in loans) {
+          return NextResponse.json(
+            { error: loans.error }
+            , { status: 500 });
+        }
+
+
+        const loanOps = loans.map(record => ({
+          updateOne: {
+            filter: { date: record.date },
+            update: { $setOnInsert: record },
+            upsert: true,
+          }
+        }));
+
+        const loanRes = await DB_IndexCBLoanVolume_Model.bulkWrite(loanOps);
+
+        return NextResponse.json(
+          { message: `Inserted: ${loanRes.upsertedCount}, Modified: ${loanRes.modifiedCount}` }
+          , { status: 200 });
+
       default:
         break
     }
 
     return NextResponse.json({ error: "Invalid type" }, { status: 400 });
-
-
 
   } catch (error) {
 

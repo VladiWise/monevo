@@ -23,7 +23,8 @@ export function UpdateMoexButton({ userId }: { userId: string | undefined }) {
 
       router.refresh();
 
-      toast.success(result?.message || "Data successfully updated");
+      toast.success("Data successfully updated");
+
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
