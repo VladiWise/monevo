@@ -19,7 +19,7 @@ export async function ChartCBSection({
   chartData: IndexCBType;
 }) {
   const SuspenseLoading = () => (
-    <section className="w-full h-52 sm:h-64 md:h-80 xl:h-[36rem] flex items-center justify-center">
+    <section className="w-full h-80 xl:h-[36rem] flex items-center justify-center">
       <Loader size={100} />
     </section>
   );
