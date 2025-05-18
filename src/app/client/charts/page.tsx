@@ -13,7 +13,6 @@ export default async function ChartsPage() {
         chartData="dep_cred_1y_3y"
       />
 
-
       <ChartCBSection
         title="Volume of loans to individuals, trln"
         chartData="loan"
@@ -26,26 +25,23 @@ export default async function ChartsPage() {
       />
 
       <ChartMESection
-        title="Medium-term government bonds (3-5y), %"
-        SECID="RUGBITR5Y"
+        title="Russian bond market yield, %"
+        SECID="RUABITR"
         chartData="avgYield"
-      />
-
-      <ChartMESection
-        title="Medium-term corporate bonds (3-5y), %"
-        SECID="RUCBTRAA5YNS"
-        chartData="value"
+        isInfoSection={true}
       />
 
       <ChartMESection
         title="Russian stock market"
         SECID="IMOEX"
         chartData="value"
+        isInfoSection={true}
       />
       <ChartMESection
         title="Russian stock market of full profitability"
         SECID="MCFTR"
         chartData="value"
+        isInfoSection={true}
       />
 
       <ChartMESection
@@ -64,6 +60,7 @@ export default async function ChartsPage() {
         title="Cost per square meter in Moscow, ₽"
         SECID="MREDC"
         chartData="value"
+        isInfoSection={true}
       />
     </div>
   );

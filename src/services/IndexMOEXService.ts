@@ -7,7 +7,8 @@ import { calculateAnnualizedReturn } from "@/utils/mathUtils";
 export async function getAnnualizedIndexByYears(SECID: string, years?: number) {
   try {
     const data = await api.get(`/indexes?SECID=${SECID}`, { next: { tags: ["charts"] }, cache: "no-cache" });
-    return calculateAnnualizedReturn(data, years);
+    return { data: calculateAnnualizedReturn(data, years) }
+
   } catch (error) {
     return { error: getErrorMessage(error) };
   }

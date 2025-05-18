@@ -88,7 +88,7 @@ export async function PUT(request: NextRequest) {
 
 
 
-      Promise.all([
+     await Promise.all([
         updateMoexInfo(fundsS, fetchStockETFInfo, Fund),
         updateMoexInfo(fundsB, fetchStockETFInfo, FundB),
         updateMoexInfo(stocks, fetchStockETFInfo, Stock),
