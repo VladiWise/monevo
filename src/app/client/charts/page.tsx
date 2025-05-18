@@ -19,10 +19,17 @@ export default async function ChartsPage() {
 
 
       <ChartMESection
-        title="Long-term government bonds, %"
-        SECID="RUGBITR10Y"
+        title="Medium-term government bonds (3-5y), %"
+        SECID="RUGBITR5Y"
         chartData="avgYield"
       />
+
+            <ChartMESection
+        title="Medium-term corporate bonds (3-5y), %"
+        SECID="RUCBTRAA5YNS"
+        chartData="value"
+      />
+      
 
       <ChartMESection
         title="Russian stock market"

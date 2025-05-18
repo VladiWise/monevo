@@ -19,7 +19,7 @@ export function UpdateButton({
 
   return (
     <div
-      className="absolute top-2 right-2 p-2"
+      className="absolute top-2 right-2 p-2 "
       onClick={() =>
         startTransition(() => {
           handleUpdate();
@@ -27,9 +27,9 @@ export function UpdateButton({
       }
     >
       {isPending ? (
-        <RxUpdate  className="text-black dark:text-white animate-spin text-2xl" />
+        <RxUpdate  className="text-black dark:text-white animate-spin text-2xl " />
       ) : (
-        <RxUpdate  className="text-black dark:text-white text-2xl" />
+        <RxUpdate  className="text-black dark:text-white text-2xl cursor-pointer" />
       )}
     </div>
   );

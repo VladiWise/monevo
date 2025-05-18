@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { Loader } from "@/components/Loader";
 import Link from "next/link";
 import { DataSourceLink } from "@/components/DataSourceLink";
+import { getAnnualizedIndexByYears } from "@/services/IndexMOEXService";
 
 export async function ChartMESection({
   title,
@@ -22,11 +23,17 @@ export async function ChartMESection({
     </section>
   );
 
+  const fiveYears = await getAnnualizedIndexByYears(SECID, 1);
+
+  console.log(SECID, fiveYears);
+
   return (
     <>
       <MainContainer className="w-full h-full items-center relative">
         <UpdateButton SECID={SECID}>Update</UpdateButton>
-        <Heading className="text-center max-w-60 sm:max-w-72 lg:max-w-full">{title}</Heading>
+        <Heading className="text-center max-w-60 sm:max-w-72 lg:max-w-full">
+          {title}
+        </Heading>
 
         <Suspense fallback={<SuspenseLoading />}>
           <ChartServerFetch SECID={SECID} chartData={chartData} />

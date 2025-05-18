@@ -2,6 +2,17 @@
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import { revalidateTag } from "next/cache";
 import api from "@/libs/fetch";
+import { calculateAnnualizedReturn } from "@/utils/mathUtils";
+
+export async function getAnnualizedIndexByYears(SECID: string, years?: number) {
+  try {
+    const data = await api.get(`/indexes?SECID=${SECID}`, { next: { tags: ["charts"] }, cache: "no-cache" });
+    return calculateAnnualizedReturn(data, years);
+  } catch (error) {
+    return { error: getErrorMessage(error) };
+  }
+}
+
 
 export async function updateIndex(SECID: string) {
   try {
@@ -14,20 +25,16 @@ export async function updateIndex(SECID: string) {
 
 export async function getDBIndexValues(SECID: string) {
   try {
-
-    // await new Promise((resolve) => setTimeout(resolve, 5000));
     const data = await api.get(`/indexes?SECID=${SECID}`, { next: { tags: ["charts"] }, cache: "no-cache" });
     return data;
   } catch (error) {
     return { error: getErrorMessage(error) };
   }
-
 }
 
 
 export async function getIndexValues(SECID: string, start: number) {
   try {
-
     const response = await fetch(
       `https://iss.moex.com/iss/history/engines/stock/markets/index/securities/${SECID}.json?start=${start}`
     );
