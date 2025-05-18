@@ -4,8 +4,16 @@ import { ChartCBSection } from "./ChartCBSection";
 export default async function ChartsPage() {
   return (
     <div className="flex flex-col items-center gap-4 w-full ">
-      <ChartCBSection title="Individual deposit rates, %" chartData="deposit" />
-      <ChartCBSection title="Individual credit rates, %" chartData="credit" />
+      <ChartCBSection
+        title="Deposit and loan rates (181d – 1y), %"
+        chartData="dep_cred_181d_1y"
+      />
+      <ChartCBSection
+        title="Deposit and loan rates (1y - 3y), %"
+        chartData="dep_cred_1y_3y"
+      />
+
+
       <ChartCBSection
         title="Volume of loans to individuals, trln"
         chartData="loan"
@@ -17,19 +25,17 @@ export default async function ChartsPage() {
         chartData="avgYield"
       />
 
-
       <ChartMESection
         title="Medium-term government bonds (3-5y), %"
         SECID="RUGBITR5Y"
         chartData="avgYield"
       />
 
-            <ChartMESection
+      <ChartMESection
         title="Medium-term corporate bonds (3-5y), %"
         SECID="RUCBTRAA5YNS"
         chartData="value"
       />
-      
 
       <ChartMESection
         title="Russian stock market"

@@ -1,9 +1,8 @@
-export type IndexCBType = "deposit" | "credit" | "loan"
-
+export type IndexCBType = "deposit" | "credit" | "loan" | "dep_cred_181d_1y" | "dep_cred_1y_3y" 
 export type DB_IndexCBLoanVolume = {
   value: number;
   date: Date;
-} ;
+};
 
 export type DB_IndexCBDeposit = {
   value_91d_180d: number;
@@ -11,7 +10,7 @@ export type DB_IndexCBDeposit = {
   value_1y_3y: number;
   value_over_3y: number;
   date: Date;
-} ;
+};
 
 
 export interface DB_IndexCBDCredit {

@@ -18,6 +18,7 @@ export async function updateIndexCB(type: IndexCBType) {
 
 export async function getDBIndexCB<T>(type: IndexCBType): Promise<T[] | { error: string }> {
   try {
+    console.log("type::::::", type);
     const data = await api.get(`/indexes-cb?type=${type}`, { next: { tags: ["charts"] }, cache: "no-cache" }) as T[];
     return data;
   } catch (error) {

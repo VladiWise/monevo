@@ -35,6 +35,7 @@ export async function GET(request: NextRequest) {
         const loans = await DB_IndexCBLoanVolume_Model.find({}).sort({ date: -1 });
         if (loans.length === 0) return NextResponse.json({ error: "No data found" }, { status: 404 });
         return NextResponse.json(loans, { status: 200 });
+
       default:
         break
     }
@@ -121,6 +122,35 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           { message: `Inserted: ${loanRes.upsertedCount}, Modified: ${loanRes.modifiedCount}` }
           , { status: 200 });
+
+      case "dep_cred_181d_1y":
+      case "dep_cred_1y_3y":
+        const depCredits = await getIndexCBCreadit();
+        const depCredits2 = await getIndexCBDeposit();
+
+
+        const depCredOps = depCredits.map(record => ({
+          updateOne: {
+            filter: { date: record.date },
+            update: { $setOnInsert: record },
+            upsert: true,
+          }
+        }));
+
+        const depCredOps2 = depCredits2.map(record => ({
+          updateOne: {
+            filter: { date: record.date },
+            update: { $setOnInsert: record },
+            upsert: true,
+          }
+        }));
+        const depCredRes = await DB_IndexCBCredit_Model.bulkWrite(depCredOps);
+        const depCredRes2 = await DB_IndexCBDeposit_Model.bulkWrite(depCredOps2);
+
+        return NextResponse.json(
+          { message: `Inserted: ${depCredRes.upsertedCount} | ${depCredRes2.upsertedCount}, Modified: ${depCredRes.modifiedCount} | ${depCredRes2.modifiedCount}` }
+          , { status: 200 });
+
 
       default:
         break
