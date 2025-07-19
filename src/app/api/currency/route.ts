@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  return await Asset.POST(request, {});
+  return await Asset.POST(request, () => { });
 }
 
 export async function DELETE(request: NextRequest) {
