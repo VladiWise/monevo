@@ -41,6 +41,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
+      disabled={isPending}
       type={type}
       className={clsx(
         "flex justify-center items-center min-w-fit rounded-xl",
@@ -55,7 +56,11 @@ export function Button({
       {...props}
     >
       {isPending && (
-        <span className="w-4 h-4 border-2 border-t-transparent border-white rounded-full animate-spin"></span>
+        <span
+          className="w-4 h-4 border-2 border-t-transparent border-white rounded-full animate-spin"
+          role="status"
+          aria-label="Loading"
+        ></span>
       )}
       {children}
     </button>
