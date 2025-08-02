@@ -16,9 +16,7 @@ export function Social() {
     setLoading(true);
     signIn(provider, {
       callbackUrl: DEFAULT_LOGIN_REDIRECT,
-    })
-      .then(() => setLoading(false))
-      .catch(() => setLoading(false));
+    }).catch(() => setLoading(false));
   }
   return (
     <>
