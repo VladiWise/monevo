@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 
 import toast from "react-hot-toast";
+import { log } from "node:console";
 export function FormAssetAcc({
   createAcc,
   userId,
@@ -26,10 +27,14 @@ export function FormAssetAcc({
   async function handleOnSubmit(data: any) {
     try {
       form.reset();
-      await createAcc(data, userId);
-      // router.refresh();
+      const result = await createAcc(data, userId);
+
+      if (result?.error) {
+        throw new Error(result.error);
+      }
     } catch (error) {
       console.error(`Error creating ${userId}:`, error);
+      throw error;
     }
   }
 
@@ -40,7 +45,7 @@ export function FormAssetAcc({
       className="flex flex-col sm:flex-row gap-3"
     >
       <Input name="shortName" type="text" placeholder="Short name" required />
-      <Input name="fullName" type="text" placeholder="Full name" required />
+      {/* <Input name="fullName" type="text" placeholder="Full name" required /> */}
       {isIIS && (
         <>
           <Select name="isIIS" required>

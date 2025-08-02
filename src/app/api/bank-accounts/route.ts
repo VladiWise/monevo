@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
 
-    return NextResponse.json({ message: "Error creating BankAccounts" }, { status: 500 });
+    return NextResponse.json({ message: "Error creating bank account" }, { status: 500 });
 
   }
 

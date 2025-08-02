@@ -8,6 +8,8 @@ import { Table } from "@/components/Table";
 import { DeleteButton } from "@/components/DeleteButton";
 import { getLocalDateByISO } from "@/utils/dataFormat";
 import { Heading } from "@/components/Heading";
+
+import { AccountSection } from "./AccountSection";
 type Account = {
   _id: string;
   shortName: string;
@@ -66,6 +68,9 @@ export default async function App() {
 
   return (
     <div className="flex flex-col items-center gap-4 w-full ">
+
+      <AccountSection user={user} service={brokerAccSevice} isIIS />
+
       <MainContainer>
         <Heading>Broker accounts</Heading>
         <FormAssetAcc
@@ -77,6 +82,7 @@ export default async function App() {
         {brokerAccounts.length > 0 && (
           <section className="overflow-x-auto">
             <section className="min-w-max w-full overflow-auto rounded-xl">
+
               <Table
                 data={brokerAccounts}
                 actions={(item) => (

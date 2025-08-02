@@ -20,9 +20,9 @@ const handleRequest = async (url: string, options: RequestInit) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.log(errorData);
-      
-      throw new Error(errorData.error || "Something went wrong (fetch)")
+      console.log("errorData", errorData);
+
+      throw new Error(errorData?.message || "Something went wrong (fetch)...")
     }
 
     const data = await response.json();
