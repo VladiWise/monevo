@@ -12,11 +12,16 @@ type Account = {
   isIIS: boolean;
   userId: string;
 };
-export async function AccountSection({user, service, isIIS}: {user: any, service: any, isIIS: boolean}) {
-
-
+export async function AccountSection({
+  user,
+  service,
+  isIIS,
+}: {
+  user: any;
+  service: any;
+  isIIS: boolean;
+}) {
   const brokerAccounts = (await service.getList(user?.id)) as Account[];
-
 
   return (
     <MainContainer>
@@ -31,12 +36,17 @@ export async function AccountSection({user, service, isIIS}: {user: any, service
         <section className="overflow-x-auto">
           <section className="min-w-max w-full overflow-auto rounded-xl">
             {brokerAccounts.map((account, i) => (
+              <div key={i}>
+                <section className="flex items-center gap-2 p-2">
+                  <p>{account.shortName}</p>
+                  <p>{account.isIIS.toString()}</p>
 
-              <section key={i}>15616</section>
-              
+                  <DeleteButton id={account._id} removeItem={service.remove} />
+
+                </section>
+                <div className="flex-grow border-t border-gray-200 dark:border-darkMain"></div>
+              </div>
             ))}
-
-
           </section>
         </section>
       )}

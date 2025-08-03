@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const BrokerAccountSchema = new Schema({
   shortName: { type: String, required: true },
-  fullName: { type: String, required: true },
+  fullName: { type: String, required: false },
   isIIS: { type: Boolean, required: true },
   creatingDate: { type: Date, require: false },
   termInYears: { type: Number, require: false },

@@ -21,7 +21,7 @@ export function Social() {
   return (
     <>
       {loading && (
-        <div className="flex absolute inset-0 items-center justify-center backdrop-blur-sm">
+        <div className="flex absolute inset-0 items-center justify-center backdrop-blur-sm z-50">
           <Loader />
         </div>
       )}
