@@ -22,7 +22,7 @@ export default async function MainPage() {
             That&apos;s for free. No worries
           </p>
 
-          <Link href="/auth/register">
+          <Link href="/auth/login">
             <Button
               variant="prim"
               type="submit"

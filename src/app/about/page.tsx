@@ -40,9 +40,9 @@ function Page({ isUser }: { isUser: boolean }) {
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-8">
       {/* Overview Section */}
-      <section className=" text-lg text-gray-700 gap-3 flex flex-col">
-        <h2 className="text-3xl font-bold text-gray-800">Overview</h2>
-        <p className="text-lg text-gray-700">
+      <section className=" text-lg gap-3 flex flex-col">
+        <h2 className="text-3xl font-bold">Overview</h2>
+        <p className="text-lg dark:text-slate-400">
           Hi, fellas! I&apos;m a novice software engineer with about 6 months of
           experience writing code. Now I&apos;m going to introduce you to my pet
           project. That&apos;s an investment tracker. Developed a full-stack,
@@ -52,12 +52,12 @@ function Page({ isUser }: { isUser: boolean }) {
       </section>
 
       {/* Technologies Used Section */}
-      <section className=" text-lg text-gray-700 gap-3 flex flex-col">
-        <h2 className="text-3xl font-bold text-gray-800">Technologies Used</h2>
-        <ul className="list-none flex flex-col gap-2">
+      <section className=" text-lg gap-3 flex flex-col ">
+        <h2 className="text-3xl font-bold">Technologies Used</h2>
+        <ul className="list-none flex flex-col gap-2 dark:text-slate-400">
           {INFO.map((item) => (
             <li key={item.title}>
-              <span className="font-semibold text-gray-800">
+              <span className="font-semibold">
                 {item.title}:{" "}
               </span>
               {item.description}
@@ -66,13 +66,13 @@ function Page({ isUser }: { isUser: boolean }) {
         </ul>
       </section>
 
-      <section className="text-lg text-gray-700 gap-3 flex flex-col">
-        <h2 className="text-3xl font-bold text-gray-800">
+      <section className="text-lggap-3 flex flex-col">
+        <h2 className="text-3xl font-bold">
           How to try this out
         </h2>
-        <p>
+        <p className=" dark:text-slate-400">
           Use these credentials to test this app: email:{" "}
-          <strong>monevo@example.com</strong>, password: <strong>123456</strong>
+          <strong className="text-primary">monevo@example.com</strong>, password: <strong className="text-primary">123456</strong>
         </p>
         <form
           action={async () => {
@@ -84,18 +84,17 @@ function Page({ isUser }: { isUser: boolean }) {
             }
           }}
         >
-          <Button variant="darkMain" type="submit">
+          {/* <Button variant="darkMain" type="submit">
             Log in to Monevo
-          </Button>
+          </Button> */}
         </form>
-        Also you can install this app on your phone or PC as a PWA (Progressive
-        Web App).
-        <Image
+
+        {/* <Image
           src={"/Install_Monevo.png"}
           alt={"user"}
           width={300}
           height={100}
-        />
+        /> */}
       </section>
     </div>
   );
