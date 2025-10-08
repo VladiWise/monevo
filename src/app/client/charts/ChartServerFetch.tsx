@@ -20,6 +20,7 @@ export async function ChartServerFetch({
   }
 
   let YData: { x: Date; y: number }[] = [];
+  let lastData = "default";
 
   if (chartData === "avgYield") {
     const dataWithAvgYield = withAvgYield(data, 7);
@@ -28,12 +29,16 @@ export async function ChartServerFetch({
       x: new Date(d.date),
       y: d[chartData],
     }));
+
+    lastData = dataWithAvgYield.shift()?.[chartData] + "";
   } else {
     YData = data.map((d) => ({ x: new Date(d.date), y: d[chartData] }));
+    lastData = data.shift()?.[chartData] + "";
   }
 
   return (
     <>
+      <div>{lastData}</div>
       <TimeSeriesChart YData={YData} title={""} />
     </>
   );

@@ -14,6 +14,7 @@ export async function ChartCBServerFetch({
   chartData: IndexCBType;
 }) {
   let YDataArr = [];
+  let lastData = "";
 
   switch (chartData) {
     case "dep_cred_181d_1y":
@@ -42,6 +43,11 @@ export async function ChartCBServerFetch({
           })),
         },
       ];
+
+      lastData = `deposit: ${deposits.shift()?.value_181d_1y}% credit: ${
+        credits.shift()?.value_181d_1y
+      }%`;
+
       break;
     case "dep_cred_1y_3y":
       const deposits2 = await getDBIndexCB<DB_IndexCBDeposit>("deposit");
@@ -69,6 +75,10 @@ export async function ChartCBServerFetch({
           })),
         },
       ];
+
+      lastData = `deposit: ${deposits2.shift()?.value_1y_3y}% credit: ${
+        credits2.shift()?.value_1y_3y
+      }%`;
       break;
 
     case "credit":
@@ -131,10 +141,13 @@ export async function ChartCBServerFetch({
           data: loans.map((d) => ({ x: new Date(d.date), y: d.value })),
         },
       ];
+
+      lastData = `${loans.shift()?.value} trln`;
   }
 
   return (
     <>
+      <div>{lastData}</div>
       <TimeSeriesChartCB YDataArr={YDataArr} />
     </>
   );
