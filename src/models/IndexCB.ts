@@ -25,5 +25,6 @@ const DB_IndexCBLoanVolume = new Schema(
 
 export const DB_IndexCBLoanVolume_Model = mongoose.models.DB_IndexCBLoanVolume_Model || mongoose.model("DB_IndexCBLoanVolume_Model", DB_IndexCBLoanVolume);
 
+export const DB_IndexCBDelayVolume_Model = mongoose.models.DB_IndexCBDelayVolume_Model || mongoose.model("DB_IndexCBDelayVolume_Model", DB_IndexCBLoanVolume);
 
 

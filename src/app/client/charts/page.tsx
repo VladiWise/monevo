@@ -18,6 +18,11 @@ export default async function ChartsPage() {
         chartData="loan"
       />
 
+      <ChartCBSection
+        title="Volume of delays to individuals, %"
+        chartData="delay"
+      />
+
       <ChartMESection
         title="Fair market credit rate, %"
         SECID="RUCBTR2B3B"

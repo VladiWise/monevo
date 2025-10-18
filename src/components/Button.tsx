@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
   children?: ReactNode;

@@ -5,6 +5,7 @@ import {
   type DB_IndexCBDeposit,
   type IndexCBType,
   type DB_IndexCBLoanVolume,
+  type DB_IndexCBDelayVolume,
 } from "@/types";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 
@@ -90,14 +91,6 @@ export async function ChartCBServerFetch({
       }
 
       YDataArr = [
-        // {
-        //   title: "91d-180d",
-        //   color: "#EF3226",
-        //   data: deposits.map((d) => ({
-        //     x: new Date(d.date),
-        //     y: d.value_91d_180d,
-        //   })),
-        // },
         {
           title: "181d-1y",
           color: "#ab26ef",
@@ -114,15 +107,6 @@ export async function ChartCBServerFetch({
             y: d.value_1y_3y,
           })),
         },
-
-        // {
-        //   title: "over 3y",
-        //   color: "#26ef7b",
-        //   data: deposits.map((d) => ({
-        //     x: new Date(d.date),
-        //     y: d.value_over_3y,
-        //   })),
-        // },
       ];
 
       break;
@@ -143,6 +127,46 @@ export async function ChartCBServerFetch({
       ];
 
       lastData = `${loans.shift()?.value} trln`;
+      break;
+
+    case "delay":
+      const delays = await getDBIndexCB<DB_IndexCBDelayVolume>(chartData);
+      const loansForDelay = await getDBIndexCB<DB_IndexCBLoanVolume>("loan");
+
+      if ("error" in delays || "error" in loansForDelay) {
+        return <div>Something went wrong</div>;
+      }
+
+      const delayData = delays.map((delay) => {
+        const loanValue = loansForDelay.find(
+          (loan) => loan.date === delay.date
+        )?.value;
+
+        if (!loanValue) {
+          return {
+            x: new Date(delay.date),
+            y: 0,
+          };
+        }
+
+        return {
+          x: new Date(delay.date),
+          y: (delay.value / loanValue) * 100,
+        };
+      });
+
+      console.log("loansForDelay", loansForDelay);
+
+      YDataArr = [
+        {
+          title: "",
+          color: "#EF3226",
+          data: delayData,
+        },
+      ];
+
+      lastData = `${delayData.shift()?.y} %`;
+      break;
   }
 
   return (

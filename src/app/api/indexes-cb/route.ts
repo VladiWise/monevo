@@ -2,11 +2,11 @@ import connectMongoDB from "@/libs/mongodb";
 import { NextResponse, NextRequest } from "next/server";
 import mongoose, { Schema } from "mongoose";
 
-import { getIndexCBDeposit, getIndexCBCreadit, getIndexCBLoanVolume } from "@/services/IndexCBService";
+import { getIndexCBDeposit, getIndexCBCreadit, getIndexCBLoanVolume, getIndexCBDelayVolume } from "@/services/IndexCBService";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 
 import { IndexCBType } from "@/types";
-import { DB_IndexCBDeposit_Model, DB_IndexCBCredit_Model, DB_IndexCBLoanVolume_Model } from "@/models/IndexCB";
+import { DB_IndexCBDeposit_Model, DB_IndexCBCredit_Model, DB_IndexCBLoanVolume_Model, DB_IndexCBDelayVolume_Model } from "@/models/IndexCB";
 
 
 
@@ -35,6 +35,11 @@ export async function GET(request: NextRequest) {
         const loans = await DB_IndexCBLoanVolume_Model.find({}).sort({ date: -1 });
         if (loans.length === 0) return NextResponse.json({ error: "No data found" }, { status: 404 });
         return NextResponse.json(loans, { status: 200 });
+
+      case "delay":
+        const delays = await DB_IndexCBDelayVolume_Model.find({}).sort({ date: -1 });
+        if (delays.length === 0) return NextResponse.json({ error: "No data found" }, { status: 404 });
+        return NextResponse.json(delays, { status: 200 });
 
       default:
         break
@@ -103,7 +108,23 @@ export async function POST(request: NextRequest) {
           { message: `Inserted: ${credRes.upsertedCount}, Modified: ${credRes.modifiedCount}` }
           , { status: 200 });
 
+      case "delay":
+        const delays = await getIndexCBDelayVolume();
 
+
+        const delayOps = delays.map(record => ({
+          updateOne: {
+            filter: { date: record.date },
+            update: { $setOnInsert: record },
+            upsert: true,
+          }
+        }));
+
+        const delayRes = await DB_IndexCBDelayVolume_Model.bulkWrite(delayOps);
+
+        return NextResponse.json(
+          { message: `Inserted: ${delayRes.upsertedCount}, Modified: ${delayRes.modifiedCount}` }
+          , { status: 200 });
 
       case "loan":
         const loans = await getIndexCBLoanVolume();

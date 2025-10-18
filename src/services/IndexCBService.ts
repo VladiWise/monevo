@@ -110,6 +110,32 @@ export async function getIndexCBLoanVolume() {
 }
 
 
+export async function getIndexCBDelayVolume() {
+  try {
+
+    const response = await fetch(
+      `https://www.cbr.ru/dataservice/data?y1=2019&y2=${new Date().getFullYear()}&publicationId=20&datasetId=43&measureId=22`
+    );
+
+
+    const { RawData: data } = await response.json();
+
+    if (!response.ok) {
+      throw new Error
+    }
+
+    const result = pivotByRowId(data, [
+      { colId: 35, prop: "value" },
+    ])
+
+    return result
+
+  } catch (error) {
+    throw new Error("Invalid data returned from API")
+  }
+}
+
+
 function pivotByRowId(
   data: API_IndexCB[],
   colMappings: { colId: number; prop: string }[]
