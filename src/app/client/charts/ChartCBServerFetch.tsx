@@ -15,7 +15,7 @@ export async function ChartCBServerFetch({
   chartData: IndexCBType;
 }) {
   let YDataArr = [];
-  let lastData = "";
+  let lastData: string | number = "";
 
   switch (chartData) {
     case "dep_cred_181d_1y":
@@ -144,18 +144,18 @@ export async function ChartCBServerFetch({
 
         if (!loanValue) {
           return {
-            x: new Date(delay.date),
+            x: delay.date,
             y: 0,
           };
         }
 
         return {
-          x: new Date(delay.date),
+          x: delay.date,
           y: (delay.value / loanValue) * 100,
         };
       });
 
-      console.log("loansForDelay", loansForDelay);
+      console.log("delayData", delayData);
 
       YDataArr = [
         {
@@ -165,7 +165,7 @@ export async function ChartCBServerFetch({
         },
       ];
 
-      lastData = `${delayData.shift()?.y} %`;
+      lastData = `${Math.round(delayData[0].y * 100) / 100} %`;
       break;
   }
 
