@@ -67,15 +67,3 @@ Open:
 ```bash
 http://localhost:3000
 ```
-
-## Future Improvements
-	•	Real-time asset prices
-	•	Portfolio analytics
-	•	Charts & visualizations
-	•	Multi-currency support
-	•	Dividend tracking
-	•	Dark mode
-	•	Mobile optimization
-
-GitHub:
-https://github.com/VladiWise
