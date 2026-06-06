@@ -17,7 +17,8 @@ export function SingleSection({
         {formatNumberWithSpaces(value)} ₽
       </span>
       <span className="text-sm dark:text-white font-light justify-self-end">
-        {roundToTwoDecimals((value / totalAssets) * 100)}%
+        {totalAssets == 0 ? 0 : roundToTwoDecimals((value / totalAssets) * 100)}
+        %
       </span>
     </>
   );
