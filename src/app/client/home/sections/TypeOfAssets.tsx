@@ -27,19 +27,21 @@ export async function TypeOfAssets({
 
   const data = await getAssetsInfoByUserId(user.id);
 
-  const IISTotal = await getAssetTypesByUserId(user.id);
+  let IISTotal = await getAssetTypesByUserId(user.id);
 
-  if (!data || "error" in data) return null;
+  let totalAssets: number;
+  if (!data || "error" in data) {
+    totalAssets = 0;
+  } else {
+    totalAssets =
+      data?.bonds +
+      data?.stocks +
+      data?.cashBroker +
+      data?.deposit +
+      data?.cashFree;
+  }
   if (!IISTotal || (typeof IISTotal === "object" && "error" in IISTotal))
-    return null;
-
-  const totalAssets =
-    data?.bonds +
-    data?.stocks +
-    data?.cashBroker +
-    data?.deposit +
-    data?.cashFree;
-  // data?.loan;
+    IISTotal = 0;
 
   // await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -49,7 +51,7 @@ export async function TypeOfAssets({
         <section className=" grid grid-cols-[3fr_3fr_1fr] w-full items-center gap-x-2 gap-1 ">
           <SingleSection
             title="Liquid assets"
-            value={totalAssets - (IISTotal ?? 0)}
+            value={totalAssets - IISTotal}
             totalAssets={totalAssets}
           />
 
