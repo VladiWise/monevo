@@ -54,7 +54,6 @@ export function FormAssets({
       onSubmit={onSubmit}
       className="flex flex-col sm:flex-row gap-3"
     >
-
       <Select name="type" required>
         <option value="">Select option</option>
         <option value="deposit">Deposit</option>
@@ -73,7 +72,13 @@ export function FormAssets({
 
       {/* <Input name="matDate" type="date" placeholder="Mat date" required /> */}
 
-      <Input name="amount" type="number" placeholder="Amount" required />
+      <Input
+        name="amount"
+        type="number"
+        placeholder="Amount"
+        required
+        min={0}
+      />
 
       <Button type="submit">Add</Button>
     </FormProvider>
@@ -86,7 +91,7 @@ export function FormAssets({
         {
           loading: "Creating...",
           success: "Successfully created!",
-        }
+        },
       )
       .catch((error) => {
         toast.error(getErrorMessage(error, "Failed to create."));

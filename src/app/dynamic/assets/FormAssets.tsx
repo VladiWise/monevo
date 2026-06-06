@@ -51,7 +51,7 @@ export function FormAssets({
           const moexStockJson = await fetchStockETFInfo(formattedData.ticker);
           const stockBody = await getFundEtfServerBody(
             formattedData,
-            moexStockJson
+            moexStockJson,
           );
           await assetService.create("stocks", stockBody, userId, data.brokerId);
           break;
@@ -64,18 +64,18 @@ export function FormAssets({
 
         case "ETFstock":
           const moexETFStockJson = await fetchStockETFInfo(
-            formattedData.ticker
+            formattedData.ticker,
           );
 
           const ETFStockBody = await getFundEtfServerBody(
             formattedData,
-            moexETFStockJson
+            moexETFStockJson,
           );
           await assetService.create(
             "funds-s",
             ETFStockBody,
             userId,
-            data.brokerId
+            data.brokerId,
           );
           break;
 
@@ -83,13 +83,13 @@ export function FormAssets({
           const moexETFBondJson = await fetchStockETFInfo(formattedData.ticker);
           const ETFBondBody = await getFundEtfServerBody(
             formattedData,
-            moexETFBondJson
+            moexETFBondJson,
           );
           await assetService.create(
             "funds-b",
             ETFBondBody,
             userId,
-            data.brokerId
+            data.brokerId,
           );
           break;
 
@@ -100,7 +100,7 @@ export function FormAssets({
             "currency",
             currencyBody,
             userId,
-            data.brokerId
+            data.brokerId,
           );
 
           break;
@@ -141,7 +141,13 @@ export function FormAssets({
         <Input name="ticker" type="text" placeholder="Ticker" required />
       )}
 
-      <Input name="amount" type="number" placeholder="Amount" required />
+      <Input
+        name="amount"
+        type="number"
+        placeholder="Amount"
+        required
+        min={0}
+      />
 
       <Button type="submit">Update</Button>
     </FormProvider>
@@ -154,7 +160,7 @@ export function FormAssets({
         {
           loading: "Creating...",
           success: "Successfully created!",
-        }
+        },
       )
       .catch((error) => {
         toast.error(getErrorMessage(error, "Failed to create."));
