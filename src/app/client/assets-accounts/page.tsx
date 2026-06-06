@@ -29,10 +29,6 @@ const BrokerAccountColumns = [
     name: "shortName",
   },
   {
-    title: "fullName",
-    name: "fullName",
-  },
-  {
     title: "Is this IIS",
     name: "isIIS",
     getCellContent: (item: any) => item.isIIS.toString(),
@@ -55,10 +51,6 @@ const BankAccountColumns = [
     title: "shortName",
     name: "shortName",
   },
-  {
-    title: "fullName",
-    name: "fullName",
-  },
 ];
 
 export default async function App() {
@@ -68,9 +60,6 @@ export default async function App() {
 
   return (
     <div className="flex flex-col items-center gap-4 w-full ">
-
-      <AccountSection user={user} service={brokerAccSevice} isIIS />
-
       <MainContainer>
         <Heading>Broker accounts</Heading>
         <FormAssetAcc
@@ -82,7 +71,6 @@ export default async function App() {
         {brokerAccounts.length > 0 && (
           <section className="overflow-x-auto">
             <section className="min-w-max w-full overflow-auto rounded-xl">
-
               <Table
                 data={brokerAccounts}
                 actions={(item) => (
